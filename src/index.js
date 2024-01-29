@@ -2,12 +2,19 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
 import NavBar from './componats/NavBar';
+import MainSlidebar from './componats/mainSlidebar';
 import reportWebVitals from './reportWebVitals';
+import './componats/Teacher-dashboard.css'
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <NavBar />
+    <NavBar name="DnyanDeep Tutorial" />
+    <section>
+      <aside class="main-slidebar">
+        <MainSlidebar name="DashBoard" />
+      </aside>
+    </section>
   </React.StrictMode>
 );
 
