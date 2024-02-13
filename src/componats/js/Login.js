@@ -9,7 +9,7 @@ import { useParams } from 'react-router-dom';
 
 const Login = ({ onLoginSuccess}) => {
     const { type } = useParams();
-    const [username, setUsername] = useState('');
+    const [email, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
   
@@ -18,7 +18,7 @@ const Login = ({ onLoginSuccess}) => {
   
       try {
         const response = await axios.post(getLoginUrl(type), {
-          username,
+          email,
           password,
         });
   
@@ -34,7 +34,7 @@ const Login = ({ onLoginSuccess}) => {
         console.log("LOGINTYPE IS : ", loginType); 
       switch (loginType) {
         case 'teacher':
-          return 'http://localhost:9095/api/auth//adminLogin'; // Adjust paths according to your setup
+          return 'http://localhost:9095/api/auth/adminLogin'; // Adjust paths according to your setup
         case 'student':
           return '/api/auth/student-login';
         case 'admin':
@@ -60,7 +60,7 @@ const Login = ({ onLoginSuccess}) => {
                             
                             <div className="input-container">
                             <Label for="username"><b>Username</b></Label>
-                                <Input type="text" name="username" id="username" placeholder="Enter Username" value={username}
+                                <Input type="text" name="email" id="username" placeholder="Enter Username" value={email}
                 onChange={(e) => setUsername(e.target.value)} />
                             </div>
                         </FormGroup>
