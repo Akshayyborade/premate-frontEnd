@@ -1,0 +1,49 @@
+.info{
+  width: 50%;
+  display: flex;
+  align-items: center;
+}
+.registration{
+  display: flex;
+  align-items: center;
+  margin-top: 1rem;
+  
+
+}
+
+.registration-form{
+  margin: 13px;
+  width: 50%;
+}
+.registration-form h1{
+  text-align: center;
+  font-size: 1.8rem;
+}
+p{
+  text-align: center; 
+}
+label,
+input[type=date],
+input[type=email],
+input[type=text],
+input[type=password],.formgroup {
+    display: block;
+    margin: auto;
+    width: 75%;
+    padding: 5px;
+}
+
+/* button  {
+  display: block !important;
+  margin: auto !important;
+  padding: 10px !important;
+  width: 50% !important;
+  
+  background-color: green !important;
+  color: aliceblue !important;
+} */
+
+label{
+  margin-bottom: 0 !important;
+  display: flex !important;
+}

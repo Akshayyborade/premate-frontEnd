@@ -1,66 +1,99 @@
-// Login.js
-import React from 'react';
-import "../css/login.css"
 
-const Login = ({loginType}) => {
-    // Implement your Login component
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        // Handle login logic based on loginType
-        switch (loginType) {
-          case 'teacher':
-            // Implement Teacher login logic
-            console.log('Teacher login logic');
-            break;
-          case 'student':
-            // Implement Student login logic
-            console.log('Student login logic');
-            break;
-          case 'admin':
-            // Implement Admin login logic
-            console.log('Admin login logic');
-            break;
-          default:
-            // Handle default case or show an error
-            console.error('Invalid login type');
-        }
-      };
+import { Button, Form, FormGroup, Label, Input, Col, Container, Row } from 'reactstrap';
+import "../css/login.css";
+import logoLogin from '../img/admin.png'
+import React, { useState } from 'react';
+import axios from 'axios';
+import { useParams } from 'react-router-dom';
+
+
+const Login = ({ onLoginSuccess}) => {
+    const { type } = useParams();
+    const [username, setUsername] = useState('');
+    const [password, setPassword] = useState('');
+    const [error, setError] = useState('');
+  
+    const handleSubmit = async (e) => {
+      e.preventDefault();
+  
+      try {
+        const response = await axios.post(getLoginUrl(type), {
+          username,
+          password,
+        });
+  
+        // Handle successful login (e.g., store token, redirect)
+        console.log('Login successful:', response.data);
+        // TODO: Replace with your actual success handling logic
+      } catch (error) {
+        setError(error.response?.data || 'Login failed');
+      }
+    };
+  
+    const getLoginUrl = (loginType) => {
+        console.log("LOGINTYPE IS : ", loginType); 
+      switch (loginType) {
+        case 'teacher':
+          return 'http://localhost:9095/api/auth//adminLogin'; // Adjust paths according to your setup
+        case 'student':
+          return '/api/auth/student-login';
+        case 'admin':
+          return '/api/auth/llogin';
+        default:
+          console.error('Invalid login type');
+          return ''; // Handle invalid type more gracefully
+      }
+    };
+
     return (
-       
-
-        <div className="Login">
-            <div class="login">
-                <form onSubmit={handleSubmit} method="post">
-                    <div class="imgcontainer">
-                        <img src="img\teacher.png" alt="Avatar" class="avatar" />
-                        <p>Teacher Login</p>
-                    </div>
-
-                    <div class="container">
-                        <label for="uname"><b>Username</b></label>
-                        <input type="text" placeholder="Enter Username" name="uname" required />
-
-                        <label for="psw"><b>Password</b></label>
-                        <input type="password" placeholder="Enter Password" name="psw" required />
-                    </div>
-                    <div class="bttn">
-                        <button type="submit">Login</button>
-                        <label>
-                            <input type="checkbox" checked="checked" name="remember" /> Remember me
-                        </label>
-                    </div>
-
-
-                    <div class="container1" >
-
-                        <span class="psw">Forgot <a href="#">password?</a></span>
-                        <span class="signup">Don't have account <a href="registration.html">Sign Up</a></span>
-                    </div>
-                </form>
-            </div>
-
-        </div >
-
+        <Container>
+            <Row className="justify-content-center mt-4">
+                <Col sm="10" md="4">
+                    <Form onSubmit={handleSubmit} className="LoginForm form">
+                        {/* Avatar */}
+                        <div className="imgcontainer">
+                            <img src={logoLogin} alt="Avatar" className="avatar" />
+                            <p>Login</p>
+                        </div>
+                        {/* Form Inputs */}
+                        <FormGroup>
+                            
+                            <div className="input-container">
+                            <Label for="username"><b>Username</b></Label>
+                                <Input type="text" name="username" id="username" placeholder="Enter Username" value={username}
+                onChange={(e) => setUsername(e.target.value)} />
+                            </div>
+                        </FormGroup>
+                        <FormGroup>
+                            
+                            <div className="input-container " >
+                            <Label for="password"><b>Password</b></Label>
+                                <Input type="password" name="password" id="password" placeholder="Enter Password" value={password}
+                onChange={(e) => setPassword(e.target.value)}/>
+                            </div>
+                        </FormGroup>
+                        {/* Remember Me Checkbox */}
+                        <FormGroup check>
+                            <Label check>
+                                <Input type="checkbox" name="remember" checked={true} />{' '}
+                                Remember me
+                            </Label>
+                        </FormGroup>
+                        {/* Login Button */}
+                        <FormGroup className="input-container ">
+                        <Button type="submit" color="success">Login</Button>
+                        </FormGroup>
+                        
+                        {/* Forgot Password */}
+                        <div className="container1 mt-3">
+                            <span className="psw">Forgot <a href="#">password?</a></span>
+                            <span className="signup">Don't have an account? <a href="registration.html">Sign Up</a></span>
+                        </div>
+                        {error && <div className="error">{error}</div>}
+                    </Form>
+                </Col>
+            </Row>
+        </Container>
     );
 };
 
