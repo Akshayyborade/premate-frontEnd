@@ -1,7 +1,10 @@
 import "../css/registration.css";
-import React, { useState  } from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Form, FormGroup, Label, Input, Button, Container, Row, Col } from 'reactstrap';
+import { Form, FormGroup, Label, Input, Button, Container, Row, Col,InputGroup, InputGroupText } from 'reactstrap';
+import { faBuilding, faEnvelope, faLock, faCalendarAlt, faGlobe, faBullseye } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+
 
 const AdminRegister = () => {
     const navigate = useNavigate();
@@ -34,34 +37,34 @@ const AdminRegister = () => {
         console.log(formData);
         validateField(name, value);
     };
-    
+
 
     const validateField = (name, value) => {
         let error = '';
-      
+
         switch (name) {
-          case 'email':
-            error = !value ? 'Email is required' : (!/\S+@\S+\.\S+/.test(value) ? 'Invalid email format' : '');
-            break;
-          case 'password':
-            error = !value ? 'Password is required' : (
-              !/(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}/.test(value) ?
-              'Password must contain at least 8 characters, including one uppercase letter, one lowercase letter, one digit, and one special character' :
-              ''
-            );
-            break;
-          case 'confirmPassword':
-            error = value !== formData.password ? 'Passwords do not match' : '';
-            break;
-          default:
-            break;
+            case 'email':
+                error = !value ? 'Email is required' : (!/\S+@\S+\.\S+/.test(value) ? 'Invalid email format' : '');
+                break;
+            case 'password':
+                error = !value ? 'Password is required' : (
+                    !/(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}/.test(value) ?
+                        'Password must contain at least 8 characters, including one uppercase letter, one lowercase letter, one digit, and one special character' :
+                        ''
+                );
+                break;
+            case 'confirmPassword':
+                error = value !== formData.password ? 'Passwords do not match' : '';
+                break;
+            default:
+                break;
         }
-      
+
         setErrors(prevState => ({
-          ...prevState,
-          [name]: error
+            ...prevState,
+            [name]: error
         }));
-      };
+    };
     const handleSubmit = async (e) => {
         e.preventDefault();
         // Validate form fields
@@ -95,20 +98,29 @@ const AdminRegister = () => {
                     },
                     body: JSON.stringify(formData)
                 });
-    
+
                 if (!response.ok) {
                     throw new Error('Registration failed');
                 }
-    
+
                 // Registration successful, handle the response as needed
                 console.log('Registration successful');
-                navigate('/login');
+                if (formData.email === formData.emailVerification) {
+                    // Email verification matches, proceed with registration
+                    console.log('Form data:', formData);
+                    // Call API to register admin
+                    // Navigate to login page after successful registration
+                    navigate(`/login/${"admin"}`);
+                } else {
+                    // Email verification does not match, display error message or handle accordingly
+                    console.error('Email verification does not match');
+                }
             } catch (error) {
                 console.error('Error registering:', error.message);
             }
         }
-        
-       
+
+
     };
 
     return (
@@ -119,7 +131,7 @@ const AdminRegister = () => {
             width: 'min-content',
             padding: '20px'
         }}>
-            <Row >
+            <Row>
                 <Col className="info" xs={4} lg={6}>
                     {/* SVG content */}
                     <svg data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" width="744" height="539.28592"
@@ -138,35 +150,62 @@ const AdminRegister = () => {
                         <Col>
                             <Form onSubmit={handleSubmit}>
                                 <FormGroup>
-                                    <Label for="name">Institution Name:</Label>
-                                    <Input type="text" name="institutionName" id="name" value={formData.institutionName} onChange={handleChange} />
+                                    <Label for="name" className="reg-label-ad">Institution Name:</Label>
+                                    <InputGroup className="animated-input">
+                                        <InputGroupText><FontAwesomeIcon icon={faBuilding} /></InputGroupText>
+                                        <Input type="text" name="institutionName" id="name" value={formData.institutionName} onChange={handleChange} className="reg-input-ad" />
+                                    </InputGroup>
                                 </FormGroup>
                                 <FormGroup>
-                                    <Label for="email">Email:</Label>
-                                    <Input type="email" name="email" id="email" value={formData.email} onChange={handleChange} />
+                                    <Label for="email" className="reg-label-ad">Email:</Label>
+                                    <InputGroup>
+                                        <InputGroupText><FontAwesomeIcon icon={faEnvelope} /></InputGroupText>
+                                        <Input type="email" name="email" id="email" value={formData.email} onChange={handleChange} className="reg-input-ad" />
+                                    </InputGroup>
                                     {errors.email && <span style={{ color: 'red' }}>{errors.email}</span>}
                                 </FormGroup>
                                 <FormGroup>
-                                    <Label for="password">Password:</Label>
-                                    <Input type="password" name="password" id="password" value={formData.password} onChange={handleChange}  required />
+                                    <Label for="emailVerification" className="reg-label-ad">Confirm Email:</Label>
+                                    <InputGroup>
+                                        <InputGroupText><FontAwesomeIcon icon={faEnvelope} /></InputGroupText>
+                                        <Input type="email" name="emailVerification" id="emailVerification" value={formData.emailVerification} onChange={handleChange} className="reg-input-ad" />
+                                    </InputGroup>
+                                </FormGroup>
+                                <FormGroup>
+                                    <Label for="password" className="reg-label-ad">Password:</Label>
+                                    <InputGroup>
+                                        <InputGroupText><FontAwesomeIcon icon={faLock} /></InputGroupText>
+                                        <Input type="password" name="password" id="password" value={formData.password} onChange={handleChange} required className="reg-input-ad" />
+                                    </InputGroup>
                                     {errors.password && <span style={{ color: 'red' }}>{errors.password}</span>}
                                 </FormGroup>
                                 <FormGroup>
-                                    <Label for="confirmPassword">Confirm Password:</Label>
-                                    <Input type="password" name="confirmPassword" id="confirmPassword" value={formData.confirmPassword} onChange={handleChange} minLength={6} required />
+                                    <Label for="confirmPassword" className="reg-label-ad">Confirm Password:</Label>
+                                    <InputGroup>
+                                        <InputGroupText><FontAwesomeIcon icon={faLock} /></InputGroupText>
+                                        <Input type="password" name="confirmPassword" id="confirmPassword" value={formData.confirmPassword} onChange={handleChange} minLength={6} required className="reg-input-ad" />
+                                    </InputGroup>
+                                </FormGroup>
+                                <FormGroup>
+                                    <Label for="website" className="reg-label-ad">Website:</Label>
+                                    <InputGroup>
+                                        <InputGroupText><FontAwesomeIcon icon={faGlobe} /></InputGroupText>
+                                        <Input type="text" name="website" id="website" value={formData.website} onChange={handleChange} className="reg-input-ad" />
+                                    </InputGroup>
+                                </FormGroup>
+                                <FormGroup>
+                                    <Label for="foundingDate" className="reg-label-ad">Founding Date:</Label>
+                                    <InputGroup>
+                                        <InputGroupText><FontAwesomeIcon icon={faCalendarAlt} /></InputGroupText>
+                                        <Input type="date" name="foundingDate" id="foundingDate" value={formData.foundingDate} onChange={handleChange} className="reg-input-ad" />
+                                    </InputGroup>
+                                </FormGroup>
+                                <FormGroup>
                                     
-                                </FormGroup>
-                                <FormGroup>
-                                    <Label for="website">Website:</Label>
-                                    <Input type="text" name="website" id="website" value={formData.website} onChange={handleChange} />
-                                </FormGroup>
-                                <FormGroup>
-                                    <Label for="foundingDate">Founding Date:</Label>
-                                    <Input type="date" name="foundingDate" id="foundingDate" value={formData.foundingDate} onChange={handleChange} />
-                                </FormGroup>
-                                <FormGroup>
-                                    <Label for="missionStatement">Mission Statement:</Label>
-                                    <Input type="text" name="slogan" id="missionStatement" value={formData.slogan} onChange={handleChange} />
+                                    <Label for="missionStatement" className="reg-label-ad">Mission Statement:</Label>
+                                    <InputGroup> 
+                                    <InputGroupText><FontAwesomeIcon icon={faBullseye} /></InputGroupText>
+                                    <Input type="text" name="slogan" id="missionStatement" value={formData.slogan} onChange={handleChange} className="reg-input-ad" /></InputGroup>
                                 </FormGroup>
                                 <Button className="submit" type="submit" style={{ backgroundColor: 'green' }}>Submit</Button>
                             </Form>

@@ -22,17 +22,31 @@
 p{
   text-align: center; 
 }
-label,
-input[type=date],
-input[type=email],
-input[type=text],
-input[type=password],.formgroup {
+.reg-label-ad,
+.reg-input-ad[type=date],
+.reg-input-ad[type=email],
+.reg-input-ad[type=text],
+.reg-input-ad[type=password],.formgroup {
     display: block;
     margin: auto;
     width: 75%;
     padding: 5px;
 }
+animated-input {
+  opacity: 0;
+  animation: slideIn 0.5s forwards; /* Slide in animation */
+}
 
+@keyframes slideIn {
+  from {
+      opacity: 0;
+      transform: translateY(-20px);
+  }
+  to {
+      opacity: 1;
+      transform: translateY(0);
+  }
+}
 /* button  {
   display: block !important;
   margin: auto !important;

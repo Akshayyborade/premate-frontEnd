@@ -23,7 +23,8 @@ function NavBar() {
                 boxShadow: 'rgba(0, 0, 0, 0.25) 0px 14px 28px, rgba(0, 0, 0, 0.22) 0px 10px 10px',
                 backgroundColor: 'rgba(244, 244, 244, 0.7)',
                 backdropFilter: 'blur(6px)',
-                paddingTop: '3px', paddingBottom: '3px'
+                paddingTop: '3px', paddingBottom: '3px',
+                zIndex:1
             }}>
                 <NavbarBrand>
                     <img
@@ -37,7 +38,7 @@ function NavBar() {
                     />
                 </NavbarBrand>
 
-                <NavbarToggler onClick={toggle} />
+                <NavbarToggler onClick={toggle}/>
                 <Collapse isOpen={isOpen} navbar>
                     <Nav className="ml-auto ms-auto" navbar>
                         <NavItem>

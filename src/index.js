@@ -10,22 +10,27 @@ import './index.css';
 //import './componats/css/Teacher-dashboard.css';
 import reportWebVitals from './reportWebVitals';
 import Login from './componats/js/Login';
+import AdminDashboard from './componats/js/admin/js/AdminDashboard';
+import { ToastContainer, toast , } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { Admin } from './componats/js/admin/js/admin';
 
 
 export default function App() {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  
 
-    const handleLoginSuccess = () => {
-        setIsLoggedIn(true);
-    };
+
+ 
 
   return (
     <BrowserRouter>
-    <NavBar name="DnyanDeep Tutorial" />
+      <ToastContainer/>
       <Routes>
         <Route path="/" element={<LandingPage />} />
         <Route path="/admin-register" element={<AdminRegister />} />
-        <Route path="/login/:type" element={<Login onLoginSuccess={handleLoginSuccess} />} />
+        <Route path="/login/:type" element={<Login />} />
+        <Route path='/admin' element={<Admin/>}> <Route path='dashboard/*' element={<AdminDashboard  />} /></Route>
+        
       </Routes>
     </BrowserRouter>
   );
