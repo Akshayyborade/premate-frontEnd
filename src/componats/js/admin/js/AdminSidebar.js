@@ -21,37 +21,37 @@ function AdminSidebar({ setMainContentComponent }) {
         {
             category: 'Dashboard',
             icon: faBars,
-            items: [{ name: 'Admin Dashboard', component: 'AdminDashboard' }],
+            items: [{ name: 'Admin', component: 'AdminDashboard' }],
         },
         {  
-            category: 'Student Management',
+            category: 'Student',
             icon: faUserGraduate,
             items: [
-                { name: 'Admissions & Registrations', component: 'admissionRegistration' },
-                { name: 'Fee Collection', path: '/fee-collection' },
-                { name: 'Student Profile', path: '/student-profile' },
+                { name: 'Admissions', component: 'AdmissionRegistration' },
+                { name: 'Fees', component: 'FeeCollection' },
+                { name: 'Profile', component: 'StudentProfile' },
                 // Add more items as needed
             ]
         },
         {
-            category: 'Faculty Management',
+            category: 'Faculty',
             icon: faPersonChalkboard,
             items: [
-                { name: 'Hire and Resignation', path: '/hire-resignation' },
-                { name: 'Salary', path: '/salary' },
-                { name: 'Attendance and Roster', path: '/attendance-roster' },
-                { name: 'Teacher Profile', path: '/teacher-profile' },
+                { name: 'Hire', component: 'TeacherRegistration' },
+                { name: 'Salary', component: 'TeacherSalary' },
+                { name: 'Attendance', component: 'AttendanceRoster' },
+                { name: 'Profile', component: 'TeacherProfile' },
                 // Add more items as needed
             ]
         },
         {
-            category: 'Classroom Management',
+            category: 'Classroom',
             icon: faBookReader,
             items: [
-                { name: 'Class and Subjects', path: '/class-subjects' },
-                { name: 'Attendance Sheet', path: '/attendance-sheet' },
-                { name: 'Class Demographics', path: '/class-demographics' },
-                { name: 'Timetable', path: '/timetable' },
+                { name: 'Class', component: 'ClassSubjects' },
+                { name: 'Attendance', component: 'AttendanceSheet' },
+                { name: 'Demographics', component: 'ClassDemographics' },
+                { name: 'Timetable', component: 'Timetable' },
                 // Add more items as needed
             ]
         },
@@ -59,9 +59,9 @@ function AdminSidebar({ setMainContentComponent }) {
             category: 'Communications',
             icon: faEnvelopeOpenText,
             items: [
-                { name: 'Announcements', path: '/announcements' },
-                { name: 'Messaging', path: '/messaging' },
-                { name: 'Events', path: '/events' },
+                { name: 'Announcements', component: 'Announcements' },
+                { name: 'Messaging', component: 'Messaging' },
+                { name: 'Events', component: 'Events' },
                 // Add more items as needed
             ]
         },
@@ -69,16 +69,17 @@ function AdminSidebar({ setMainContentComponent }) {
             category: 'Exam',
             icon: faCalendarCheck,
             items: [
-                { name: 'Exam Schedule', path: '/exam-schedule' },
-                { name: 'Marks Entry', path: '/marks-entry' },
-                { name: 'Result Declaration', path: '/result-declaration' },
-                { name: 'Syllabus Upload', path: '/syllabus-upload' },
-                { name: 'Question Bank', path: '/question-bank' },
+                { name: 'Schedule', component: 'ExamSchedule' },
+                { name: 'Marks', component: 'MarksEntry' },
+                { name: 'Results', component: 'ResultDeclaration' },
+                { name: 'Syllabus', component: 'SyllabusUpload' },
+                { name: 'Questions', component: 'QuestionBank' },
                 // Add more items as needed
             ]
         },
         // Add more categories as needed
     ];
+    
 
     return (
         <Container className='slidebar-admin background-overlay drop-shadow border-radius '>

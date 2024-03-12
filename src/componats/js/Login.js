@@ -31,6 +31,7 @@ const Login = ({ onLoginSuccess }) => {
     try {
         // Send login request
         const response = await adminlogin(type, email, password);
+        console.log(password)
         //save the data to local storage 
         doLogin(response.data, ()=>{
             console.log("login detail saved to local")

@@ -62,10 +62,10 @@ const AdminDashboard = () => {
                 </Row>
                 <Row md={10}>
                     <Container className='dashboard-admin'>
-                        <Col md="3" className=' sidebar'>
+                        <Col md="2" className=' sidebar'>
                             <AdminSidebar setMainContentComponent={setMainContentComponent} />
                         </Col>
-                        <Col md="9">
+                        <Col md="10">
                             <MainContent component={mainContentComponent} setMainContentComponent={setMainContentComponent}/>
                         </Col>
                     </Container>
