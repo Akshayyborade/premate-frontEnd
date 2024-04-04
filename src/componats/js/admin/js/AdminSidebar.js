@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { ListGroup, ListGroupItem, Collapse, Container } from 'reactstrap';
-import '../css/admin-dashboard.css'
+// import '../css/admin-dashboard.css'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faAmbulance, faBars, faBookReader, faCalendarCheck, faChevronDown, faChevronRight, faEnvelopeOpenText, faPersonChalkboard, faUserGraduate } from '@fortawesome/free-solid-svg-icons';
 import { Link } from 'react-router-dom';
@@ -82,11 +82,11 @@ function AdminSidebar({ setMainContentComponent }) {
     
 
     return (
-        <Container className='slidebar-admin background-overlay drop-shadow border-radius '>
-            <ListGroup className='tabs-admin'>
+        <Container className='' style={{backgroundColor:'white'}} >
+            <ListGroup style={{borderRadius:'inherit'}} >
                 {sidebarItems.map((categoryObj, index) => (
-                    <React.Fragment key={index}>
-                        <ListGroupItem tag="div" className="tabs-category background-overlay" onClick={() => handleDropdownToggle(categoryObj.category)}>
+                    <React.Fragment key={index} >
+                        <ListGroupItem tag="div"  onClick={() => handleDropdownToggle(categoryObj.category)}>
                         <FontAwesomeIcon icon={categoryObj.icon} />
                          <span className='px-2'>{categoryObj.category}</span>
                             <FontAwesomeIcon icon={openDropdown === categoryObj.category ? faChevronDown : faChevronRight} className="mr-2" />
@@ -94,7 +94,7 @@ function AdminSidebar({ setMainContentComponent }) {
                         <Collapse isOpen={openDropdown === categoryObj.category}>
                             {categoryObj.items.map((item, i) => (
                                 <Link key={i} to={item.path} onClick={() => handleTabClick(item.component)}>
-                                    <ListGroupItem className='items-admin background-overlay'>
+                                    <ListGroupItem >
                                         {item.name}
                                     </ListGroupItem>
                                 </Link>

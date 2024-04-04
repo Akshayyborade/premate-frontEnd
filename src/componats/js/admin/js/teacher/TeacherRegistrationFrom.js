@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import { Form, FormGroup, Label, Input, Button, InputGroupText, InputGroup, Container, Col, Alert } from 'reactstrap';
+import { Form, FormGroup, Label, Input, Button, InputGroupText, InputGroup, Container, Col, Alert, Tooltip } from 'reactstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faUser, faEnvelope, faLock, faGraduationCap, faChalkboardTeacher, faCalendarAlt, faSpinner, faCheckCircle, faExclamationCircle } from '@fortawesome/free-solid-svg-icons';
+import { faUser, faEnvelope, faLock, faGraduationCap, faChalkboardTeacher, faCalendarAlt, faSpinner } from '@fortawesome/free-solid-svg-icons';
 
 const TeacherRegistrationForm = () => {
     const [teacherInfo, setTeacherInfo] = useState({
@@ -16,6 +16,15 @@ const TeacherRegistrationForm = () => {
     const [loading, setLoading] = useState(false);
     const [errors, setErrors] = useState({});
     const [success, setSuccess] = useState(false);
+    const [tooltipOpen, setTooltipOpen] = useState({
+        firstName: false,
+        lastName: false,
+        email: false,
+        password: false,
+        expertise: false,
+        experience: false,
+        education: false
+    });
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -88,10 +97,16 @@ const TeacherRegistrationForm = () => {
         return re.test(email);
     };
 
+    const toggleTooltip = (field) => {
+        setTooltipOpen(prevState => ({
+            ...prevState,
+            [field]: !prevState[field]
+        }));
+    };
+
     return (
         <Container className='registration'>
             <Col className=''>
-              
                 {success && <Alert color="success">Registration successful!</Alert>}
                 <Form onSubmit={handleSubmit}>
                     <FormGroup>
@@ -100,7 +115,7 @@ const TeacherRegistrationForm = () => {
                             <InputGroupText><FontAwesomeIcon icon={faUser} /></InputGroupText>
                             <Input type="text" name="firstName" id="firstName" value={teacherInfo.firstName} onChange={handleChange} invalid={errors.firstName} />
                         </InputGroup>
-                        <div className="invalid-feedback">{errors.firstName}</div>
+                        {errors.firstName && <Tooltip isOpen={tooltipOpen.firstName} target="firstName" toggle={() => toggleTooltip('firstName')}>{errors.firstName}</Tooltip>}
                     </FormGroup>
                     <FormGroup>
                         <Label for="lastName">Last Name</Label>
@@ -108,7 +123,7 @@ const TeacherRegistrationForm = () => {
                             <InputGroupText><FontAwesomeIcon icon={faUser} /></InputGroupText>
                             <Input type="text" name="lastName" id="lastName" value={teacherInfo.lastName} onChange={handleChange} invalid={errors.lastName} />
                         </InputGroup>
-                        <div className="invalid-feedback">{errors.lastName}</div>
+                        {errors.lastName && <Tooltip isOpen={tooltipOpen.lastName} target="lastName" toggle={() => toggleTooltip('lastName')}>{errors.lastName}</Tooltip>}
                     </FormGroup>
                     <FormGroup>
                         <Label for="email">Email</Label>
@@ -116,7 +131,7 @@ const TeacherRegistrationForm = () => {
                             <InputGroupText><FontAwesomeIcon icon={faEnvelope} /></InputGroupText>
                             <Input type="email" name="email" id="email" value={teacherInfo.email} onChange={handleChange} invalid={errors.email} />
                         </InputGroup>
-                        <div className="invalid-feedback">{errors.email}</div>
+                        {errors.email && <Tooltip isOpen={tooltipOpen.email} target="email" toggle={() => toggleTooltip('email')}>{errors.email}</Tooltip>}
                     </FormGroup>
                     <FormGroup>
                         <Label for="password">Password</Label>
@@ -124,7 +139,7 @@ const TeacherRegistrationForm = () => {
                             <InputGroupText><FontAwesomeIcon icon={faLock} /></InputGroupText>
                             <Input type="password" name="password" id="password" value={teacherInfo.password} onChange={handleChange} invalid={errors.password} />
                         </InputGroup>
-                        <div className="invalid-feedback">{errors.password}</div>
+                        {errors.password && <Tooltip isOpen={tooltipOpen.password} target="password" toggle={() => toggleTooltip('password')}>{errors.password}</Tooltip>}
                     </FormGroup>
                     <FormGroup>
                         <Label for="expertise">Subject Expertise</Label>
@@ -144,7 +159,7 @@ const TeacherRegistrationForm = () => {
                                 <option value="Other">Other (Please Specify)</option>
                             </Input>
                         </InputGroup>
-                        <div className="invalid-feedback">{errors.expertise}</div>
+                        {errors.expertise && <Tooltip isOpen={tooltipOpen.expertise} target="expertise" toggle={() => toggleTooltip('expertise')}>{errors.expertise}</Tooltip>}
                     </FormGroup>
                     <FormGroup>
                         <Label for="experience">Teaching Experience</Label>
@@ -164,7 +179,7 @@ const TeacherRegistrationForm = () => {
                                 <option value="10+">10+ Years</option>
                             </Input>
                         </InputGroup>
-                        <div className="invalid-feedback">{errors.experience}</div>
+                        {errors.experience && <Tooltip isOpen={tooltipOpen.experience} target="experience" toggle={() => toggleTooltip('experience')}>{errors.experience}</Tooltip>}
                     </FormGroup>
                     <FormGroup>
                         <Label for="education">Highest Education</Label>
@@ -185,7 +200,7 @@ const TeacherRegistrationForm = () => {
                                 <option value="Other">Other (Please Specify)</option>
                             </Input>
                         </InputGroup>
-                        <div className="invalid-feedback">{errors.education}</div>
+                        {errors.education && <Tooltip isOpen={tooltipOpen.education} target="education" toggle={() => toggleTooltip('education')}>{errors.education}</Tooltip>}
                     </FormGroup>
                     <Button type="submit" color="primary" disabled={loading}>
                         {loading ? <FontAwesomeIcon icon={faSpinner} spin /> : 'Register'}

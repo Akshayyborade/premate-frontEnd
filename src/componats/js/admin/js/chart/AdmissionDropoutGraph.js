@@ -25,7 +25,7 @@ const AdmissionDropoutGraph = () => {
 
     return (
         <div>
-            <h2>Admissions & Dropouts</h2>
+            <h2 color='white'>Admissions & Dropouts</h2>
             <Line data={data} />
         </div>
     );

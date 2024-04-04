@@ -15,7 +15,7 @@ const LandingPage = () => {
     // Simulate loading for 2 seconds
     setTimeout(() => {
       setIsLoading(false);
-    }, 2000);
+    }, 200);
   }, []);
 
   return (
@@ -25,8 +25,7 @@ const LandingPage = () => {
         className={`landing-page ${isLoading ? 'loading' : 'loaded'}`}
         style={{
           boxShadow: 'rgba(0, 0, 0, 0.25) 0px 14px 28px, rgba(0, 0, 0, 0.22) 0px 10px 10px',
-          backgroundColor: 'rgba(244, 244, 244, 0.7)',
-          backdropFilter: 'blur(6px)',
+          backgroundColor:'white',
           marginTop: '1rem',
         }}
       >

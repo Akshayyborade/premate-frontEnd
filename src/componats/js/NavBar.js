@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Navbar, NavbarBrand, NavbarToggler, Collapse, Nav, NavItem, NavLink, UncontrolledDropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
 import logo from '../logo.png';
+import zIndex from '@mui/material/styles/zIndex';
 
 function NavBar() {
     const [isOpen, setIsOpen] = useState(false);
@@ -21,10 +22,10 @@ function NavBar() {
             <Navbar className="NavBar" light expand="md" style={{
                 display: 'flex',
                 boxShadow: 'rgba(0, 0, 0, 0.25) 0px 14px 28px, rgba(0, 0, 0, 0.22) 0px 10px 10px',
-                backgroundColor: 'rgba(244, 244, 244, 0.7)',
+                backgroundColor: 'white',
                 backdropFilter: 'blur(6px)',
-                paddingTop: '3px', paddingBottom: '3px',
-                zIndex:1
+                paddingTop: '3px', paddingBottom: '3px', zIndex:1
+                
             }}>
                 <NavbarBrand>
                     <img
@@ -60,7 +61,7 @@ function NavBar() {
                             <DropdownToggle nav caret>
                                 Login
                             </DropdownToggle>
-                            <DropdownMenu right>
+                            <DropdownMenu right style={{zIndex:1}} >
                                 {/* Call handleLogin with appropriate type */}
                                 <DropdownItem onClick={() => handleLogin('teacher')}>Teacher</DropdownItem>
                                 <DropdownItem onClick={() => handleLogin('student')}>Student</DropdownItem>

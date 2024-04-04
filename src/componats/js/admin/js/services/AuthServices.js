@@ -36,8 +36,9 @@ export const isLoggedIn = () => {
 //dologin
 export const doLogin = (data, next) => {
     console.log(data);
-    localStorage.setItem('userData', JSON.stringify(data.admin));
-    localStorage.setItem('token', data.token); // Save the token to local storage
+    localStorage.setItem('userData', JSON.stringify(data.admin));//save admin data
+    localStorage.setItem('token', data.jwtToken); // Save the token to local storage
+    localStorage.setItem('adminId', data.admin.institutionId);//save admin id
     next();
 }
 
@@ -59,3 +60,35 @@ export const getUserData = () => {
   }
 
 }
+ // Assuming you're using Axios for API calls
+
+const API_URL = 'http://localhost:9095/api'; // Replace with your actual API endpoint
+
+export const updateAdminProfile = async (adminData) => {
+  try {
+    const response = await axios.put(`${API_URL}/admin/profile`, adminData, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('token')}`, // Replace with your authorization header logic
+      },
+    });
+    return response.data;
+  } catch (error) {
+    throw error; // Re-throw the error for handling in the component
+  }
+};
+
+export const changeAdminPassword = async (currentPassword, newPassword) => {
+  try {
+    const response = await axios.put(`${API_URL}/admin/password`, {
+      currentPassword,
+      newPassword,
+    }, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('token')}`, // Replace with your authorization header logic
+      },
+    });
+    return response.data;
+  } catch (error) {
+    throw error; // Re-throw the error for handling in the component
+  }
+};

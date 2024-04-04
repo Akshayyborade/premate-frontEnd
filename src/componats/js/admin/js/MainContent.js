@@ -5,10 +5,15 @@ import TeacherRegistrationForm from './teacher/TeacherRegistrationFrom';
 import TeacherManagement from './teacher/Hire';
 import SalarySection from './teacher/TeacherSalary';
 import TeacherAttendance from './teacher/TeacherAttendance';
+import DashboardHome from './DashboardHome';
+import AdminProfile from './AdminProfile';
+import AdminAccount from './AdminAccount';
 
 const MainContent = ({ component, setMainContentComponent }) => {
     const renderComponent = () => {
+        console.log(component);
         switch (component) {
+            
             case 'AdmissionRegistration':
                 return <Registration setMainContentComponent={setMainContentComponent} />;
             // Add more cases for other components as needed
@@ -24,14 +29,18 @@ const MainContent = ({ component, setMainContentComponent }) => {
             case 'AttendanceRoster':
                 return <TeacherAttendance/>
 
+            case 'AdminProfile':
+                return <AdminProfile/>
+            case 'AdminAccount':
+                return <AdminAccount/>
             default:
                 return null;
         }
     };
 
     return (
-        <div className='main-content background-overlay drop-shadow border-radius'>
-            {renderComponent()}
+        <div className='' style={{height:'100%'}}>
+      {renderComponent() !== null ? renderComponent() : <DashboardHome />}
         </div>
     );
 };

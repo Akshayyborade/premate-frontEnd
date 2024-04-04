@@ -1,103 +1,198 @@
-import React, { useState } from 'react';
-import { Button, Form, FormGroup, Label, Input, Col, Container, Row } from 'reactstrap';
+import React, { useState, useEffect } from 'react';
+import { Button, Form, FormGroup, Label, Input, Col, Container, Row, Tooltip } from 'reactstrap';
 import { useParams, useNavigate } from 'react-router-dom';
-import axios from 'axios';
+// import logoLogin from '../img/admin.png';
+import { adminlogin, doLogin } from './admin/js/services/AuthServices';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import logoLogin from '../img/admin.png';
-import "../css/login.css";
-import handleLoginSuccess from "./admin/js/AdminDashboard"
-import { adminlogin, doLogin } from './admin/js/services/AuthServices';
-export const isLoggedIn=()=>{
-        
-};
-const Login = ({ onLoginSuccess }) => {
-    // State variables
+import logoLogin from './img/cloud security.png'
+import { Alert, Backdrop, CircularProgress, Typography } from '@mui/material';
 
+const Login = () => {
     const { type } = useParams();
+    const navigate = useNavigate();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const [error, setError] = useState('');
-    const navigate = useNavigate();
-   
+    const [open, setOpen] = React.useState(false);
+    const [alert , setAlert]=useState({
+        msg:'',
+        type:''
+    })
+    const [tooltipOpen, setTooltipOpen] = useState({
+        email: false,
+        password: false,
+    });
+    console.log(type)
+    const [errors, setErrors] = useState({
+        email: '',
+        password: '',
+    });
+    const [isLoading, setIsLoading] = useState(false); // Added for loading state
 
-    // Function to handle form submission
-    const handleSubmit = async (e) => {
-    e.preventDefault();
-    if (!email || !password) {
-        toast.error("Email and password are required");
-        return;
-    }
-    try {
-        // Send login request
-        const response = await adminlogin(type, email, password);
-        console.log(password)
-        //save the data to local storage 
-        doLogin(response.data, ()=>{
-            console.log("login detail saved to local")
-            toast.success(response.data.message, { position: "top-center", autoClose: 3000 });
-            // Navigate to dashboard after a delay
-            setTimeout(() => {
-                navigate('/admin/dashboard');
-            }, 3000); // Adjust delay as needed
-        });
-       
-        // Show success message
-       
-    } catch (error) {
-        setError(error.response?.data?.message || 'Login failed');
-        toast.error("Login failed.", { position: "top-center" });
-    }
-    //logout
+    const toggleTooltip = (field) => {
+        setTooltipOpen(prevState => ({
+            ...prevState,
+            [field]: !prevState[field],
+        }));
+    };
+
+    const validateEmail = (email) => {
+        const emailRegex = /^\S+@\S+\.\S+$/;
+        return emailRegex.test(email);
+    };
+    const handleOpen = () => {
+        setOpen(true);
+      };
     
-};
 
-    // Function to get login URL based on login type
-   
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        setIsLoading(true); // Set loading state
+
+        setErrors({ email: '', password: '' }); // Clear previous errors
+
+        const emailError = !email.trim() ? 'Please enter your email address' : validateEmail(email) ? '' : 'Invalid email format';
+        const passwordError = !password.trim() ? 'Please enter your password' : '';
+
+        if (emailError || passwordError) {
+            setErrors({ email: emailError, password: passwordError });
+            setIsLoading(false); // Reset loading state on validation failure
+            return;
+        }
+
+        try {
+            const response = await adminlogin(type, email, password);
+            // Handle successful login (e.g., store data in local storage)
+            doLogin(response.data, () => {
+              
+                setAlert({ msg:response.data.message, type:'success'})
+                setOpen(true);
+                setTimeout(() => {
+                    navigate('/admin/dashboard');
+                }, 3000);
+                
+            });
+        } catch (error) {
+            setOpen(false);
+            setAlert({msg:error.response?.data?.message || 'Login failed', type:'error'})
+        } finally {
+            setIsLoading(false); // Reset loading state after request completes
+        }
+    };
 
     return (
-        <Container>
-            <ToastContainer style={{ padding: '-2px' }} />
+        <Container style={{ margin: '0 auto' }} className='my-8'>
+             <Backdrop 
+                                sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 2, width: '100%',
+                                height: '100%',
+                                position: 'fixed',
+                                top: 0,
+                                left: 0,
+                                display: 'flex',
+                                justifyContent: 'center',
+                                alignItems: 'center', }}
+                                open={open}>
+                                    <CircularProgress color='inherit'/>
+                                </Backdrop>
             <Row className="justify-content-center mt-4">
-                <Col sm="10" md="4">
-                    <Form onSubmit={handleSubmit} className="LoginForm form">
+                <Col sm="8" md="6" lg={4} style={{
+                    boxShadow: 'rgba(0, 0, 0, 0.25) 0px 14px 28px, rgba(0, 0, 0, 0.22) 0px 10px 10px',
+                    backgroundColor: 'white',
+                    backdropFilter: 'blur(6px)', padding: 25
+                }}>
+                    <Form onSubmit={handleSubmit} className="LoginForm form" >
                         {/* Avatar */}
-                        <div className="imgcontainer">
-                            <img src={logoLogin} alt="Avatar" className="avatar" />
-                            <p>Login</p>
-                        </div>
+                        <Row className="justify-content-center mt-2 mb-2"> {/* Add spacing and centering */}
+                            <Col sm={5} md={2} className="text-center"> {/* Responsive layout and center content */}
+                                <div className="imgcontainer" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column' }}>
+                                    <img src={logoLogin} alt="Avatar" className="avatar" style={{ maxWidth: '100px', borderRadius: '50%' }} /> {/* Add a border radius for a circular avatar */}
+                                    <Typography variant='h5' >Login</Typography>
+                                </div>
+                            </Col>
+                        </Row>
+                        
+                            { alert.msg&&<Alert severity={alert.type}>{alert.msg}</Alert>}
+                            
+                        
                         {/* Form Inputs */}
                         <FormGroup>
                             <div className="input-container">
-                                <Label for="username" loginLable><b>Username</b></Label>
-                                <Input className='loginInput' type="text" name="email" id="username" placeholder="Enter Username" value={email}
-                                    onChange={(e) => setEmail(e.target.value)} />
+                                <Label for="username" loginLable>
+                                    <b>Username</b>
+                                </Label>
+                                <Input
+                                    type="text"
+                                    name="email"
+                                    id="email"
+                                    placeholder="Enter Username"
+                                    value={email}
+                                    onChange={(e) => setEmail(e.target.value)}
+                                    invalid={errors.email}
+                                />
+                                {errors.email && <Tooltip
+                                    placement="top"
+                                    isOpen={tooltipOpen.email}
+                                    autohide={false}
+                                    target="email"
+                                    toggle={() => toggleTooltip('email')}
+                                >
+                                    {errors.email}
+                                </Tooltip>}
                             </div>
                         </FormGroup>
                         <FormGroup>
-                            <div className="input-container " >
-                                <Label for="password" className='loginLable'><b>Password</b></Label>
-                                <Input className='loginInput' type="password" name="password" id="password" placeholder="Enter Password" value={password}
-                                    onChange={(e) => setPassword(e.target.value)} />
+                            <div className="input-container ">
+                                <Label for="password" className="loginLable">
+                                    <b>Password</b>
+                                </Label>
+                                <Input
+                                    type="password"
+                                    name="password"
+                                    id="password"
+                                    placeholder="Enter Password"
+                                    value={password}
+                                    onChange={(e) => setPassword(e.target.value)}
+                                    invalid={errors.password}
+                                />
+                              
+                                {errors.password &&
+                                    <Tooltip
+                                        placement="top"
+                                        isOpen={tooltipOpen.password}
+                                        autohide={false}
+                                        target="password"
+                                        toggle={() => toggleTooltip('password')}
+                                    >
+                                        {errors.password}
+                                    </Tooltip>}
                             </div>
                         </FormGroup>
                         {/* Remember Me Checkbox */}
-                        <FormGroup check>
-                            <Label check className='loginLable'>
-                                <Input className='loginInput' type="checkbox" name="remember" checked={true} />{' '}
-                                Remember me
-                            </Label>
-                        </FormGroup>
+                        {/* Removed as functionality is not provided in the code snippet */}
                         {/* Login Button */}
                         <FormGroup className="input-container ">
-                            <Button type="submit" color="success">Login</Button>
+                            <Button type="submit" color="success" disabled={isLoading} onClick={handleOpen}>
+                                {isLoading ? (
+                                    <span className="spinner-border spinner-border-sm mr-2"></span>
+                                ) : (
+                                    'Login'
+                                )}
+                            </Button>
                         </FormGroup>
                         {/* Forgot Password */}
-                        <div className="container1 mt-3">
-                            <span className="psw">Forgot <a href="#">password?</a></span>
-                            <span className="signup"> Don't have an account? <a href="registration.html">Sign Up</a></span>
-                        </div>
-        
+                        <Row className="justify-content-between"> {/* Add spacing and justification */}
+                            <Col sm={5} className="text-left"> {/* Use Col for responsive layout */}
+                                <span className="psw text-muted justify-content-end">
+                                    Forgot <a href="#" className='text-primary'>password?</a>
+                                </span>
+                            </Col>
+                            <Col sm={5} className="text-right"> {/* Use Col for responsive layout and text-right for right alignment */}
+                                <span className="signup text-muted justify-content-end">
+                                    Don't have an account? <a href="/admin-register" className="text-primary">Sign Up</a>
+                                </span>
+                            </Col>
+                        </Row>
                     </Form>
                 </Col>
             </Row>
@@ -106,3 +201,4 @@ const Login = ({ onLoginSuccess }) => {
 };
 
 export default Login;
+

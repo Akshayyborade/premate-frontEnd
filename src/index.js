@@ -14,6 +14,7 @@ import AdminDashboard from './componats/js/admin/js/AdminDashboard';
 import { ToastContainer, toast , } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { Admin } from './componats/js/admin/js/admin';
+import AdminRegister2 from './componats/js/AdminRegister2';
 
 
 export default function App() {
@@ -27,8 +28,8 @@ export default function App() {
       <ToastContainer/>
       <Routes>
         <Route path="/" element={<LandingPage />} />
-        <Route path="/admin-register" element={<AdminRegister />} />
-        <Route path="/login/:type" element={<Login />} />
+        <Route path="/admin-register" element={<AdminRegister2 />} />
+        <Route path="/login/:type" element={<Login  />} />
         <Route path='/admin' element={<Admin/>}> <Route path='dashboard/*' element={<AdminDashboard  />} /></Route>
         
       </Routes>
@@ -41,6 +42,7 @@ Root.render(
     
     
     <App />
+    <ToastContainer position="top-right" autoClose={5000} hideProgressBar newestOnTop closeOnClick rtl pauseOnFocusLoss draggable pauseOnHover/>
     {/* <Footer /> */}
   </React.StrictMode>
   
