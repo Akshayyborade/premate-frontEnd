@@ -3,78 +3,142 @@ import {
     Avatar,
     Backdrop,
     Box,
-    Breadcrumbs,
     Button,
-    Card,
-    CardContent,
-    CardHeader,
-    Divider,
-    FormControlLabel,
-    FormGroup,
-    Grid,
-
-    Icon,
-
+    Container,
     IconButton,
-
-    Input,
-
     Paper,
-
     Stack,
-
-    SvgIcon,
-
-    Switch,
-
     TextField,
-    Unstable_Grid2,
-
-    styled
-
-
+    Typography,
 } from '@mui/material';
-import { useNavigate } from 'react-router-dom'; // For navigation after update
-import { Col, Container, Form, Row } from 'reactstrap';
-import { Link, Tab, TabList, TabPanel, Tabs, Typography, } from '@mui/joy';
-import { ArrowRightAlt, PhotoCamera, Save } from '@mui/icons-material';
-import Grid2 from '@mui/material/Unstable_Grid2/Grid2';
-import {UploadIcon} from '../icon/UploadIcon';
+import { UploadIcon } from '../icon/UploadIcon';
 import { capitalizeFirstLetter } from '../services/utility';
+import { toast } from 'react-toastify';
+import { Col, Row } from 'reactstrap';
+import { Save } from '@mui/icons-material';
+import { getAdminPicture, setAdmin } from '../services/AdminServices';
 
-
-
-const AdminAccountGeneral=(adminData)=>{
-    console.log(adminData.adminData)
-    //set profile picture/////
-    const [open, setOpen] = React.useState(false);
-    const handleClose = () => {
-        setOpen(false);
-    };
-    const handleOpen = () => {
-        setOpen(true);
-    }
-    //profile image upload
+const AdminAccountGeneral = ({ adminData }) => {
+    // State for profile picture
+    const [open, setOpen] = useState(false);
+    const handleClose = () => setOpen(false);
+    const handleOpen = () => setOpen(true);
+    const [imageURL, setImageURL] = useState(null);
+    // State for selected image
     const [selectedFile, setSelectedFile] = useState(null);
     const handleFileSelect = (event) => {
         setSelectedFile(event.target.files[0]);
     };
 
+    // State for updated admin data
+    const [updatedAdmin, setUpdatedAdmin] = useState(adminData.data || {
+        profilePicture: null,
+        address: {}});
+   
+    ///fetch Admin profile picture
+    useEffect(() => {
+        const fetchProfilePicture = async () => {
+            try {
+              const response = await getAdminPicture(updatedAdmin?.institutionId); // Assuming adminId is available
+              console.log(response.data.byteData);
+              if (response.status === 200) { // Check for successful response
+                setImageURL(response.data.byteData); // Set imageURL with the base64 string
+              } else {
+                console.error('Error fetching profile picture:', response.statusText);
+              }
+            } catch (error) {
+              console.error('Error fetching profile picture:', error);
+            }
+          };
+          
+          
+      
+        fetchProfilePicture();
+      }, []);
+      
+        
+     
 
 
+    // Log selectedFile whenever it changes
+    useEffect(() => {
+        console.log(selectedFile);
+    }, [selectedFile]);
 
-    //////////////////////////////////////////////////////
-    return(
-        <><Typography variant="h4" level='h4' gutterBottom>
-            General Settings
-        </Typography><Form>
-                <Unstable_Grid2 container spacing={3}>
+    // Function to handle form field changes
+    const handleFieldChange = (event) => {
+        const { id, value } = event.target;
+        setUpdatedAdmin((prevAdminData) => ({
+            ...prevAdminData,
+            [id]: value,
+        }));
+    };
 
-                    <Grid2 md={4}>
-                        <Paper style={{ minHeight: '350px', display: 'flex', alignItems: 'center', padding: '15px', justifyContent: 'center' }}>
+    const handleAddressChange = (event) => {
+        const { id, value } = event.target;
+        const updatedAddress = { ...updatedAdmin.address, [id]: value };
+        setUpdatedAdmin((prevState) => ({
+            ...prevState,
+            address: updatedAddress,
+        }));
+    };
+    console.log(updatedAdmin);
+    // Function to update admin data
+    const handleUpdateAdmin = async () => {
+        const formData = new FormData();
 
+        // Add updated admin data to formData
+        for (const key in updatedAdmin) {
+            if (key !== 'profilePicture') {
+                formData.append(key,updatedAdmin[key]);
+              
+
+            }
+          }
+        // Add selected image if available
+       
+        console.log(formData);
+
+        try {
+            if(selectedFile!==null){
+            formData.append('profilePicture', selectedFile);
+            // Perform API call to update admin data
+            const response = await setAdmin(updatedAdmin?.institutionId, formData);
+            
+            if (response.ok) {
+                const updatedData = await response.json();
+                setUpdatedAdmin(updatedData);
+                toast.success('Admin profile updated successfully!', {
+                    position: 'top-right',
+                    autoClose: 5000,
+                });
+            } else {
+                console.error('Error updating admin:', response.statusText);
+                toast.error('Error updating admin profile!', {
+                    position: 'top-right',
+                    autoClose: 5000,
+                });
+            }
+        }
+        } catch (error) {
+            console.error('Error updating admin:', error);
+            toast.error('Error updating admin profile!', {
+                position: 'top-right',
+                autoClose: 5000,
+            });
+        }
+    };
+
+    return (
+        <Container maxWidth="lg" sx={{ mt: 4 }}>
+            <Typography variant="h4" level="h4" gutterBottom>
+                General Settings
+            </Typography>
+            <form>
+                <Row>
+                    <Col md={4}>
+                        <Paper sx={{ minHeight: '350px', display: 'flex', alignItems: 'center', padding: '15px', justifyContent: 'center' }}>
                             <Box display={'flex'} flexDirection={'column'}>
-
                                 <Box component="span" className="component-image MuiBox-root css-fnjgej mx-auto" position="relative">
                                     <IconButton
                                         aria-label="upload picture"
@@ -83,14 +147,24 @@ const AdminAccountGeneral=(adminData)=>{
                                         onMouseLeave={handleClose}
                                     >
                                         <input
+                                            name='profilePicture'
                                             type="file"
                                             accept="image/*"
                                             style={{ display: 'none' }}
-                                            onChange={handleFileSelect} />
+                                            onChange={handleFileSelect}
+                                        />
                                         <Avatar
                                             alt="avatar"
                                             sx={{ width: 100, height: 100 }}
-                                            src={selectedFile ? URL.createObjectURL(selectedFile) : 'https://api-prod-minimal-v510.vercel.app/assets/images/avatar/avatar_25.jpg'} />
+                                            // src={
+                                                
+                                            // }
+                                            src={
+                                                selectedFile // Prioritize selected image if available
+                                                  ? URL.createObjectURL(selectedFile)
+                                                  : `data:image/jpeg;base64,${imageURL}` // Otherwise, use the fetched profile picture
+                                              }
+                                        />
                                         <Backdrop
                                             sx={{
                                                 zIndex: (theme) => theme.zIndex.modal + 2,
@@ -110,134 +184,116 @@ const AdminAccountGeneral=(adminData)=>{
                                             onMouseEnter={handleOpen}
                                             onMouseLeave={handleClose}
                                         >
-                                            <Stack direction="column" alignItems="center" className='p-1'>
+                                            <Stack direction="column" alignItems="center" className="p-1">
                                                 <UploadIcon />
-                                                <Typography color='white'>Update Photo</Typography>
+                                                <Typography color="white">Update Photo</Typography>
                                             </Stack>
                                         </Backdrop>
                                     </IconButton>
-
-
-
                                 </Box>
                                 <Box display={'flex'} alignContent={'center'} maxWidth={250}>
-                                    <Typography variant='caption' align='center'>
+                                    <Typography variant="caption" align="center">
                                         Allowed *.jpeg, *.jpg, *.png, *.gif
-
                                         max size of 3 Mb
                                     </Typography>
                                 </Box>
-
                             </Box>
-
-
-
                         </Paper>
-                    </Grid2>
-
-
-                    <Grid2 display={'flex'} alignItems={'center'} md={8}>
-                        <Paper style={{ display: 'flex', gap: '20px', flexDirection: 'column', padding: '30px', width: '100%' }}>
-                            <Row style={{ display: 'flex', }}>
+                    </Col>
+                    <Col md={8}>
+                        <Paper sx={{ display: 'flex', gap: '20px', flexDirection: 'column', padding: '30px', width: '100%' }}>
+                            <Row>
                                 <Col style={{ display: 'flex', flexDirection: 'column', gap: '27px' }}>
                                     <TextField
                                         required
-                                        id="outlined-required"
-
-                                        placeholder='Institution Name'
-                                        size='small'
-                                        value={capitalizeFirstLetter(adminData?.adminData?.institutionName || '')} />
+                                        id="institutionName"
+                                        placeholder="Institution Name"
+                                        size="small"
+                                        value={capitalizeFirstLetter(updatedAdmin?.institutionName || '')}
+                                        onChange={handleFieldChange}
+                                    />
                                     <TextField
                                         required
-                                        id="outlined-required"
-
-                                        defaultValue=""
-                                        placeholder='Owner Name'
-                                        size='small'
-                                        value={adminData?.adminData?.owenerName || 'add owner name'} />
+                                        id="ownerName"
+                                        placeholder="Owner Name"
+                                        size="small"
+                                        value={updatedAdmin?.ownerName || ''}
+                                        onChange={handleFieldChange}
+                                    />
                                     <TextField
                                         required
-                                        id="outlined-required"
-
-                                        defaultValue=""
-                                        placeholder='Email'
-                                        size='small'
-                                        value={adminData?.adminData?.email} />
+                                        id="email"
+                                        placeholder="Email"
+                                        size="small"
+                                        value={updatedAdmin?.email || ''}
+                                        onChange={handleFieldChange}
+                                    />
                                     <TextField
                                         required
-                                        id="outlined-required"
-
-                                        defaultValue=""
-                                        placeholder='Phone'
-                                        size='small'
-                                        value={adminData?.adminData?.phone || 'add phone'} />
-
+                                        id="phone"
+                                        placeholder="Phone"
+                                        size="small"
+                                        value={updatedAdmin?.phone || ''}
+                                        onChange={handleFieldChange}
+                                    />
                                 </Col>
                                 <Col style={{ display: 'flex', flexDirection: 'column', gap: '26px' }}>
                                     <TextField
                                         required
-                                        id="outlined-required"
-
-                                        defaultValue=""
-                                        placeholder='Area'
-                                        size='small'
-                                        value={adminData?.adminData?.address?.area || 'add area here'} />
+                                        id="area"
+                                        placeholder="Area"
+                                        size="small"
+                                        value={updatedAdmin?.address?.area || ''}
+                                        onChange={handleAddressChange}
+                                    />
                                     <TextField
                                         required
-                                        id="outlined-required"
-
-                                        defaultValue=""
-                                        placeholder='City'
-                                        size='small'
-                                        value={adminData?.adminData?.address?.city || 'add your city here'} />
-
+                                        id="city"
+                                        placeholder="City"
+                                        size="small"
+                                        value={updatedAdmin?.address?.city || ''}
+                                        onChange={handleAddressChange}
+                                    />
                                     <TextField
                                         required
-                                        id="outlined-required"
-
-                                        defaultValue=""
-                                        placeholder='State'
-                                        size='small'
-                                        value={adminData?.adminData?.address?.state || 'add state here'} />
+                                        id="state"
+                                        placeholder="State"
+                                        size="small"
+                                        value={updatedAdmin?.address?.state || ''}
+                                        onChange={handleAddressChange}
+                                    />
                                     <TextField
                                         required
-                                        id="outlined-required"
-
-                                        defaultValue=""
-                                        placeholder='Pincode'
-                                        size='small'
-                                        value={adminData?.adminData?.address?.zip || 'add pin code here'} />
+                                        id="zip"
+                                        placeholder="Pincode"
+                                        size="small"
+                                        value={updatedAdmin?.address?.zip || ''}
+                                        onChange={handleAddressChange}
+                                    />
                                 </Col>
                             </Row>
-
                             <Row>
                                 <Col style={{ display: 'flex', gap: '25px', justifyContent: 'space-between' }}>
                                     <TextField
                                         required
-                                        id="outlined-required"
-
-                                        defaultValue=""
-                                        placeholder='About'
+                                        id="about"
+                                        placeholder="About"
                                         multiline
                                         maxRows={4}
-                                        value={adminData?.adminData?.about || 'add about your organization'} />
-                                    <Button variant='outlined' color='success' endIcon={<Save />} style={{ maxHeight: '50px' }}>
+                                        value={updatedAdmin?.about || ''}
+                                        onChange={handleFieldChange}
+                                    />
+                                    <Button variant="outlined" color="success" endIcon={<Save />} style={{ maxHeight: '50px' }} onClick={handleUpdateAdmin}>
                                         Save Changes
                                     </Button>
                                 </Col>
-
                             </Row>
-
-
                         </Paper>
-                    </Grid2>
+                    </Col>
+                </Row>
+            </form>
+        </Container>
+    );
+};
 
-
-
-
-                </Unstable_Grid2>
-
-            </Form></>
-    )
-}
 export default AdminAccountGeneral;
