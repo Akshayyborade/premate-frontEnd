@@ -16,7 +16,7 @@ import { capitalizeFirstLetter } from '../services/utility';
 import { toast } from 'react-toastify';
 import { Col, Row } from 'reactstrap';
 import { Save } from '@mui/icons-material';
-import { getAdminPicture, setAdmin } from '../services/AdminServices';
+import { getAdminPicture, setAdmin } from '../services/AdminServices'; // Assuming you have a service function to update admin data
 
 const AdminAccountGeneral = ({ adminData }) => {
     // State for profile picture
@@ -33,32 +33,26 @@ const AdminAccountGeneral = ({ adminData }) => {
     // State for updated admin data
     const [updatedAdmin, setUpdatedAdmin] = useState(adminData.data || {
         profilePicture: null,
-        address: {}});
-   
+    });
+
     ///fetch Admin profile picture
     useEffect(() => {
         const fetchProfilePicture = async () => {
             try {
-              const response = await getAdminPicture(updatedAdmin?.institutionId); // Assuming adminId is available
-              console.log(response.data.byteData);
-              if (response.status === 200) { // Check for successful response
-                setImageURL(response.data.byteData); // Set imageURL with the base64 string
-              } else {
-                console.error('Error fetching profile picture:', response.statusText);
-              }
+                const response = await getAdminPicture(adminData.data.institutionId); // Assuming adminId is available
+                console.log(response.data.byteData);
+                if (response.status === 200) { // Check for successful response
+                    setImageURL(response.data.byteData); // Set imageURL with the base64 string
+                } else {
+                    console.error('Error fetching profile picture:', response.statusText);
+                }
             } catch (error) {
-              console.error('Error fetching profile picture:', error);
+                console.error('Error fetching profile picture:', error);
             }
-          };
-          
-          
-      
-        fetchProfilePicture();
-      }, []);
-      
-        
-     
+        };
 
+        fetchProfilePicture();
+    }, []);
 
     // Log selectedFile whenever it changes
     useEffect(() => {
@@ -82,29 +76,21 @@ const AdminAccountGeneral = ({ adminData }) => {
             address: updatedAddress,
         }));
     };
-    console.log(updatedAdmin);
+
     // Function to update admin data
     const handleUpdateAdmin = async () => {
         const formData = new FormData();
-
-        // Add updated admin data to formData
-        for (const key in updatedAdmin) {
-            if (key !== 'profilePicture') {
-                formData.append(key,updatedAdmin[key]);
-              
-
-            }
-          }
-        // Add selected image if available
-       
-        console.log(formData);
-
-        try {
-            if(selectedFile!==null){
+        if (selectedFile !== null) {
             formData.append('profilePicture', selectedFile);
-            // Perform API call to update admin data
-            const response = await setAdmin(updatedAdmin?.institutionId, formData);
-            
+        }
+        if(updatedAdmin!==null){
+            const stringifyAdmin = JSON.stringify(updatedAdmin)
+            formData.append('admin', stringifyAdmin);
+        }
+        console.log(formData);
+        try {
+            const response = await setAdmin(updatedAdmin?.institutionId,formData);
+             // Assuming updateAdmin function sends a PUT request with updated admin data
             if (response.ok) {
                 const updatedData = await response.json();
                 setUpdatedAdmin(updatedData);
@@ -119,7 +105,6 @@ const AdminAccountGeneral = ({ adminData }) => {
                     autoClose: 5000,
                 });
             }
-        }
         } catch (error) {
             console.error('Error updating admin:', error);
             toast.error('Error updating admin profile!', {
@@ -134,7 +119,7 @@ const AdminAccountGeneral = ({ adminData }) => {
             <Typography variant="h4" level="h4" gutterBottom>
                 General Settings
             </Typography>
-            <form>
+            <form enctype="multipart/form-data">
                 <Row>
                     <Col md={4}>
                         <Paper sx={{ minHeight: '350px', display: 'flex', alignItems: 'center', padding: '15px', justifyContent: 'center' }}>
@@ -156,9 +141,6 @@ const AdminAccountGeneral = ({ adminData }) => {
                                         <Avatar
                                             alt="avatar"
                                             sx={{ width: 100, height: 100 }}
-                                            // src={
-                                                
-                                            // }
                                             src={
                                                 selectedFile // Prioritize selected image if available
                                                   ? URL.createObjectURL(selectedFile)

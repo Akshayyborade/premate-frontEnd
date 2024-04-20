@@ -16,8 +16,9 @@ export const getAdminPicture=async(AdminId)=>{
     return error;
   }
 }
-export const setAdmin = async (adminId, formData, selectedFile) => {
+export const setAdmin = async (adminId, formData) => {
     try {
+      
       const response = await axiosInstance.put('/admin/updateAdmin/'+adminId, formData);
     
       if (response.status === 200) {

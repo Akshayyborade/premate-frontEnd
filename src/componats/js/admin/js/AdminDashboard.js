@@ -1,17 +1,15 @@
 import React, { useEffect, useState } from 'react';
-import AdminSidebar from './AdminSidebar';
 import MainContent from './MainContent';
-import { Container, Row, Col } from 'reactstrap';
-import { AppBar, Box, Button, Drawer, Grid, IconButton, Menu, MenuItem, Popover, Toolbar, Typography } from '@mui/material';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faRightFromBracket, faUser } from '@fortawesome/free-solid-svg-icons';
+import { Container, Row } from 'reactstrap';
+import { Box, Button, Grid,Avatar, IconButton, MenuItem, Popover, Toolbar, Typography } from '@mui/material';
 import { Link, useNavigate } from 'react-router-dom';
 import { doLogOut, getUserData, isLoggedIn } from './services/AuthServices';
 import { capitalizeFirstLetter } from './services/utility';
 import { AccountCircle, ExitToApp } from '@mui/icons-material';
 import AdminSidebar2 from './AdminSlideBar2';
 import '../css/admin-dashboard.css';
-import { Dropdown } from '@mui/joy';
+import {  Dropdown } from '@mui/joy';
+import { getAdminPicture } from './services/AdminServices';
 
 const AdminDashboard = () => {
     const navigate = useNavigate();
@@ -19,17 +17,7 @@ const AdminDashboard = () => {
     const [login, setLogin] = useState(false);
     const [mainContentComponent, setMainContentComponent] = useState(null);
 
-    ///handle profile section
-    const componants=[
-        {name: 'profile', component: 'AdminProfile'},
-        { name: 'account', component: 'AdminAccount'}
-
-        
-    ]
-
-    
-
-    /////////////////////////////////////
+    /////////////////handle popover for avatar////////////////////
     const [anchorEl, setAnchorEl] = useState(null);
 
     const handleMenuOpen = (event) => {
@@ -42,7 +30,7 @@ const AdminDashboard = () => {
     };
 
 
-    ////////////////////////
+    /////////////////////////////////////////////
 
     useEffect(() => {
         const fetchData = async () => {
@@ -67,10 +55,26 @@ const AdminDashboard = () => {
         });
     };
     const [open, setOpen] = useState(false); // State for managing sidebar visibility
+  ///////////////fetch admin profile image//////////////////////
+  const [imageURL, setImageURL] = useState(null);
+  useEffect(() => {
+      const fetchProfilePicture = async () => {
+          try { 
+              const response = await getAdminPicture(admin?.institutionId); // Assuming adminId is available
+              console.log(response.data.byteData); 
+              if (response.status === 200) { // Check for successful response
+                  setImageURL(response.data.byteData); // Set imageURL with the base64 string
+              } else {
+                  console.error('Error fetching profile picture:', response.statusText);
+              }
+          } catch (error) {
+              console.error('Error fetching profile picture:', error);
+          }
+      };
 
-    const handleDrawerToggle = () => {
-        setOpen(!open);
-    };
+      fetchProfilePicture();
+  }, []);
+  /////////////////////////////////////////////////////////
 
     return (
         <div>
@@ -89,37 +93,24 @@ const AdminDashboard = () => {
                                     aria-label="profile"
                                     aria-controls="profile-menu"
                                     aria-haspopup="true"
-                                    onMouseEnter={handleMenuOpen}
-                                    onMouseLeave={handleMenuClose}
-                                    
+                                    onClick={handleMenuOpen} // Use onClick for avatar click functionality
                                 >
-                                    <AccountCircle />
+                                    <Avatar sizes='5' sx={{ width: 27, height: 27 }} src={`data:image/jpeg;base64,${imageURL}`}/>
                                 </IconButton>
                                 <Popover
-                                     style={{left:"-95px", borderRadius:'inherit'}}
+                                    style={{ borderRadius: 'inherit', top:'24px', left:'-38px' }}
                                     sx={{ my: '28px' }}
                                     open={Boolean(anchorEl)}
                                     anchorEl={anchorEl}
                                     onClose={handleMenuClose}
-                                    onMouseEnter={handleMenuOpen}
-                                    onMouseLeave={handleMenuClose}
-
-                                    anchorOrigin={{
-                                        vertical: 'top',
-                                        horizontal: 'right',
-
-
-                                    }}
-                                // transformOrigin={{
-                                //     vertical: 'top',
-                                //     horizontal: 'center',
-                                // }}
+                                // Remove unnecessary onMouseEnter/onMouseLeave on Popover (handled by IconButton)
                                 >
-                                    <MenuItem onClick={()=>handleMenuClose('AdminProfile')}>Profile</MenuItem>
-                                    <MenuItem onClick={()=>handleMenuClose('AdminAccount')}>My account</MenuItem>
+                                    <MenuItem onClick={() => handleMenuClose('AdminProfile')}>Profile</MenuItem>
+                                    <MenuItem onClick={() => handleMenuClose('AdminAccount')}>My account</MenuItem>
                                     <MenuItem onClick={handleMenuClose}>Logout</MenuItem>
                                 </Popover>
                             </Dropdown>
+
                             <Button variant="text" color='success' component={Link} to="/" onClick={handleLogout}>
                                 Log Out
                                 <ExitToApp />
@@ -132,7 +123,7 @@ const AdminDashboard = () => {
                         <Grid className='my-auto mt-auto styled-element' item xs={2} lg={2} sx={{ backgroundColor: 'white', maxHeight: "80vh", overflow: 'scroll', minHeight: '80vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                             <AdminSidebar2 setMainContentComponent={setMainContentComponent} />
                         </Grid>
-                        <Grid className='my-auto styled-element ' item xs={12} lg={9.9} sx={{backgroundColor: 'white', maxHeight: "80vh", overflow: 'scroll', minHeight: '80vh'}}>
+                        <Grid className=' styled-element ' item xs={12} lg={9.9} sx={{ backgroundColor: 'white', maxHeight: "80vh", overflow: 'scroll', minHeight: '80vh' }}>
                             {/* Your logo and name component here */}
                             <MainContent component={mainContentComponent} setMainContentComponent={setMainContentComponent} />
                         </Grid>

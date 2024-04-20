@@ -39,7 +39,7 @@ const MainContent = ({ component, setMainContentComponent }) => {
     };
 
     return (
-        <div className='' style={{height:'100%'}}>
+        <div className='' >
       {renderComponent() !== null ? renderComponent() : <DashboardHome />}
         </div>
     );
