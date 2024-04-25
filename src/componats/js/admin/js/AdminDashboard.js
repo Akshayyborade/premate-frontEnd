@@ -5,7 +5,7 @@ import { Box, Button, Grid,Avatar, IconButton, MenuItem, Popover, Toolbar, Typog
 import { Link, useNavigate } from 'react-router-dom';
 import { doLogOut, getUserData, isLoggedIn } from './services/AuthServices';
 import { capitalizeFirstLetter } from './services/utility';
-import { AccountCircle, ExitToApp } from '@mui/icons-material';
+import { ExitToApp } from '@mui/icons-material';
 import AdminSidebar2 from './AdminSlideBar2';
 import '../css/admin-dashboard.css';
 import {  Dropdown } from '@mui/joy';

@@ -129,7 +129,7 @@ const AdminAccount = () => {
                     <AdminAccountPrice/>
                 </TabPanel>
                 <TabPanel value='3' className='bg-white'>
-                   <AdminAccountSecurity/>
+                {adminData && <AdminAccountSecurity adminData={adminData} />}
                 </TabPanel>
                 <TabPanel value='4' className='bg-white'>
                     <AdminAccountNotification/>
