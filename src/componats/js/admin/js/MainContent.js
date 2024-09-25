@@ -1,5 +1,5 @@
 import React from 'react';
-import Registration from './student/Registration'; // import your components as needed
+import Registration from './student/StudentAdmin'; // import your components as needed
 import StudentAdmissionForm from './student/StudentAddmission';
 import TeacherRegistrationForm from './teacher/TeacherRegistrationFrom';
 import TeacherManagement from './teacher/Hire';

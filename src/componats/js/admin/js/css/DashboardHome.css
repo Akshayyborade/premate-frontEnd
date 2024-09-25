@@ -1,0 +1,23 @@
+.dashboard{
+    padding: 15px;
+}
+.container{
+    display: flex;
+    flex-direction: column;
+    gap:20px;
+}
+.left_panel {
+    display: flex;
+}
+
+.demography_bottom {
+    display: flex;
+}
+
+.grade-batch {
+    display: flex;
+    justify-content: space-between;
+}
+.grade-container, .batch-container{
+    width:49%;
+}

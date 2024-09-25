@@ -1,0 +1,32 @@
+.student-card{
+    background: #0f0c29;  /* fallback for old browsers */
+    background: -webkit-linear-gradient(to right, #24243e, #302b63, #0f0c29);  /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to right, #24243e, #302b63, #0f0c29); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+     
+    color:white;
+    
+}
+.card-subtitle{
+    color:white !important;
+}
+.gradient-button {
+
+  color:white;
+  font-family: 'Avenir Next';
+  
+
+  border: none;
+  background-image: linear-gradient(rgba(255, 255, 255, 0), rgba(255, 255, 255, 0)), linear-gradient(101deg, #f5a623, #f76c6c);
+
+  background-origin: border-box;
+  background-clip: content-box, border-box;
+
+  }
+  .gradient-button:hover {
+    background-image: linear-gradient(rgba(255, 255, 255, 0), rgba(255, 255, 255, 0)), linear-gradient(101deg, #f4aa50, #ff4747);
+   
+    border:none;
+    
+
+  }
+  

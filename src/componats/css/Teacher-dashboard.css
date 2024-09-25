@@ -3,8 +3,7 @@ body {
     margin: 0;
     font-family: Tahoma;
     font-size: 14px;
-    background-image: url("/src/componats/backg.jpg");
-    /* Replace with your desired background image URL */
+  
     background-size: cover;
 }
 
@@ -16,7 +15,7 @@ section {
 .main-slidebar {
     display: flex;
     flex-direction: column;
-    box-shadow: rgba(0, 0, 0, 0.25) 0px 14px 28px, rgba(0, 0, 0, 0.22) 0px 10px 10px;
+    box-shadow: 0px 10px 15px -3px rgba(0,0,0,0.1);
     background-color: rgba(244, 244, 244, 0.7);
     backdrop-filter: blur(6px);
     margin-top: 2%;
@@ -28,7 +27,7 @@ section {
 }
 
 .blur-background {
-    box-shadow: rgba(0, 0, 0, 0.25) 0px 14px 28px, rgba(0, 0, 0, 0.22) 0px 10px 10px;
+    box-shadow: 0px 10px 15px -3px rgba(0,0,0,0.1);
     background-color: rgba(244, 244, 244, 0.7);
     backdrop-filter: blur(6px);
 }
@@ -61,7 +60,7 @@ section {
 }
 
 .slidebar {
-    box-shadow: rgba(0, 0, 0, 0.25) 0px 1px 2px, rgba(0, 0, 0, 0.22) 0px 1px 1px;
+    box-shadow: 0px 10px 15px -3px rgba(0,0,0,0.1);
     cursor: pointer;
 }
 

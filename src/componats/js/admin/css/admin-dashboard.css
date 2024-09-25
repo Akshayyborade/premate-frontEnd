@@ -4,17 +4,40 @@
     backdrop-filter: blur(6px); */
     background-color: white;
 
-
 }
 .border-radius {
     border-radius: 10px; /* Apply a uniform 10px radius to all corners */
     border-radius: 20px 0 0 20px; /* Create a rounded top left and bottom right corners */
   }
   .drop-shadow {
-    filter: drop-shadow(4px 4px 5px rgba(0, 0, 0, 0.2)); /* Darker, smaller shadow */
+    box-shadow: 0px 10px 15px -3px rgba(0,0,0,0.1); /* Darker, smaller shadow */
   }
   .styled-element {
     border-radius: 15px;
     fill: #C8FECA;
-    filter: drop-shadow(6px 6px 8px rgba(100, 100, 100, 0.1)); /* Lighter, larger shadow */
+    box-shadow: 0px 10px 15px -3px rgba(0,0,0,0.1);/* Lighter, larger shadow */
   }
+  .background-color{
+    background: #0f0c29;  /* fallback for old browsers */
+background: -webkit-linear-gradient(to right, #24243e, #302b63, #0f0c29);  /* Chrome 10-25, Safari 5.1-6 */
+background: linear-gradient(to right, #24243e, #302b63, #0f0c29); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+
+  }
+  .linearGradient {
+    background: linear-gradient(101deg, #f5a623, #f76c6c); /* Your gradient colors */
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    color: transparent; /* Fallback for non-WebKit browsers */
+    display: inline-flex; /* Ensure the gradient applies to both text and icon */
+    align-items: center; /* Align text and icon vertically */
+  }
+  .grid-container {
+    display: grid;
+    place-items: center; /* Centers the card both horizontally and vertically */
+    height: 100vh; /* Optional: Ensure the grid takes the full height of the viewport */
+  }
+  
+  
+  
+  

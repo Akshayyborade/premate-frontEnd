@@ -78,12 +78,12 @@ const AdminDashboard = () => {
 
     return (
         <div>
-            <Container fluid className='dashboard-main-admin' style={{ display: 'flex', flexDirection: "column", gap: '0.5rem' }} >
+            <Container fluid className='dashboard-main-admin' style={{ display: 'flex', flexDirection: "column", gap: '2rem' }} >
                 <Row className='mt-2 ' style={{ width: 'inherit', alignSelf: 'center' }}>
-                    <Toolbar style={{ minHeight: '50px' }} sx={{ backgroundColor: 'white', display: 'flex', justifyContent: 'space-between', }} className='styled-element md-10'>
+                    <Toolbar style={{ minHeight: '50px' }} sx={{  display: 'flex', justifyContent: 'space-between', }} className='styled-element md-10 background-color'>
                         <Box display="flex" alignItems="center" >
                             {/* Your logo component here (or an image) */}
-                            <Typography color='' variant="h6" noWrap component="div" sx={{ ml: 1 }}>
+                            <Typography color='white' variant="h6" noWrap component="div" sx={{ ml: 1 }}>
                                 {admin && capitalizeFirstLetter(admin.institutionName)}
                             </Typography>
                         </Box>
@@ -107,23 +107,23 @@ const AdminDashboard = () => {
                                 >
                                     <MenuItem onClick={() => handleMenuClose('AdminProfile')}>Profile</MenuItem>
                                     <MenuItem onClick={() => handleMenuClose('AdminAccount')}>My account</MenuItem>
-                                    <MenuItem onClick={handleMenuClose}>Logout</MenuItem>
+                                    <MenuItem onClick={handleMenuClose} >Logout</MenuItem>
                                 </Popover>
                             </Dropdown>
 
-                            <Button variant="text" color='success' component={Link} to="/" onClick={handleLogout}>
+                            <Button variant="text" className='linearGradient' component={Link} to="/" onClick={handleLogout}>
                                 Log Out
-                                <ExitToApp />
+                                <ExitToApp  />
                             </Button>
                         </Grid>
                     </Toolbar>
                 </Row>
                 <Row>
-                    <Grid container lg={12} sx={{ display: 'flex', gap: '0.5rem' }} className='my-auto'>
-                        <Grid className='my-auto mt-auto styled-element' item xs={2} lg={2} sx={{ backgroundColor: 'white', maxHeight: "80vh", overflow: 'scroll', minHeight: '80vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                    <Grid container lg={12} sx={{ display: 'flex', gap: '2rem' }} className='my-auto'>
+                        <Grid className='my-auto mt-auto styled-element background-color' item xs={2} lg={2} sx={{  maxHeight: "80vh", overflow: 'scroll', minHeight: '80vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                             <AdminSidebar2 setMainContentComponent={setMainContentComponent} />
                         </Grid>
-                        <Grid className=' styled-element ' item xs={12} lg={9.9} sx={{ backgroundColor: 'white', maxHeight: "80vh", overflow: 'scroll', minHeight: '80vh' }}>
+                        <Grid className=' styled-element ' item xs={12} lg={9.7} sx={{ backgroundColor: '#f2f2f2', maxHeight: "80vh", overflow: 'scroll', minHeight: '80vh' }}>
                             {/* Your logo and name component here */}
                             <MainContent component={mainContentComponent} setMainContentComponent={setMainContentComponent} />
                         </Grid>

@@ -1,17 +1,21 @@
 import React, { useState, useEffect } from 'react';
-import { Container, Row, Col, Card, CardBody, CardTitle, CardSubtitle, Button, ButtonGroup, Table, Badge } from 'reactstrap';
+import { Container, Row, Col, Card, CardBody, CardTitle, CardSubtitle,Button, ButtonGroup, Table, Badge } from 'reactstrap';
 import AdmissionDropoutGraph from '../chart/AdmissionDropoutGraph';
 import RegistrationLinkForm from '../RegistrationLink';
 import StudentAdmissionFormModal from './StudentAddmission'; // Import the modal component
 import { ToastContainer, toast } from 'react-toastify';
 import axiosInstance from '../services/StudentAuthServices';
 import { doLogOut } from '../services/AuthServices';
-import { Navigate, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import EditStudentModel from './EditStudent';
 import ApproveStudentModal from '../models/ApproveStudentModal';
 import RejectStudentModal from '../models/RejectStudentModel';
+import './studentAdmin.css'
+import './tableAdmin.css'
 
-const Registration = ({ setMainContentComponent }) => {
+
+
+const StudentAdmin = ({ setMainContentComponent }) => {
 
   //////////models handling code////////////
   const [isFormOpen, setIsFormOpen] = useState(false); // State to control form/modal visibility
@@ -88,17 +92,17 @@ const Registration = ({ setMainContentComponent }) => {
           <Col>
             <Row className='md-10'>
               <Col className='p-3'>
-                <Card className='drop-shadow border-0  mx-auto' style={{ boxShadow: 'inherit' }}>
+                <Card className='drop-shadow border-0  mx-auto student-card' style={{ boxShadow: 'inherit' }}>
                   <CardBody>
                     <CardTitle tag="h5">Total Students</CardTitle>
                     <strong style={{ fontSize: '21px' }}>{students.length}</strong>
-                    <CardSubtitle className="mb-2 text-muted" tag="h6">Application pending</CardSubtitle>
+                    <CardSubtitle className="mb-2 text-muted " tag="h6">Application pending</CardSubtitle>
                     <strong style={{ fontSize: '21px' }}>{students.filter(student => !student.isactive).length}</strong>
                   </CardBody>
                 </Card>
               </Col>
               <Col className='p-3'>
-                <Card className='drop-shadow border-0  mx-auto' style={{ maxHeight: '150px', overflowY: 'auto' }}>
+                <Card className='drop-shadow border-0  mx-auto student-card' style={{ maxHeight: '150px', overflowY: 'auto' }}>
                   <CardBody>
                     <CardTitle tag="h5">Send Registration Link</CardTitle>
                     <RegistrationLinkForm />
@@ -108,20 +112,22 @@ const Registration = ({ setMainContentComponent }) => {
             </Row>
             <Row>
               <Col className='p-3'>
-                <Card className='drop-shadow border-0  mx-auto'>
+                <Card className='drop-shadow border-0  mx-auto student-card'>
                   <CardBody>
                     <CardTitle tag="h5">Add Student</CardTitle>
-                    <CardSubtitle className="mb-2 text-muted  py-2" tag="h6">Add a student to the class.</CardSubtitle>
-                    <Button color="success" size='sm' outline onClick={handleFormToggle}>Add</Button>
+                    <CardSubtitle className="mb-2 text-muted  py-2 " tag="h6">Add a student to the class.</CardSubtitle>
+                    <Button  className="gradient-button"
+                    size='sm' outline onClick={handleFormToggle
+                      }>Add</Button>
                   </CardBody>
                 </Card>
               </Col>
               <Col className='p-3'>
-                <Card className='drop-shadow border-0  mx-auto'>
+                <Card className='drop-shadow border-0  mx-auto student-card'>
                   <CardBody>
                     <CardTitle tag="h5">Edit Student</CardTitle>
                     <CardSubtitle className="mb-2 text-muted py-2" tag="h6">Edit student information.</CardSubtitle>
-                    <Button color="success" size='sm' outline onClick={handleEditStudent}>Edit</Button>
+                    <Button className="gradient-button" size='sm' outline onClick={handleEditStudent}>Edit</Button>
                   </CardBody>
                 </Card>
               </Col>
@@ -136,50 +142,51 @@ const Registration = ({ setMainContentComponent }) => {
             <Card className='drop-shadow' style={{ maxHeight: 'inherit', overflow: 'scroll' }}>
               <CardBody>
                 <CardTitle tag="h5">Recent Activity</CardTitle>
-                <Table bordered responsive striped hover> {/* Added responsive and hover classes */}
-                  <thead>
-                    <tr>
-                      <th>#</th>
-                      <th>Student Name</th>
-                      <th>Standard</th>
-                      <th>Admission Status</th>
-                      <th>Date</th>
-                      <th>Approve and Reject</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {students.map((student, index) => (
-                      <tr key={student.stud_id}>
-                        <th scope="row">{index + 1}</th>
-                        <td>
-                          {student.name ? student.name.fname + ' ' + student.name.lname : 'Name not provided'}
-                        </td>
-                        <td>{student.grade.gradeName ? student.grade.gradeName : 'N/A'}</td>
-                        <td>
-                          {student.isactive ? (
-                            <Badge color={"success"} pill>{"Admitted"}</Badge>
-                          ) : (
-                            <Badge color={"danger"} pill>{"Not Admitted"}</Badge>
-                          )}
-                        </td>
-                        <td>{student.dateOfAddmission}</td>
-                        <td>
-                          <ButtonGroup>
-                            <Button color="outline-success" onClick={() => handleApprovalToggle(student.stud_id)}>Approved</Button>
-                            <Button color="outline-danger" onClick={() => handleRejectToggle(student.stud_id)}>Rejected</Button>
-                          </ButtonGroup>
-                        </td>
-                      </tr>
-                    ))}
-                    {students.length === 0 && (
-                      <tr>
-                        <td colSpan="6" style={{ textAlign: 'center' }}>
-                          No data available.
-                        </td>
-                      </tr>
-                    )}
-                  </tbody>
-                </Table>
+                <Table className="table-custom" bordered responsive striped hover>
+  <thead>
+    <tr>
+      <th>#</th>
+      <th>Student Name</th>
+      <th>Standard</th>
+      <th>Admission Status</th>
+      <th>Date</th>
+      <th>Approve and Reject</th>
+    </tr>
+  </thead>
+  <tbody>
+    {students.map((student, index) => (
+      <tr key={student.stud_id}>
+        <th scope="row">{index + 1}</th>
+        <td>
+          {student.name ? student.name.fname + ' ' + student.name.lname : 'Name not provided'}
+        </td>
+        <td>{student.grade.gradeName ? student.grade.gradeName : 'N/A'}</td>
+        <td>
+          {student.isactive ? (
+            <Badge className='student-card' pill>{"Admitted"}</Badge>
+          ) : (
+            <Badge color={"danger"} pill>{"Not Admitted"}</Badge>
+          )}
+        </td>
+        <td>{student.dateOfAddmission}</td>
+        <td>
+          <ButtonGroup>
+            <Button className="gradient-button" onClick={() => handleApprovalToggle(student.stud_id)}>Approved</Button>
+            <Button className="outline-danger" onClick={() => handleRejectToggle(student.stud_id)}>Rejected</Button>
+          </ButtonGroup>
+        </td>
+      </tr>
+    ))}
+    {students.length === 0 && (
+      <tr>
+        <td colSpan="6" style={{ textAlign: 'center' }}>
+          No data available.
+        </td>
+      </tr>
+    )}
+  </tbody>
+</Table>
+
               </CardBody>
             </Card>
           </Col>
@@ -206,4 +213,4 @@ const Registration = ({ setMainContentComponent }) => {
   );
 };
 
-export default Registration;
+export default StudentAdmin;

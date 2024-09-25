@@ -9,15 +9,15 @@ const AdmissionDropoutGraph = () => {
             {
                 label: 'Admissions',
                 data: [50, 60, 40, 60, 90, 10, 80], // Placeholder data for admissions
-                borderColor: 'rgba(75,192,192,1)',
-                backgroundColor: 'rgba(75,192,192,0.2)',
+                borderColor: '#24244d',
+                backgroundColor: '#24244d',
                 fill: false
             },
             {
                 label: 'Dropouts',
                 data: [10, 20, 30, 20, 30, 10, 20], // Placeholder data for dropouts
-                borderColor: 'rgba(255,99,132,1)',
-                backgroundColor: 'rgba(255,99,132,0.2)',
+                borderColor: '#f28d18',
+                backgroundColor: '#f28d18',
                 fill: false
             }
         ]

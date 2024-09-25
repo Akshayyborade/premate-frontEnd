@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Form, FormGroup, Input, Button } from 'reactstrap';
-
+import './student/studentAdmin.css'
 const RegistrationLinkForm = ({ sendRegistrationLink }) => {
     const [studentDetails, setStudentDetails] = useState({
         name: '',
@@ -29,7 +29,7 @@ const RegistrationLinkForm = ({ sendRegistrationLink }) => {
             <FormGroup>
                 <Input type="text" name="whatsappNumber" value={studentDetails.whatsappNumber} onChange={handleChange} placeholder="Enter WhatsApp number" required size="sm" />
             </FormGroup>
-            <Button type="submit" color="success" outline size="sm">Send Link</Button>
+            <Button className="gradient-button"size="sm">Send Link</Button>
         </Form>
     );
 };
