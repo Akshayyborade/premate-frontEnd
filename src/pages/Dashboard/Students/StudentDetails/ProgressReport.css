@@ -1,0 +1,153 @@
+.progress-report {
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+.report-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: start;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+}
+
+.performance-summary {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.summary-card {
+    background: var(--white);
+    padding: 1.25rem;
+    border-radius: var(--border-radius-lg);
+    box-shadow: 0 2px 4px var(--shadow);
+    min-width: 180px;
+}
+
+.summary-value.grade {
+    font-size: 2rem;
+    text-align: center;
+}
+
+.report-actions {
+    display: flex;
+    gap: 1rem;
+}
+
+.exam-select {
+    padding: 0.5rem;
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius-md);
+    background: var(--white);
+}
+
+.charts-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+    gap: 1.5rem;
+}
+
+.chart-container {
+    background: var(--white);
+    padding: 1.5rem;
+    border-radius: var(--border-radius-lg);
+    box-shadow: 0 2px 4px var(--shadow);
+}
+
+.chart-container h3 {
+    margin: 0 0 1rem;
+    color: var(--secondary-color);
+}
+
+.exam-details {
+    background: var(--white);
+    padding: 1.5rem;
+    border-radius: var(--border-radius-lg);
+    box-shadow: 0 2px 4px var(--shadow);
+}
+
+.exam-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+.exam-card {
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius-md);
+    padding: 1rem;
+}
+
+.exam-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.exam-header h4 {
+    margin: 0;
+    color: var(--secondary-color);
+}
+
+.grade {
+    padding: 0.25rem 0.75rem;
+    border-radius: 1rem;
+    font-weight: 600;
+}
+
+.grade.a {
+    background: #dcfce7;
+    color: #15803d;
+}
+
+.grade.b {
+    background: #e0f2fe;
+    color: #0369a1;
+}
+
+.grade.c {
+    background: #fef3c7;
+    color: #b45309;
+}
+
+.grade.d {
+    background: #fee2e2;
+    color: #dc2626;
+}
+
+.exam-stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+}
+
+.stat-item {
+    text-align: center;
+}
+
+.stat-label {
+    display: block;
+    font-size: 0.875rem;
+    color: var(--text-muted);
+    margin-bottom: 0.25rem;
+}
+
+.stat-value {
+    font-weight: 500;
+    color: var(--secondary-color);
+}
+
+@media (max-width: 768px) {
+    .charts-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .exam-stats {
+        grid-template-columns: 1fr;
+    }
+} 

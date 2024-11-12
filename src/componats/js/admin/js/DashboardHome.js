@@ -1,30 +1,25 @@
 import React, { useState, useEffect } from 'react';
-import { Typography, Select, MenuItem, Card, Container, Grid, TextField, Button } from '@mui/material';
-import { CardBody, CardSubtitle, CardTitle, Row } from 'reactstrap';
-import './css/card.css'
-import './css/DashboardHome.css'
+import './css/card.css';
+import './css/DashboardHome.css';
 
 import AbsentsChart from './chart/AbsentsChart';
 
-const DashboardTimetable = () => {
+const DashboardHome = () => {
     const dates = Array.from({ length: 10 }, (_, i) => {
         const currentDate = new Date();
         currentDate.setDate(currentDate.getDate() + i);
         return currentDate.toLocaleDateString('en-US', { day: '2-digit', month: 'short' });
     });
 
-    // Set initial values: grade to "1st Grade", batch to "Batch 1"
     const [selectedDate, setSelectedDate] = useState(dates[0]);
-    const [selectedGrade, setSelectedGrade] = useState('1st Grade'); // Set default grade
-    const [selectedBatch, setSelectedBatch] = useState('Batch 1'); // Default batch
+    const [selectedGrade, setSelectedGrade] = useState('1st Grade');
+    const [selectedBatch, setSelectedBatch] = useState('Batch 1');
     const [students, setStudents] = useState([]);
 
-    // Example counts for present and absent students
-    const present = 25; // Example number of students present
+    const present = 25;
     const absent = 5;
 
     useEffect(() => {
-        // Initialize grade to "1st Grade" and batch to "Batch 1"
         setSelectedGrade('1st Grade');
         setSelectedBatch('Batch 1');
     }, []);
@@ -45,19 +40,15 @@ const DashboardTimetable = () => {
     const handleGradeChange = (grade) => setSelectedGrade(grade);
     const handleBatchChange = (batch) => setSelectedBatch(batch);
 
-
-    // State for tasks
     const [tasks, setTasks] = useState({
         upcoming: [],
         completed: [],
         setTasks: [],
     });
 
-    // State for notices
     const [notices, setNotices] = useState([]);
     const [newNotice, setNewNotice] = useState('');
 
-    // Function to add a new task
     const addTask = (task) => {
         setTasks((prev) => ({
             ...prev,
@@ -65,7 +56,6 @@ const DashboardTimetable = () => {
         }));
     };
 
-    // Function to add a new notice
     const addNotice = () => {
         if (newNotice) {
             setNotices((prev) => [...prev, newNotice]);
@@ -73,28 +63,17 @@ const DashboardTimetable = () => {
         }
     };
 
-
     return (
-        <div className='dashboard'>
-            <div className="container" >
-                <div className="left_panel">
-                    <div className="timetable-container" >
-                        <div className="scrollmenu student-card" style={{ overflowX: 'auto', whiteSpace: 'nowrap', backgroundColor: '#24244d', display: 'flex' }}>
+        <div className="dashboard">
+            <div className="container">
+                <div className="top_panel">
+                    <div className="left_up">
+                        <div className="scrollmenu student-card">
                             {dates.map((date, index) => (
                                 <a
                                     key={index}
                                     href="#"
-                                    style={{
-                                        display: 'inline-block',
-                                        color: selectedDate === date ? 'transparent' : 'white',
-                                        textAlign: 'center',
-                                        padding: '16px',
-                                        textDecoration: 'none',
-                                        backgroundClip: selectedDate === date ? 'text' : 'initial',
-                                        WebkitBackgroundClip: selectedDate === date ? 'text' : 'initial',
-                                        WebkitTextFillColor: selectedDate === date ? 'transparent' : 'initial',
-                                        backgroundImage: selectedDate === date ? 'linear-gradient(101deg,  #f5a623, #f76c6c)' : 'none',
-                                    }}
+                                    className={selectedDate === date ? 'selected' : ''}
                                     onClick={() => handleDateChange(date)}
                                 >
                                     {date}
@@ -102,166 +81,127 @@ const DashboardTimetable = () => {
                             ))}
                         </div>
 
-                        <div className='grade-batch'>
-                            <div className="grade-container" >
-                                <Select
-                                    variant="outlined"
-                                    value={selectedGrade} // Keep default grade selected
-                                    className="grade-selector"
-                                    onChange={(e) => handleGradeChange(e.target.value)}
-                                    fullWidth
-                                >
+                        <div className="grade-batch">
+                            <div className="grade-container">
+                                <select value={selectedGrade} onChange={(e) => handleGradeChange(e.target.value)}>
                                     {Array.from({ length: 12 }, (_, i) => i + 1).map((grade) => (
-                                        <MenuItem key={grade} value={`${grade}th Grade`}>
-                                            {`${grade}th Grade`}
-                                        </MenuItem>
+                                        <option key={grade} value={`${grade}th Grade`}>{`${grade}th Grade`}</option>
                                     ))}
-                                </Select>
+                                </select>
                             </div>
                             <div className="batch-container">
-                                <Select
-                                    variant="outlined"
-                                    value={selectedBatch} // Keep batch as "Batch 1"
-                                    className="batch-selector"
-                                    onChange={(e) => handleBatchChange(e.target.value)}
-                                    fullWidth
-                                >
+                                <select value={selectedBatch} onChange={(e) => handleBatchChange(e.target.value)}>
                                     {Array.from({ length: 3 }, (_, i) => i + 1).map((batch) => (
-                                        <MenuItem key={batch} value={`Batch ${batch}`}>
-                                            {`Batch ${batch}`}
-                                        </MenuItem>
+                                        <option key={batch} value={`Batch ${batch}`}>{`Batch ${batch}`}</option>
                                     ))}
-                                </Select>
+                                </select>
                             </div>
                         </div>
 
-                        <div id="content-div" style={{ width: '100%', padding: '16px', backgroundColor: '#f0f0f0', borderRadius: '4px' }}>
-                            <Typography variant="body1">
-                                {filteredTimetable.length > 0 ? (
-                                    <ul>
-                                        {filteredTimetable.map((item, index) => (
-                                            <li key={index}>{item.subject}</li>
-                                        ))}
-                                    </ul>
-                                ) : (
-                                    'No subjects scheduled for this date, grade, and batch.'
-                                )}
-                            </Typography>
+                        <div className="content-div">
+                            {filteredTimetable.length > 0 ? (
+                                <ul>
+                                    {filteredTimetable.map((item, index) => (
+                                        <li key={index}>{item.subject}</li>
+                                    ))}
+                                </ul>
+                            ) : (
+                                'No subjects scheduled for this date, grade, and batch.'
+                            )}
                         </div>
                     </div>
-                    <div className="demography_right">
-                        <Container sx={{ display: 'flex', justifyContent: 'space-between', flexDirection: 'column' }}>
-                            <Grid container spacing={1}>
-                                <Grid item xs={6}>
-                                    <Card className='background-card '>
-                                        <CardBody>
-                                            <CardTitle tag="h5">Total Students</CardTitle>
-                                            <strong style={{ fontSize: '21px' }}>{students.length}</strong>
-                                            <CardSubtitle className="mb-2 text-muted " tag="h6">Absents</CardSubtitle>
-                                            <strong style={{ fontSize: '21px' }}>{students.filter(student => !student.isactive).length}</strong>
-                                        </CardBody>
-                                    </Card>
-                                </Grid>
-                                <Grid item xs={6}>
-                                    <Card className='background-card '>
-                                        <CardBody>
-                                            <CardTitle tag="h5">Total Teacher</CardTitle>
-                                            <strong style={{ fontSize: '21px' }}>{students.length}</strong>
-                                            <CardSubtitle className="mb-2 text-muted " tag="h6">Absents</CardSubtitle>
-                                            <strong style={{ fontSize: '21px' }}>{students.filter(student => !student.isactive).length}</strong>
-                                        </CardBody>
-                                    </Card>
-                                </Grid>
-                                <Grid item xs={6}>
-                                    <Card className='background-card'>
-                                        <CardBody>
-                                            <CardTitle tag="h5">Fees Collected</CardTitle>
-                                            <strong style={{ fontSize: '21px' }}>{students.length}</strong>
-                                            <CardSubtitle className="mb-2 text-muted " tag="h6">Fees pending</CardSubtitle>
-                                            <strong style={{ fontSize: '21px' }}>{students.filter(student => !student.isactive).length}</strong>
-                                        </CardBody>
-                                    </Card>
-                                </Grid>
-                                <Grid item xs={6}>
-                                    <Card className='background-card drop-shadow border-0  mx-auto'>
-                                        <CardBody>
-                                            <CardTitle tag="h5">Total Holidays</CardTitle>
-                                            <strong style={{ fontSize: '21px' }}>{students.length}</strong>
-                                            <CardSubtitle className="mb-2 text-muted " tag="h6">Next Holiday</CardSubtitle>
-                                            <strong style={{ fontSize: '21px' }}>{students.filter(student => !student.isactive).length}</strong>
-                                        </CardBody>
-                                    </Card>
-                                </Grid>
-                            </Grid>
-                        </Container>
+
+                    {/* Middle panel content */}
+                    <div className="middle_up">
+                        
+                        <div className="events">
+                            <h5>Upcoming Events</h5>
+                            <p>Science Fair on Oct 12</p>
+                            <p>Parent-Teacher Meet on Oct 15</p>
+                        </div>
+                    </div>
+
+                    <div className="right_up">
+                        <div className="card-container">
+                            <div className="info-card">
+                                <h5>Total Students</h5>
+                                <strong>{students.length}</strong>
+                                <h6>Absents</h6>
+                                <strong>{students.filter(student => !student.isactive).length}</strong>
+                            </div>
+                            <div className="info-card">
+                                <h5>Total Teacher</h5>
+                                <strong>{students.length}</strong>
+                                <h6>Absents</h6>
+                                <strong>{students.filter(student => !student.isactive).length}</strong>
+                            </div>
+                            <div className="info-card">
+                                <h5>Fees Collected</h5>
+                                <strong>{students.length}</strong>
+                                <h6>Fees pending</h6>
+                                <strong>{students.filter(student => !student.isactive).length}</strong>
+                            </div>
+                            <div className="info-card">
+                                <h5>Total Holidays</h5>
+                                <strong>{students.length}</strong>
+                                <h6>Next Holiday</h6>
+                                <strong>{students.filter(student => !student.isactive).length}</strong>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
+                <div className="bottom_panel">
+                    <div className="chart-card">
+                        <AbsentsChart absent={absent} present={present} />
+                    </div>
 
-                <div className="demography_bottom">
-                    <Grid container spacing={2}>
-                        <Grid item xs={12} sm={4}>
-                            <Card sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', padding: 2, height: '100%' }}>
-                                <AbsentsChart absent={absent} present={present} />
-                            </Card>
-                        </Grid>
+                    <div className="tasks-card">
+                        <h6>Tasks</h6>
+                        <h6>Upcoming</h6>
+                        <ul>
+                            {tasks.upcoming.map((task, index) => (
+                                <li key={index}>{task}</li>
+                            ))}
+                        </ul>
+                        <h6>Completed</h6>
+                        <ul>
+                            {tasks.completed.map((task, index) => (
+                                <li key={index}>{task}</li>
+                            ))}
+                        </ul>
+                        <h6>Set Tasks</h6>
+                        <input
+                            type="text"
+                            placeholder="Add a task"
+                            onKeyDown={(e) => {
+                                if (e.key === 'Enter') {
+                                    addTask(e.target.value);
+                                    e.target.value = '';
+                                }
+                            }}
+                        />
+                    </div>
 
-                        <Grid item xs={12} sm={4}>
-                            <Card sx={{ padding: 2, height: '100%' }}>
-                                <Typography variant="h6">Tasks</Typography>
-                                <Typography variant="subtitle1">Upcoming</Typography>
-                                <ul>
-                                    {tasks.upcoming.map((task, index) => (
-                                        <li key={index}>{task}</li>
-                                    ))}
-                                </ul>
-                                <Typography variant="subtitle1">Completed</Typography>
-                                <ul>
-                                    {tasks.completed.map((task, index) => (
-                                        <li key={index}>{task}</li>
-                                    ))}
-                                </ul>
-                                <Typography variant="subtitle1">Set Tasks</Typography>
-                                <TextField
-                                    variant="outlined"
-                                    placeholder="Add a task"
-                                    onKeyDown={(e) => {
-                                        if (e.key === 'Enter') {
-                                            addTask(e.target.value);
-                                            e.target.value = '';
-                                        }
-                                    }}
-                                />
-                            </Card>
-                        </Grid>
-
-                        <Grid item xs={12} sm={4}>
-                            <Card sx={{ padding: 2, height: '100%' }}>
-                                <Typography variant="h6">Notices</Typography>
-                                <ul>
-                                    {notices.map((notice, index) => (
-                                        <li key={index}>{notice}</li>
-                                    ))}
-                                </ul>
-                                <TextField
-                                    variant="outlined"
-                                    placeholder="Add a notice"
-                                    value={newNotice}
-                                    onChange={(e) => setNewNotice(e.target.value)}
-                                />
-                                <Button variant="contained" color="primary" onClick={addNotice}>
-                                    Add Notice
-                                </Button>
-                            </Card>
-                        </Grid>
-                    </Grid>
+                    <div className="notices-card">
+                        <h6>Notices</h6>
+                        <ul>
+                            {notices.map((notice, index) => (
+                                <li key={index}>{notice}</li>
+                            ))}
+                        </ul>
+                        <input
+                            type="text"
+                            placeholder="Add a notice"
+                            value={newNotice}
+                            onChange={(e) => setNewNotice(e.target.value)}
+                        />
+                        <button onClick={addNotice}>Add Notice</button>
+                    </div>
                 </div>
-
-
-
             </div>
         </div>
     );
 };
 
-export default DashboardTimetable;
+export default DashboardHome;

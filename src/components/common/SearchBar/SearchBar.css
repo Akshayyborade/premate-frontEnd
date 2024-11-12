@@ -1,0 +1,108 @@
+.search-bar {
+    position: relative;
+    width: 100%;
+    max-width: 400px;
+}
+
+.search-input {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    padding-right: 2.5rem;
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius-md);
+    font-size: 0.875rem;
+    color: var(--text-color);
+    background: var(--white);
+    transition: all 0.2s ease;
+}
+
+.search-input:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px var(--primary-light);
+}
+
+.search-input::placeholder {
+    color: var(--text-muted);
+}
+
+.search-icon {
+    position: absolute;
+    right: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--text-muted);
+    pointer-events: none;
+}
+
+/* Loading State */
+.search-bar.loading .search-icon {
+    animation: pulse 1.5s ease-in-out infinite;
+}
+
+/* Error State */
+.search-bar.error .search-input {
+    border-color: var(--error-color);
+}
+
+.search-bar.error .search-input:focus {
+    box-shadow: 0 0 0 3px var(--error-light);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .search-bar {
+        max-width: 100%;
+    }
+
+    .search-input {
+        font-size: 1rem;
+        padding: 0.875rem 1rem;
+        padding-right: 2.5rem;
+    }
+}
+
+/* Dark Mode Support */
+@media (prefers-color-scheme: dark) {
+    .search-input {
+        background: var(--bg-dark);
+        border-color: var(--border-color-dark);
+        color: var(--text-color-dark);
+    }
+
+    .search-input:focus {
+        border-color: var(--primary-color);
+        box-shadow: 0 0 0 3px var(--primary-dark);
+    }
+
+    .search-input::placeholder {
+        color: var(--text-muted-dark);
+    }
+}
+
+/* Animations */
+@keyframes pulse {
+    0% { opacity: 1; }
+    50% { opacity: 0.5; }
+    100% { opacity: 1; }
+}
+
+/* High Contrast Mode */
+@media (forced-colors: active) {
+    .search-input {
+        border: 2px solid CanvasText;
+    }
+
+    .search-input:focus {
+        outline: 2px solid Highlight;
+    }
+}
+
+/* Reduced Motion */
+@media (prefers-reduced-motion: reduce) {
+    .search-input,
+    .search-bar.loading .search-icon {
+        transition: none;
+        animation: none;
+    }
+} 

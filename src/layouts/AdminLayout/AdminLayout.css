@@ -1,0 +1,50 @@
+.admin-layout {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    min-height: 100vh;
+    background-color: var(--bg-light);
+}
+
+.admin-main {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.admin-content {
+    flex: 1;
+    padding: 2rem;
+    overflow-y: auto;
+}
+
+/* For smaller screens */
+@media (max-width: 768px) {
+    .admin-layout {
+        grid-template-columns: 1fr;
+    }
+
+    .admin-content {
+        padding: 1rem;
+    }
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+    .admin-layout {
+        background-color: var(--bg-dark);
+    }
+}
+
+/* High contrast mode */
+@media (forced-colors: active) {
+    .admin-layout {
+        border: 1px solid CanvasText;
+    }
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+    .admin-content {
+        scroll-behavior: auto;
+    }
+} 

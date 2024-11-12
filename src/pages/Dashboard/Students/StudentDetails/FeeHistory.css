@@ -1,0 +1,144 @@
+.fee-history {
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+.fee-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: start;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+}
+
+.fee-summary {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.summary-card {
+    background: var(--white);
+    padding: 1.25rem;
+    border-radius: var(--border-radius-lg);
+    box-shadow: 0 2px 4px var(--shadow);
+    min-width: 200px;
+}
+
+.summary-label {
+    display: block;
+    color: var(--text-muted);
+    font-size: 0.875rem;
+    margin-bottom: 0.5rem;
+}
+
+.summary-value {
+    display: block;
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: var(--secondary-color);
+}
+
+.summary-value.due {
+    color: #dc2626;
+}
+
+.fee-actions {
+    display: flex;
+    gap: 1rem;
+}
+
+.year-select {
+    padding: 0.5rem;
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius-md);
+    background: var(--white);
+}
+
+.fee-installments {
+    background: var(--white);
+    padding: 1.5rem;
+    border-radius: var(--border-radius-lg);
+    box-shadow: 0 2px 4px var(--shadow);
+}
+
+.installment-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+.installment-card {
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius-md);
+    padding: 1rem;
+}
+
+.installment-card.paid {
+    border-color: #22c55e;
+    background: rgba(34, 197, 94, 0.1);
+}
+
+.installment-card.pending {
+    border-color: #f59e0b;
+    background: rgba(245, 158, 11, 0.1);
+}
+
+.installment-card.overdue {
+    border-color: #dc2626;
+    background: rgba(220, 38, 38, 0.1);
+}
+
+.installment-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.75rem;
+}
+
+.installment-number {
+    font-weight: 500;
+}
+
+.installment-amount {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+}
+
+.installment-date {
+    font-size: 0.875rem;
+    color: var(--text-muted);
+}
+
+.fee-transactions {
+    background: var(--white);
+    padding: 1.5rem;
+    border-radius: var(--border-radius-lg);
+    box-shadow: 0 2px 4px var(--shadow);
+}
+
+.status-badge {
+    padding: 0.25rem 0.75rem;
+    border-radius: 1rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+}
+
+.status-badge.paid {
+    background: #dcfce7;
+    color: #15803d;
+}
+
+.status-badge.pending {
+    background: #fef3c7;
+    color: #b45309;
+}
+
+.status-badge.overdue {
+    background: #fee2e2;
+    color: #dc2626;
+} 

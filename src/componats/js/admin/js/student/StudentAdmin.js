@@ -1,215 +1,155 @@
 import React, { useState, useEffect } from 'react';
-import { Container, Row, Col, Card, CardBody, CardTitle, CardSubtitle,Button, ButtonGroup, Table, Badge } from 'reactstrap';
+import { useNavigate } from 'react-router-dom';
 import AdmissionDropoutGraph from '../chart/AdmissionDropoutGraph';
 import RegistrationLinkForm from '../RegistrationLink';
-import StudentAdmissionFormModal from './StudentAddmission'; // Import the modal component
+import StudentAdmissionFormModal from './StudentAddmission';
 import { ToastContainer, toast } from 'react-toastify';
 import axiosInstance from '../services/StudentAuthServices';
 import { doLogOut } from '../services/AuthServices';
-import { useNavigate } from 'react-router-dom';
 import EditStudentModel from './EditStudent';
 import ApproveStudentModal from '../models/ApproveStudentModal';
 import RejectStudentModal from '../models/RejectStudentModel';
-import './studentAdmin.css'
-import './tableAdmin.css'
-
-
+import './studentAdmin.css';  // External CSS file
 
 const StudentAdmin = ({ setMainContentComponent }) => {
 
-  //////////models handling code////////////
-  const [isFormOpen, setIsFormOpen] = useState(false); // State to control form/modal visibility
-  const [isEditStudent, setIsEditStudent] = useState(false);
-  const [isApproveOpen, setIsApproveOpen] = useState(false);
-  const [isRejectOpen, setIsRejectOpen] = useState(false);
-  //////////////////////////////////////////
+  const [modals, setModals] = useState({
+    isFormOpen: false,
+    isEditStudent: false,
+    isApproveOpen: false,
+    isRejectOpen: false,
+  });
+
+  const toggleModal = (modalType) => {
+    setModals({ ...modals, [modalType]: !modals[modalType] });
+  };
+
   const navigate = useNavigate();
+  const [students, setStudents] = useState([]);
+  const [selectedStudent, setSelectedStudent] = useState(null);
 
-  const [students, setStudents] = useState([]); // State variable for fetched data
-  const [selectedStudent, setSelectedStudent] = useState(null); // Selected student for approval
-
-  // Consider removing these state variables if not used in JSX
-  // const [isLoading, setIsLoading] = useState(false);
-  // const [error, setError] = useState(null);
-
+  // Fetch student data
   useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await axiosInstance.get('/student/getAllStudent');
-        const studentsData = response.data;
-
-        // ... sorting logic (if applicable)
-
-        setStudents(studentsData);
-        console.log(studentsData);
+        setStudents(response.data); 
       } catch (error) {
         if (error.response && error.response.status === 401) {
-          // Handle 401 error: trigger logout functionality
-          doLogOut(() => {
-            navigate('/');
-          });
+          doLogOut(() => navigate('/'));
         } else {
-          console.error('Error fetching data:', error);
-          // Optionally display a user-friendly error message to the user
+          console.error('Error fetching student data:', error);
         }
       }
     };
-
     fetchData();
-  }, []);
+  }, [navigate]);
 
-  const handleFormToggle = () => {
-    setIsFormOpen(!isFormOpen); // Toggle form/modal visibility (defined in StudentAdmissionFormModal)
-  };
-
-  const handleEditStudent = () => {
-    setIsEditStudent(!isEditStudent); // Toggle edit modal visibility (defined in EditStudentModel)
-  };
-
-  const handleRejectToggle = (stud_id) => {
+  const handleStudentAction = (stud_id, actionType) => {
     const foundStudent = students.find(student => student.stud_id === stud_id);
     setSelectedStudent(foundStudent || null);
-    setIsRejectOpen(!isRejectOpen)// Set selectedStudent or null if not found
-  }
-
-  const handleApprovalToggle = (stud_id) => {
-    const foundStudent = students.find(student => student.stud_id === stud_id);
-    setSelectedStudent(foundStudent || null); // Set selectedStudent or null if not found
-    setIsApproveOpen(!isApproveOpen); // Toggle approval modal visibility (defined in ApproveStudentModal)
+    toggleModal(actionType);
   };
 
-  // Consider handling form submission logic here (if needed)
-  const handleFormSubmit = () => {
-    setMainContentComponent('AddmissionForm');
-  };
   return (
     <>
       <ToastContainer position='top-right' autoClose={5000} newestOnTop closeOnClick pauseOnFocusLoss draggable pauseOnHover />
-      <Container className='p-5 styled-element' style={{ backgroundColor: 'whitesmoke', maxHeight: "80vh", overflow: 'scroll', minHeight: '80vh', }}  >
+      <div className="admin-container">
 
+        {/* Left Side: Cards in 4x4 grid */}
+        <div className="cards-container">
+          <div className="card-item">
+            <h5>Total Students</h5>
+            <strong>{students.length}</strong>
+            <p className="text-muted">Application pending</p>
+            <strong>{students.filter(student => !student.isactive).length}</strong>
+          </div>
 
-        <Row>
-          <Col>
-            <Row className='md-10'>
-              <Col className='p-3'>
-                <Card className='drop-shadow border-0  mx-auto student-card' style={{ boxShadow: 'inherit' }}>
-                  <CardBody>
-                    <CardTitle tag="h5">Total Students</CardTitle>
-                    <strong style={{ fontSize: '21px' }}>{students.length}</strong>
-                    <CardSubtitle className="mb-2 text-muted " tag="h6">Application pending</CardSubtitle>
-                    <strong style={{ fontSize: '21px' }}>{students.filter(student => !student.isactive).length}</strong>
-                  </CardBody>
-                </Card>
-              </Col>
-              <Col className='p-3'>
-                <Card className='drop-shadow border-0  mx-auto student-card' style={{ maxHeight: '150px', overflowY: 'auto' }}>
-                  <CardBody>
-                    <CardTitle tag="h5">Send Registration Link</CardTitle>
-                    <RegistrationLinkForm />
-                  </CardBody>
-                </Card>
-              </Col>
-            </Row>
-            <Row>
-              <Col className='p-3'>
-                <Card className='drop-shadow border-0  mx-auto student-card'>
-                  <CardBody>
-                    <CardTitle tag="h5">Add Student</CardTitle>
-                    <CardSubtitle className="mb-2 text-muted  py-2 " tag="h6">Add a student to the class.</CardSubtitle>
-                    <Button  className="gradient-button"
-                    size='sm' outline onClick={handleFormToggle
-                      }>Add</Button>
-                  </CardBody>
-                </Card>
-              </Col>
-              <Col className='p-3'>
-                <Card className='drop-shadow border-0  mx-auto student-card'>
-                  <CardBody>
-                    <CardTitle tag="h5">Edit Student</CardTitle>
-                    <CardSubtitle className="mb-2 text-muted py-2" tag="h6">Edit student information.</CardSubtitle>
-                    <Button className="gradient-button" size='sm' outline onClick={handleEditStudent}>Edit</Button>
-                  </CardBody>
-                </Card>
-              </Col>
-            </Row>
-          </Col>
-          <Col>
-            <AdmissionDropoutGraph />
-          </Col>
-        </Row>
-        <Row>
-          <Col>
-            <Card className='drop-shadow' style={{ maxHeight: 'inherit', overflow: 'scroll' }}>
-              <CardBody>
-                <CardTitle tag="h5">Recent Activity</CardTitle>
-                <Table className="table-custom" bordered responsive striped hover>
-  <thead>
-    <tr>
-      <th>#</th>
-      <th>Student Name</th>
-      <th>Standard</th>
-      <th>Admission Status</th>
-      <th>Date</th>
-      <th>Approve and Reject</th>
-    </tr>
-  </thead>
-  <tbody>
-    {students.map((student, index) => (
-      <tr key={student.stud_id}>
-        <th scope="row">{index + 1}</th>
-        <td>
-          {student.name ? student.name.fname + ' ' + student.name.lname : 'Name not provided'}
-        </td>
-        <td>{student.grade.gradeName ? student.grade.gradeName : 'N/A'}</td>
-        <td>
-          {student.isactive ? (
-            <Badge className='student-card' pill>{"Admitted"}</Badge>
-          ) : (
-            <Badge color={"danger"} pill>{"Not Admitted"}</Badge>
-          )}
-        </td>
-        <td>{student.dateOfAddmission}</td>
-        <td>
-          <ButtonGroup>
-            <Button className="gradient-button" onClick={() => handleApprovalToggle(student.stud_id)}>Approved</Button>
-            <Button className="outline-danger" onClick={() => handleRejectToggle(student.stud_id)}>Rejected</Button>
-          </ButtonGroup>
-        </td>
-      </tr>
-    ))}
-    {students.length === 0 && (
-      <tr>
-        <td colSpan="6" style={{ textAlign: 'center' }}>
-          No data available.
-        </td>
-      </tr>
-    )}
-  </tbody>
-</Table>
+          <div className="card-item">
+            <h5>Send Registration Link</h5>
+            <RegistrationLinkForm />
+          </div>
 
-              </CardBody>
-            </Card>
-          </Col>
-        </Row>
-        {/* Student Admission Form Modal */}
-        <StudentAdmissionFormModal isOpen={isFormOpen} toggle={handleFormToggle} />
-        <EditStudentModel isOpen={isEditStudent} toggle={handleEditStudent} />
-        <ApproveStudentModal isOpen={isApproveOpen} toggle={handleApprovalToggle} studentData={selectedStudent} onApprove={(approvedStudent) => {
-          // Update students state and display success message
-          setStudents(prevStudents => prevStudents.map(student => {
-            if (student.stud_id === approvedStudent.stud_id) {
-              return { ...student, isActive: true }; // Update only the approved student
-            } else {
-              return student;
-            }
-          }));
-          toast.success(`Student ${approvedStudent.name?.fname} ${approvedStudent.name?.lname} approved successfully!`);
-        }} />
-        <RejectStudentModal isOpen={isRejectOpen} toggle={handleRejectToggle} studentData={selectedStudent} onReject={(rejectedStudent) => {
-          setStudents(prevStudents => prevStudents.filter(student => student.stud_id !== rejectedStudent.stud_id));
-          toast.error(`Student ${rejectedStudent.name?.fname} ${rejectedStudent.name?.lname} rejected successfully!`);
-        }} />
-      </Container></>
+          <div className="card-item">
+            <h5>Add Student</h5>
+            <p className="text-muted">Add a student to the class.</p>
+            <button className="btn btn-outline-primary" onClick={() => toggleModal('isFormOpen')}>Add</button>
+          </div>
+
+          <div className="card-item">
+            <h5>Edit Student</h5>
+            <p className="text-muted">Edit student information.</p>
+            <button className="btn btn-outline-primary" onClick={() => toggleModal('isEditStudent')}>Edit</button>
+          </div>
+        </div>
+
+        {/* Right Side: Chart */}
+        <div className="chart-container">
+          <AdmissionDropoutGraph />
+        </div>
+
+        {/* Bottom Section: Recent Activity */}
+        <div className="activity-container">
+          <h5>Recent Activity</h5>
+          <table className="table table-striped">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Student Name</th>
+                <th>Standard</th>
+                <th>Admission Status</th>
+                <th>Date</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              {students.map((student, index) => (
+                <tr key={student.stud_id}>
+                  <td>{index + 1}</td>
+                  <td>{student.name ? `${student.name.fname} ${student.name.lname}` : 'Name not provided'}</td>
+                  <td>{student.grade?.gradeName || 'N/A'}</td>
+                  <td>
+                    {student.isactive ? <span className="badge badge-success">Admitted</span> : <span className="badge badge-danger">Not Admitted</span>}
+                  </td>
+                  <td>{student.dateOfAddmission}</td>
+                  <td>
+                    <button className="btn btn-primary" onClick={() => handleStudentAction(student.stud_id, 'isApproveOpen')}>Approve</button>
+                    <button className="btn btn-danger" onClick={() => handleStudentAction(student.stud_id, 'isRejectOpen')}>Reject</button>
+                  </td>
+                </tr>
+              ))}
+              {students.length === 0 && (
+                <tr>
+                  <td colSpan="6" className="text-center">No data available.</td>
+                </tr>
+              )}
+            </tbody>
+          </table>
+        </div>
+
+        {/* Modals */}
+        <StudentAdmissionFormModal isOpen={modals.isFormOpen} toggle={() => toggleModal('isFormOpen')} />
+        <EditStudentModel isOpen={modals.isEditStudent} toggle={() => toggleModal('isEditStudent')} />
+        <ApproveStudentModal 
+          isOpen={modals.isApproveOpen} 
+          toggle={() => toggleModal('isApproveOpen')} 
+          studentData={selectedStudent} 
+          onApprove={(approvedStudent) => {
+            setStudents(students.map(student => student.stud_id === approvedStudent.stud_id ? { ...student, isactive: true } : student));
+            toast.success(`Student ${approvedStudent.name?.fname} ${approvedStudent.name?.lname} approved successfully!`);
+          }} 
+        />
+        <RejectStudentModal 
+          isOpen={modals.isRejectOpen} 
+          toggle={() => toggleModal('isRejectOpen')} 
+          studentData={selectedStudent} 
+          onReject={(rejectedStudent) => {
+            setStudents(students.filter(student => student.stud_id !== rejectedStudent.stud_id));
+            toast.error(`Student ${rejectedStudent.name?.fname} ${rejectedStudent.name?.lname} rejected successfully!`);
+          }} 
+        />
+      </div>
+    </>
   );
 };
 

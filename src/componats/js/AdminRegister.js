@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { Form, FormGroup, Label, Input, Button, Container, Row, Col, InputGroup, InputGroupText } from 'reactstrap';
-import { faBuilding, faEnvelope, faLock, faCalendarAlt, faGlobe, faBullseye, faSpinner } from '@fortawesome/free-solid-svg-icons';
+import { faBuilding, faEnvelope, faLock, faCalendarAlt, faGlobe, faBullseye, faSpinner, faArrowLeft, faInfoCircle } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { ToastContainer, toast } from "react-toastify";
 import  manImg  from './img/Richie_3.png';
@@ -29,6 +29,17 @@ const AdminRegister = () => {
         foundingDate: '',
         slogan: ''
     });
+    const [passwordStrength, setPasswordStrength] = useState(0);
+
+    const checkPasswordStrength = (password) => {
+        let strength = 0;
+        if (password.length >= 8) strength++;
+        if (/[A-Z]/.test(password)) strength++;
+        if (/[a-z]/.test(password)) strength++;
+        if (/[0-9]/.test(password)) strength++;
+        if (/[^A-Za-z0-9]/.test(password)) strength++;
+        setPasswordStrength(strength);
+    };
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -37,6 +48,9 @@ const AdminRegister = () => {
             [name]: value
         }));
         validateField(name, value);
+        if (name === 'password') {
+            checkPasswordStrength(value);
+        }
     };
 
     const validateField = (name, value) => {
@@ -132,100 +146,146 @@ const AdminRegister = () => {
     
 
     return (
-        <Container  fluid className="registration" style={{
-            boxShadow: 'rgba(0, 0, 0, 0.25) 0px 14px 28px, rgba(0, 0, 0, 0.22) 0px 10px 10px',
-            backgroundColor: 'white',
-            backdropFilter: 'blur(6px)',
-        
-            padding: '20px',
-            overflow:'scroll'}}>
+        <Container fluid className="registration-container py-4">
             <ToastContainer />
-            <Row>
-                <Col xs={6} lg={6}>
-                    <Row>
-                        <Col style={{display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection:'column' }}>
-                            <h1>Admin Registration</h1>
-                            <p>Please fill out this form with the required information</p>
-                        </Col>
-                    </Row>
-                    <Row style={{display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                        <Col md={9} className='p-5'>
-                            <Form onSubmit={handleSubmit}>
-                                <FormGroup>
-                                    <Label for="institutionName" className="reg-label-ad">Institution Name:</Label>
-                                    <InputGroup className="animated-input">
-                                        <InputGroupText style={{ minWidth: '50px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}><FontAwesomeIcon icon={faBuilding} /></InputGroupText>
-                                        <Input type="text" name="institutionName" id="institutionName" value={formData.institutionName} onChange={handleChange} className="reg-input-ad" />
-                                    </InputGroup>
-                                    {errors.institutionName && <span style={{ color: 'red' }}>{errors.institutionName}</span>}
-                                </FormGroup>
-                                <FormGroup>
-                                    <Label for="email" className="reg-label-ad">Email:</Label>
-                                    <InputGroup>
-                                        <InputGroupText style={{ minWidth: '50px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}><FontAwesomeIcon icon={faEnvelope} /></InputGroupText>
-                                        <Input type="email" name="email" id="email" value={formData.email} onChange={handleChange} className="reg-input-ad" />
-                                    </InputGroup>
-                                    {errors.email && <span style={{ color: 'red' }}>{errors.email}</span>}
-                                </FormGroup>
-                                <FormGroup>
-                                    <Label for="confirmEmail" className="reg-label-ad">Confirm Email:</Label>
-                                    <InputGroup>
-                                        <InputGroupText style={{ minWidth: '50px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}><FontAwesomeIcon icon={faEnvelope} /></InputGroupText>
-                                        <Input type="email" name="confirmEmail" id="confirmEmail" value={formData.confirmEmail} onChange={handleChange} className="reg-input-ad" />
-                                    </InputGroup>
-                                    {errors.confirmEmail && <span style={{ color: 'red' }}>{errors.confirmEmail}</span>}
-                                </FormGroup>
-                                <FormGroup>
-                                    <Label for="password" className="reg-label-ad">Password:</Label>
-                                    <InputGroup>
-                                        <InputGroupText style={{ minWidth: '50px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}><FontAwesomeIcon icon={faLock} /></InputGroupText>
-                                        <Input type="password" name="password" id="password" value={formData.password} onChange={handleChange} required className="reg-input-ad" />
-                                    </InputGroup>
-                                    {errors.password && <span style={{ color: 'red' }}>{errors.password}</span>}
-                                </FormGroup>
-                                <FormGroup>
-                                    <Label for="confirmPassword" className="reg-label-ad">Confirm Password:</Label>
-                                    <InputGroup>
-                                        <InputGroupText style={{ minWidth: '50px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}><FontAwesomeIcon icon={faLock} /></InputGroupText>
-                                        <Input type="password" name="confirmPassword" id="confirmPassword" value={formData.confirmPassword} onChange={handleChange} required className="reg-input-ad" />
-                                    </InputGroup>
-                                    {errors.confirmPassword && <span style={{ color: 'red' }}>{errors.confirmPassword}</span>}
-                                </FormGroup>
-                                <FormGroup>
-                                    <Label for="website" className="reg-label-ad">Website:</Label>
-                                    <InputGroup>
-                                        <InputGroupText style={{ minWidth: '50px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}><FontAwesomeIcon icon={faGlobe} /></InputGroupText>
-                                        <Input type="text" name="website" id="website" value={formData.website} onChange={handleChange} className="reg-input-ad" />
-                                    </InputGroup>
-                                    {errors.website && <span style={{ color: 'red' }}>{errors.website}</span>}
-                                </FormGroup>
-                                <FormGroup>
-                                    <Label for="foundingDate" className="reg-label-ad">Founding Date:</Label>
-                                    <InputGroup>
-                                        <InputGroupText style={{ minWidth: '50px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}><FontAwesomeIcon icon={faCalendarAlt} /></InputGroupText>
-                                        <Input type="date" name="foundingDate" id="foundingDate" value={formData.foundingDate} onChange={handleChange} className="reg-input-ad" />
-                                    </InputGroup>
-                                    {errors.foundingDate && <span style={{ color: 'red' }}>{errors.foundingDate}</span>}
-                                </FormGroup>
-                                <FormGroup>
-                                    <Label for="slogan" className="reg-label-ad">Mission Statement:</Label>
-                                    <InputGroup>
-                                        <InputGroupText style={{ minWidth: '50px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}><FontAwesomeIcon icon={faBullseye} /></InputGroupText>
-                                        <Input type="text" name="slogan" id="slogan" value={formData.slogan} onChange={handleChange} className="reg-input-ad" />
-                                    </InputGroup>
-                                    {errors.slogan && <span style={{ color: 'red' }}>{errors.slogan}</span>}
-                                </FormGroup>
-                                <Button className="submit" type="submit" style={{ backgroundColor: 'green' }} disabled={isLoading}>
-                                    {isLoading ? <FontAwesomeIcon icon={faSpinner} spin /> : 'Register'}
-                                </Button>
-                            </Form>
-                        </Col>
-                    </Row>
-                </Col>
-                <Col xs={6} lg={6} style={{display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection:'column' }}>
-                <img src={manImg} alt='3dman' className="img-fluid " style={{ maxWidth: '500px' }}></img>
-                </Col>
-            </Row>
+            <Link to="/" className="back-button mb-3 d-inline-block">
+                <FontAwesomeIcon icon={faArrowLeft} /> Back to Home
+            </Link>
+            
+            <div className="registration-card">
+                <Row className="g-0">
+                    <Col xs={12} lg={6} className="registration-form-container">
+                        <div className="text-center mb-4">
+                            <h1 className="registration-title">Admin Registration</h1>
+                            <p className="registration-subtitle">Create your institution's account</p>
+                        </div>
+                        
+                        <Form onSubmit={handleSubmit} className="registration-form">
+                            <FormGroup>
+                                <Label for="institutionName" className="reg-label-ad">Institution Name:</Label>
+                                <InputGroup className="animated-input">
+                                    <InputGroupText style={{ minWidth: '50px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}><FontAwesomeIcon icon={faBuilding} /></InputGroupText>
+                                    <Input type="text" name="institutionName" id="institutionName" value={formData.institutionName} onChange={handleChange} className="reg-input-ad" />
+                                </InputGroup>
+                                {errors.institutionName && <span style={{ color: 'red' }}>{errors.institutionName}</span>}
+                            </FormGroup>
+                            <FormGroup>
+                                <Label for="email" className="reg-label-ad">Email:</Label>
+                                <InputGroup>
+                                    <InputGroupText style={{ minWidth: '50px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}><FontAwesomeIcon icon={faEnvelope} /></InputGroupText>
+                                    <Input type="email" name="email" id="email" value={formData.email} onChange={handleChange} className="reg-input-ad" />
+                                </InputGroup>
+                                {errors.email && <span style={{ color: 'red' }}>{errors.email}</span>}
+                            </FormGroup>
+                            <FormGroup>
+                                <Label for="confirmEmail" className="reg-label-ad">Confirm Email:</Label>
+                                <InputGroup>
+                                    <InputGroupText style={{ minWidth: '50px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}><FontAwesomeIcon icon={faEnvelope} /></InputGroupText>
+                                    <Input type="email" name="confirmEmail" id="confirmEmail" value={formData.confirmEmail} onChange={handleChange} className="reg-input-ad" />
+                                </InputGroup>
+                                {errors.confirmEmail && <span style={{ color: 'red' }}>{errors.confirmEmail}</span>}
+                            </FormGroup>
+                            <FormGroup>
+                                <Label for="password" className="reg-label-ad">Password:</Label>
+                                <InputGroup>
+                                    <InputGroupText style={{ minWidth: '50px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}><FontAwesomeIcon icon={faLock} /></InputGroupText>
+                                    <Input type="password" name="password" id="password" value={formData.password} onChange={handleChange} required className="reg-input-ad" />
+                                </InputGroup>
+                                {errors.password && <span style={{ color: 'red' }}>{errors.password}</span>}
+                            </FormGroup>
+                            <FormGroup>
+                                <Label for="confirmPassword" className="reg-label-ad">Confirm Password:</Label>
+                                <InputGroup>
+                                    <InputGroupText style={{ minWidth: '50px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}><FontAwesomeIcon icon={faLock} /></InputGroupText>
+                                    <Input type="password" name="confirmPassword" id="confirmPassword" value={formData.confirmPassword} onChange={handleChange} required className="reg-input-ad" />
+                                </InputGroup>
+                                {errors.confirmPassword && <span style={{ color: 'red' }}>{errors.confirmPassword}</span>}
+                            </FormGroup>
+                            <FormGroup>
+                                <Label for="website" className="reg-label-ad">Website:</Label>
+                                <InputGroup>
+                                    <InputGroupText style={{ minWidth: '50px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}><FontAwesomeIcon icon={faGlobe} /></InputGroupText>
+                                    <Input type="text" name="website" id="website" value={formData.website} onChange={handleChange} className="reg-input-ad" />
+                                </InputGroup>
+                                {errors.website && <span style={{ color: 'red' }}>{errors.website}</span>}
+                            </FormGroup>
+                            <FormGroup>
+                                <Label for="foundingDate" className="reg-label-ad">Founding Date:</Label>
+                                <InputGroup>
+                                    <InputGroupText style={{ minWidth: '50px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}><FontAwesomeIcon icon={faCalendarAlt} /></InputGroupText>
+                                    <Input type="date" name="foundingDate" id="foundingDate" value={formData.foundingDate} onChange={handleChange} className="reg-input-ad" />
+                                </InputGroup>
+                                {errors.foundingDate && <span style={{ color: 'red' }}>{errors.foundingDate}</span>}
+                            </FormGroup>
+                            <FormGroup>
+                                <Label for="slogan" className="reg-label-ad">Mission Statement:</Label>
+                                <InputGroup>
+                                    <InputGroupText style={{ minWidth: '50px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}><FontAwesomeIcon icon={faBullseye} /></InputGroupText>
+                                    <Input type="text" name="slogan" id="slogan" value={formData.slogan} onChange={handleChange} className="reg-input-ad" />
+                                </InputGroup>
+                                {errors.slogan && <span style={{ color: 'red' }}>{errors.slogan}</span>}
+                            </FormGroup>
+
+                            {formData.password && (
+                                <div className="password-strength-meter mb-3">
+                                    <div className="strength-bars">
+                                        {[...Array(5)].map((_, index) => (
+                                            <div
+                                                key={index}
+                                                className={`strength-bar ${
+                                                    index < passwordStrength ? 'active' : ''
+                                                }`}
+                                            />
+                                        ))}
+                                    </div>
+                                    <small className="text-muted">
+                                        Password strength: {
+                                            ['Very Weak', 'Weak', 'Fair', 'Strong', 'Very Strong']
+                                            [passwordStrength - 1] || 'Very Weak'
+                                        }
+                                    </small>
+                                </div>
+                            )}
+
+                            <Button 
+                                className="submit-button w-100" 
+                                type="submit" 
+                                disabled={isLoading}
+                            >
+                                {isLoading ? (
+                                    <>
+                                        <FontAwesomeIcon icon={faSpinner} spin /> 
+                                        Processing...
+                                    </>
+                                ) : 'Register Institution'}
+                            </Button>
+
+                            <div className="mt-3 text-center">
+                                <small className="text-muted">
+                                    Already have an account? <Link to="/login/admin">Sign in</Link>
+                                </small>
+                            </div>
+                        </Form>
+                    </Col>
+                    
+                    <Col xs={12} lg={6} className="registration-image-container">
+                        <img 
+                            src={manImg} 
+                            alt="Registration illustration" 
+                            className="registration-image"
+                        />
+                        <div className="features-overlay">
+                            <h3>Why Choose Us?</h3>
+                            <ul>
+                                <li>✓ Comprehensive Institution Management</li>
+                                <li>✓ Secure Data Protection</li>
+                                <li>✓ 24/7 Technical Support</li>
+                                <li>✓ Custom Reporting Tools</li>
+                            </ul>
+                        </div>
+                    </Col>
+                </Row>
+            </div>
         </Container>
     );
 };
