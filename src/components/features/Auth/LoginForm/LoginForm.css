@@ -13,7 +13,7 @@
 }
 
 /* Wrapper */
-.login-form-wrapper {
+.admin-login-wrapper {
     min-height: calc(100vh - 6rem);
     display: flex;
     align-items: center;
@@ -22,7 +22,7 @@
 }
 
 /* Form */
-.login-form {
+.admin-login-form {
     width: 100%;
     max-width: 420px;
     background: var(--white);
@@ -32,52 +32,52 @@
 }
 
 /* Header */
-.login-header {
+.admin-login-header {
     text-align: center;
     margin-bottom: 1.5rem;
 }
 
-.logo-container {
+.admin-logo-container {
     margin-bottom: 1rem;
 }
 
-.login-logo {
+.admin-login-logo {
     width: 60px;
     height: 60px;
     object-fit: contain;
     transition: transform 0.3s ease;
 }
 
-.login-title {
+.admin-login-title {
     font-size: 1.75rem;
     font-weight: 700;
     color: var(--text-primary);
     margin-bottom: 0.5rem;
 }
 
-.login-subtitle {
+.admin-login-subtitle {
     color: var(--text-muted);
     font-size: 0.95rem;
 }
 
 /* Form Groups */
-.form-group {
+.admin-form-group {
     margin-bottom: 1rem;
 }
 
-.form-group input {
+.admin-form-group input {
     padding: 0.5rem;
 }
 
 /* Remember Me & Forgot Password */
-.form-group-horizontal {
+.admin-form-group-horizontal {
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin-bottom: 1rem;
 }
 
-.checkbox-label {
+.admin-checkbox-label {
     display: flex;
     align-items: center;
     gap: 0.5rem;
@@ -86,13 +86,13 @@
     font-size: 0.9rem;
 }
 
-.checkbox-label input[type="checkbox"] {
+.admin-checkbox-label input[type="checkbox"] {
     width: 16px;
     height: 16px;
     cursor: pointer;
 }
 
-.forgot-password {
+.admin-forgot-password {
     color: var(--primary);
     text-decoration: none;
     font-size: 0.9rem;
@@ -100,13 +100,13 @@
     transition: color 0.3s ease;
 }
 
-.forgot-password:hover {
+.admin-forgot-password:hover {
     color: var(--primary-dark);
     text-decoration: underline;
 }
 
 /* Sign Up Link */
-.signup-link {
+.admin-signup-link {
     text-align: center;
     margin-top: 1.5rem;
     padding-top: 1.5rem;
@@ -115,7 +115,7 @@
     font-size: 0.95rem;
 }
 
-.signup-link a {
+.admin-signup-link a {
     color: var(--primary);
     text-decoration: none;
     font-weight: 600;
@@ -123,13 +123,13 @@
     transition: color 0.3s ease;
 }
 
-.signup-link a:hover {
+.admin-signup-link a:hover {
     color: var(--primary-dark);
     text-decoration: underline;
 }
 
 /* Loading Overlay */
-.loading-overlay {
+.admin-login-overlay {
     position: fixed;
     top: 0;
     left: 0;
@@ -145,46 +145,46 @@
 
 /* Responsive Design */
 @media (max-width: 480px) {
-    .login-form {
+    .admin-login-form {
         padding: 2rem 1.5rem;
     }
 
-    .login-logo {
+    .admin-login-logo {
         width: 60px;
         height: 60px;
     }
 
-    .login-title {
+    .admin-login-title {
         font-size: 1.5rem;
     }
 
-    .form-group-horizontal {
+    .admin-form-group-horizontal {
         flex-direction: column;
         gap: 1rem;
         align-items: flex-start;
     }
 
-    .forgot-password {
+    .admin-forgot-password {
         align-self: flex-end;
     }
 }
 
 /* Responsive height adjustments */
 @media (max-height: 768px) {
-    .login-form {
+    .admin-login-form {
         padding: 2rem;
     }
 
-    .login-header {
+    .admin-login-header {
         margin-bottom: 1rem;
     }
 
-    .login-logo {
+    .admin-login-logo {
         width: 50px;
         height: 50px;
     }
 
-    .form-group {
+    .admin-form-group {
         margin-bottom: 0.75rem;
     }
 }

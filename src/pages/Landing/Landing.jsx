@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import NavBar from '../../components/layout/NavBar/NavBar';
 import Button from '../../components/common/Button/Button';
 import heroimg from '../../assets/images/Project-Management-Office.png';
 
 import './Landing.css';
+import { useAuth } from '../../hooks/useAuth';
 
 const fadeInUp = {
     initial: { opacity: 0, y: 20 },
@@ -22,18 +23,21 @@ const staggerContainer = {
 };
 
 const Landing = () => {
-    const [isLoading, setIsLoading] = useState(true);
-
+    const [isLoading, setIsLoading] = useState(false);
+    const { isAuthenticated } = useAuth();
+    const navigate = useNavigate();
+    
     useEffect(() => {
-        setTimeout(() => {
-            setIsLoading(false);
-        }, 200);
-    }, []);
+        if (isAuthenticated()) {
+            navigate('/admin/dashboard');
+        }
+        setIsLoading(false);
+    }, [isAuthenticated, navigate]);
 
     return (
         <>
             <NavBar name="DnyanDeep Tutorial" />
-            <div className={`landing-page ${isLoading ? 'loading' : 'loaded'}`}>
+            <div className="landing-page loaded">
                 <div className="container">
                     {/* Hero Section */}
                     <motion.section 
@@ -298,6 +302,11 @@ const Landing = () => {
                             </div>
                         </div>
                     </motion.section>
+
+                    {/* Copyright Section */}
+                    <div className="copyright">
+                        <p>© {new Date().getFullYear()} Premate.io. Developed by Akshay Borade. All rights reserved.</p>
+                    </div>
                 </div>
             </div>
         </>

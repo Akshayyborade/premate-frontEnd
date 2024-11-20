@@ -106,17 +106,17 @@ const LoginForm = ({ onSuccess }) => {
     };
 
     return (
-        <div className="login-form-wrapper">
-            {isLoading && <div className="loading-overlay"><Spinner /></div>}
+        <div className="admin-login-wrapper">
+            {isLoading && <div className="admin-login-overlay"><Spinner /></div>}
 
-            <form onSubmit={handleSubmit} className="login-form">
+            <form onSubmit={handleSubmit} className="admin-login-form">
                 {/* Logo and Title */}
-                <div className="login-header">
-                    <div className="logo-container">
-                        <img src={logoLogin} alt="Logo" className="login-logo" />
+                <div className="admin-login-header">
+                    <div className="admin-logo-container">
+                        <img src={logoLogin} alt="Logo" className="admin-login-logo" />
                     </div>
-                    <h2 className="login-title">Welcome Back</h2>
-                    <p className="login-subtitle">Please enter your credentials to continue</p>
+                    <h2 className="admin-login-title">Welcome Back</h2>
+                    <p className="admin-login-subtitle">Please enter your credentials to continue</p>
                 </div>
 
                 {/* Alert Messages */}
@@ -130,7 +130,7 @@ const LoginForm = ({ onSuccess }) => {
                 )}
 
                 {/* Email Field */}
-                <div className="form-group">
+                <div className="admin-form-group">
                     <Input
                         label="Email Address"
                         type="email"
@@ -146,7 +146,7 @@ const LoginForm = ({ onSuccess }) => {
                 </div>
 
                 {/* Password Field */}
-                <div className="form-group">
+                <div className="admin-form-group">
                     <Input
                         label="Password"
                         type="password"
@@ -161,8 +161,8 @@ const LoginForm = ({ onSuccess }) => {
                 </div>
 
                 {/* Remember Me Checkbox */}
-                <div className="form-group-horizontal">
-                    <label className="checkbox-label">
+                <div className="admin-form-group-horizontal">
+                    <label className="admin-checkbox-label">
                         <input
                             type="checkbox"
                             checked={rememberMe}
@@ -170,19 +170,19 @@ const LoginForm = ({ onSuccess }) => {
                         />
                         <span>Remember me</span>
                     </label>
-                    <Link to="/forgot-password" className="forgot-password">
+                    <Link to="/forgot-password" className="admin-forgot-password">
                         Forgot password?
                     </Link>
                 </div>
 
                 {/* Login Button */}
-                <div className="form-group">
+                <div className="admin-form-group">
                     <Button 
                         type="submit" 
                         variant="primary" 
                         fullWidth
                         disabled={isLoading}
-                        className="login-button"
+                        className="admin-login-button"
                     >
                         {isLoading ? (
                             <>
@@ -194,7 +194,7 @@ const LoginForm = ({ onSuccess }) => {
                 </div>
 
                 {/* Sign Up Link */}
-                <div className="signup-link">
+                <div className="admin-signup-link">
                     Don't have an account?{' '}
                     <Link to="/admin-register">Create Account</Link>
                 </div>

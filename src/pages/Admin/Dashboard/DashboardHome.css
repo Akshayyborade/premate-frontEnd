@@ -1,0 +1,214 @@
+/* Main Container */
+.dashboard-container {
+    padding: 1.5rem;
+}
+
+/* Page Header */
+.page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+}
+
+.page-header h1 {
+    font-size: 1.875rem;
+    font-weight: 700;
+    color: var(--secondary-color);
+    margin: 0;
+}
+
+/* Quick Actions Bar */
+.quick-actions-bar {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+    flex-wrap: wrap;
+}
+
+.action-controls {
+    display: flex;
+    gap: 1rem;
+}
+
+.action-controls select {
+    padding: 0.5rem;
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius-sm);
+    background-color: var(--white);
+}
+
+/* Main Content Layout */
+.dashboard-content {
+    display: grid;
+    grid-template-columns: 1fr 300px;
+    gap: 1.5rem;
+}
+
+/* Main Section */
+.dashboard-main {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+/* Dashboard Cards */
+.dashboard-card {
+    padding: 1.5rem;
+    background-color: var(--white);
+    border: 1px solid var(--border-color);
+}
+
+.dashboard-top {
+    composes: dashboard-card;
+}
+
+.dashboard-middle {
+    composes: dashboard-card;
+}
+
+/* Analytics Grid */
+.dashboard-bottom {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+}
+
+.analytics-section,
+.calendar-section {
+    composes: dashboard-card;
+}
+
+/* Status Indicators */
+.status-indicator {
+    padding: 0.25rem 0.75rem;
+    border-radius: 1rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+}
+
+.status-indicator.success {
+    background: #dcfce7;
+    color: #15803d;
+}
+
+.status-indicator.warning {
+    background: #fef3c7;
+    color: #b45309;
+}
+
+.status-indicator.error {
+    background: #fee2e2;
+    color: #dc2626;
+}
+
+/* Sidebar */
+.dashboard-sidebar {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.task-section,
+.activities-section {
+    composes: dashboard-card;
+}
+
+/* Task Items */
+.task-item {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.75rem 0;
+    border-bottom: 1px solid var(--border-color);
+}
+
+/* Activity Items */
+.activity-item {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.75rem 0;
+}
+
+.activity-avatar {
+    width: 32px;
+    height: 32px;
+    background: var(--primary-light);
+    color: var(--white);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+}
+
+/* Loading State */
+.dashboard-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(255, 255, 255, 0.9);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+/* Custom Scrollbar */
+.scrollable {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(0, 0, 0, 0.2) transparent;
+}
+
+.scrollable::-webkit-scrollbar {
+    width: 6px;
+}
+
+.scrollable::-webkit-scrollbar-thumb {
+    background-color: rgba(0, 0, 0, 0.2);
+    border-radius: 3px;
+}
+
+.dashboard-main,
+.dashboard-sidebar {
+    composes: scrollable;
+}
+
+/* Responsive Design */
+@media (max-width: 1400px) {
+    .dashboard-bottom {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 1200px) {
+    .dashboard-content {
+        grid-template-columns: 1fr;
+    }
+
+    .dashboard-sidebar {
+        grid-row: 1;
+    }
+}
+
+@media (max-width: 768px) {
+    .dashboard-container {
+        padding: 1rem;
+    }
+
+    .dashboard-content {
+        gap: 1rem;
+    }
+
+    .dashboard-card {
+        padding: 1rem;
+    }
+
+    .quick-actions-bar {
+        flex-direction: column;
+    }
+
+    .action-controls {
+        flex-wrap: wrap;
+    }
+} 

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { studentService } from '../../../../services/api/student.service';
-import Button from '../../../../components/common/Button';
+import Button from '../../../../components/common/Button/Button';
 import AttendanceChart from './AttendanceChart';
 import FeeHistory from './FeeHistory';
 import ProgressReport from './ProgressReport';
@@ -30,7 +30,7 @@ const StudentDetails = () => {
     };
 
     if (loading) return <div>Loading...</div>;
-    if (!student) return <div>Student not found</div>;
+    // if (!student) return <div>Student not found</div>;
 
     const tabs = [
         { id: 'overview', label: 'Overview' },
@@ -45,20 +45,20 @@ const StudentDetails = () => {
             <div className="details-header">
                 <div className="student-profile">
                     <div className="student-avatar">
-                        {student.photo ? (
+                        {student?.photo ? (
                             <img src={student.photo} alt={student.name} />
                         ) : (
-                            <span>{student.name.charAt(0)}</span>
+                            <span>{student?.name.charAt(0)}</span>
                         )}
                     </div>
                     <div className="student-info">
-                        <h1>{student.name}</h1>
+                        <h1>{student?.name}</h1>
                         <div className="student-meta">
-                            <span>ID: {student.studentId}</span>
-                            <span>Course: {student.course}</span>
-                            <span>Batch: {student.batch}</span>
-                            <span className={`status ${student.status.toLowerCase()}`}>
-                                {student.status}
+                            <span>ID: {student?.studentId}</span>
+                            <span>Course: {student?.course}</span>
+                            <span>Batch: {student?.batch}</span>
+                            <span className={`status ${student?.status.toLowerCase()}`}>
+                                {student?.status}
                             </span>
                         </div>
                     </div>
@@ -96,23 +96,23 @@ const StudentDetails = () => {
                             <div className="info-grid">
                                 <div className="info-item">
                                     <label>Date of Birth</label>
-                                    <span>{student.dateOfBirth}</span>
+                                    <span>{student?.dateOfBirth}</span>
                                 </div>
                                 <div className="info-item">
                                     <label>Gender</label>
-                                    <span>{student.gender}</span>
+                                    <span>{student?.gender}</span>
                                 </div>
                                 <div className="info-item">
                                     <label>Email</label>
-                                    <span>{student.email}</span>
+                                    <span>{student?.email}</span>
                                 </div>
                                 <div className="info-item">
                                     <label>Phone</label>
-                                    <span>{student.phone}</span>
+                                    <span>{student?.phone}</span>
                                 </div>
                                 <div className="info-item">
                                     <label>Address</label>
-                                    <span>{student.address}</span>
+                                    <span>{student?.address}</span>
                                 </div>
                             </div>
                         </div>
@@ -122,15 +122,15 @@ const StudentDetails = () => {
                             <div className="info-grid">
                                 <div className="info-item">
                                     <label>Parent Name</label>
-                                    <span>{student.parentName}</span>
+                                    <span>{student?.parentName}</span>
                                 </div>
                                 <div className="info-item">
                                     <label>Parent Phone</label>
-                                    <span>{student.parentPhone}</span>
+                                    <span>{student?.parentPhone}</span>
                                 </div>
                                 <div className="info-item">
                                     <label>Emergency Contact</label>
-                                    <span>{student.emergencyContact}</span>
+                                    <span>{student?.emergencyContact}</span>
                                 </div>
                             </div>
                         </div>
@@ -140,11 +140,11 @@ const StudentDetails = () => {
                             <div className="info-grid">
                                 <div className="info-item">
                                     <label>Admission Date</label>
-                                    <span>{student.admissionDate}</span>
+                                    <span>{student?.admissionDate}</span>
                                 </div>
                                 <div className="info-item">
                                     <label>Previous School</label>
-                                    <span>{student.previousSchool}</span>
+                                    <span>{student?.previousSchool}</span>
                                 </div>
                             </div>
                         </div>

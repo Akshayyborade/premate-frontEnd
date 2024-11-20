@@ -1,12 +1,16 @@
-import React, { createContext, useContext, useState, useEffect } from 'react';
+import React, { createContext, useState, useEffect } from 'react';
 import { authService } from '../services/api/auth.service';
+import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
-const AuthContext = createContext(null);
+export const AuthContext = createContext(null);
 
 export const AuthProvider = ({ children }) => {
     const [user, setUser] = useState(null);
     const [loading, setLoading] = useState(true);
     const [isEmailVerified, setIsEmailVerified] = useState(false);
+    const navigate = useNavigate();
+    const [error, setError] = useState(null);
 
     useEffect(() => {
         checkAuth();
@@ -14,71 +18,100 @@ export const AuthProvider = ({ children }) => {
 
     const checkAuth = async () => {
         try {
-            const token = localStorage.getItem('token');
-            if (token) {
-                const userData = await authService.getCurrentUser();
-                setUser(userData);
-                setIsEmailVerified(userData.isEmailVerified);
+            setLoading(true);
+            const currentUser = authService.getCurrentUser();
+            const accessToken = authService.getAccessToken();
+            
+            if (currentUser && accessToken) {
+                setUser(currentUser);
+                setIsEmailVerified(currentUser.enabled);
+            } else {
+                setUser(null);
+                setIsEmailVerified(false);
+                authService.clearAuth();
             }
         } catch (error) {
-            localStorage.removeItem('token');
+            console.error('Auth check failed:', error);
+            setError(error.message);
+            authService.clearAuth();
             setUser(null);
+            setIsEmailVerified(false);
         } finally {
             setLoading(false);
         }
     };
 
-    const login = async (credentials) => {
-        const response = await authService.login(credentials);
-        localStorage.setItem('token', response.token);
-        setUser(response.user);
-        setIsEmailVerified(response.user.isEmailVerified);
-        return response;
+    const isAuthenticated = () => {
+        const currentUser = authService.getCurrentUser();
+        const accessToken = authService.getAccessToken();
+        return Boolean(currentUser && accessToken);
     };
 
-    const register = async (userData) => {
-        const response = await authService.register(userData);
-        return response;
+    const login = async (email, password) => {
+        try {
+            const response = await authService.login(email, password);
+            setUser(response.admin);
+            console.log(response.admin);
+            setIsEmailVerified(response.admin.enabled);
+            
+            if (response.admin.appUserRole === 'ADMIN') {
+                navigate('/admin/dashboard');
+            }
+            
+            return response;
+        } catch (error) {
+            console.error('Login error:', error);
+            throw error;
+        }
+    };
+
+    const register = async (formData) => {
+        try {
+            const response = await authService.register(formData);
+            return response;
+        } catch (error) {
+            // Make sure we're not modifying any state here that could trigger a re-render
+            throw error; // Just propagate the error
+        }
+    };
+
+    const checkEmail = async (email) => {
+        try {
+            const response = await authService.checkEmail(email);
+            return response;
+        } catch (error) {
+            throw error;
+        }
     };
 
     const logout = async () => {
         try {
             await authService.logout();
-        } finally {
-            localStorage.removeItem('token');
             setUser(null);
             setIsEmailVerified(false);
+            navigate('/login');
+        } catch (error) {
+            console.error('Logout failed:', error);
+            toast.error('Logout failed. Please try again.');
         }
-    };
-
-    const hasRole = (roles) => {
-        if (!user) return false;
-        if (typeof roles === 'string') return user.role === roles;
-        return roles.includes(user.role);
     };
 
     const value = {
         user,
         loading,
         isEmailVerified,
+        error,
         login,
         register,
         logout,
-        hasRole,
-        checkAuth
+        checkAuth,
+        checkEmail,
+        isAuthenticated
     };
 
     return (
         <AuthContext.Provider value={value}>
-            {children}
+            {!loading ? children : <div>Loading...</div>}
         </AuthContext.Provider>
     );
-};
-
-export const useAuth = () => {
-    const context = useContext(AuthContext);
-    if (!context) {
-        throw new Error('useAuth must be used within an AuthProvider');
-    }
-    return context;
 }; 

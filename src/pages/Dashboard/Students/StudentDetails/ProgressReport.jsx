@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { studentService } from '../../../../services/api/student.service';
 import { Line, Bar } from 'react-chartjs-2';
-import Button from '../../../../components/common/Button';
+import Button from '../../../../components/common/Button/Button';
 import './ProgressReport.css';
 
 const ProgressReport = ({ studentId }) => {

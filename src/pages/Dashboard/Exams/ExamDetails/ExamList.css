@@ -1,0 +1,205 @@
+.exam-list-page {
+    padding: 24px;
+    background-color: #f8f9fa;
+}
+
+.exam-list-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+}
+
+.exam-list-header h1 {
+    font-size: 24px;
+    color: #2c3e50;
+    margin: 0;
+}
+
+.create-exam-btn {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 6px;
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.create-exam-btn:hover {
+    background-color: #45a049;
+    transform: translateY(-2px);
+}
+
+/* Filters Section */
+.filters-section {
+    display: flex;
+    gap: 16px;
+    margin-bottom: 24px;
+    flex-wrap: wrap;
+}
+
+.search-box {
+    flex: 1;
+    min-width: 200px;
+}
+
+.search-box input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    font-size: 14px;
+}
+
+.filter-controls {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+}
+
+.filter-controls select {
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    font-size: 14px;
+    min-width: 150px;
+}
+
+/* Exam Grid */
+.exam-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 24px;
+}
+
+.exam-card {
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    overflow: hidden;
+}
+
+.exam-card-header {
+    padding: 16px;
+    background: #f8f9fa;
+    border-bottom: 1px solid #eee;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.exam-card-header h3 {
+    margin: 0;
+    color: #2c3e50;
+    font-size: 18px;
+}
+
+.status-badge {
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 12px;
+    font-weight: 500;
+    text-transform: capitalize;
+}
+
+.status-badge.upcoming {
+    background: #e3f2fd;
+    color: #1976d2;
+}
+
+.status-badge.ongoing {
+    background: #fff3e0;
+    color: #f57c00;
+}
+
+.status-badge.completed {
+    background: #e8f5e9;
+    color: #388e3c;
+}
+
+.status-badge.draft {
+    background: #f5f5f5;
+    color: #616161;
+}
+
+.exam-card-content {
+    padding: 16px;
+}
+
+.exam-info p {
+    margin: 8px 0;
+    color: #666;
+}
+
+.exam-card-actions {
+    padding: 16px;
+    border-top: 1px solid #eee;
+    display: flex;
+    gap: 8px;
+}
+
+.view-btn, .edit-btn, .delete-btn {
+    padding: 8px 16px;
+    border-radius: 4px;
+    border: none;
+    cursor: pointer;
+    font-size: 14px;
+    transition: all 0.3s ease;
+}
+
+.view-btn {
+    background: #2196f3;
+    color: white;
+    text-decoration: none;
+}
+
+.edit-btn {
+    background: #ffc107;
+    color: #000;
+}
+
+.delete-btn {
+    background: #f44336;
+    color: white;
+}
+
+.view-btn:hover, .edit-btn:hover, .delete-btn:hover {
+    transform: translateY(-2px);
+}
+
+/* No Results */
+.no-results {
+    text-align: center;
+    padding: 48px;
+    color: #666;
+}
+
+/* Responsive Design */
+@media screen and (max-width: 768px) {
+    .exam-list-page {
+        padding: 16px;
+    }
+
+    .exam-list-header {
+        flex-direction: column;
+        gap: 16px;
+    }
+
+    .filters-section {
+        flex-direction: column;
+    }
+
+    .search-box,
+    .filter-controls select {
+        width: 100%;
+    }
+
+    .exam-card-actions {
+        flex-direction: column;
+    }
+
+    .view-btn, .edit-btn, .delete-btn {
+        width: 100%;
+        text-align: center;
+    }
+} 

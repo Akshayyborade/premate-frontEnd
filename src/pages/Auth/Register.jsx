@@ -1,13 +1,23 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import { toast } from "react-toastify";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import manImg from '../../assets/images/Richie_3.png';
 import './Register.css';
+import { useAuth } from '../../hooks/useAuth';
+import { debounce } from 'lodash';
+
 
 const Register = () => {
+    // Hooks
     const navigate = useNavigate();
+    const { register, checkEmail } = useAuth();
+
+    // State Management
     const [isLoading, setIsLoading] = useState(false);
     const [step, setStep] = useState(1);
+    const [errors, setErrors] = useState({});
+    const [passwordStrength, setPasswordStrength] = useState(0);
     const [formData, setFormData] = useState({
         email: '',
         confirmEmail: '',
@@ -18,11 +28,15 @@ const Register = () => {
         foundingDate: '',
         slogan: ''
     });
-    const [errors, setErrors] = useState({});
-    const [passwordStrength, setPasswordStrength] = useState(0);
 
     const steps = ['Credentials', 'Institution Details', 'Review & Submit'];
 
+    // At the top of your component
+    useEffect(() => {
+        console.log('Step changed to:', step);
+    }, [step]);
+
+    // Validation Functions
     const checkPasswordStrength = (password) => {
         let strength = 0;
         if (password.length >= 8) strength++;
@@ -33,19 +47,21 @@ const Register = () => {
         setPasswordStrength(strength);
     };
 
-    const handleChange = (e) => {
-        const { name, value } = e.target;
-        setFormData(prevState => ({
-            ...prevState,
-            [name]: value
-        }));
-        validateField(name, value);
-        if (name === 'password') {
-            checkPasswordStrength(value);
+    // Add new function to check email availability
+    const checkEmailAvailability = async (email) => {
+        try {
+            const response = await checkEmail(email);
+            return response;
+        } catch (error) {
+            if (error.message.includes('already registered')) {
+                return { isAvailable: false };
+            }
+            throw error;
         }
     };
 
-    const validateField = (name, value) => {
+    // Update validateField function
+    const validateField = async (name, value) => {
         const newErrors = { ...errors };
         
         switch (name) {
@@ -55,7 +71,18 @@ const Register = () => {
                 } else if (!/\S+@\S+\.\S+/.test(value)) {
                     newErrors.email = 'Email is invalid';
                 } else {
-                    delete newErrors.email;
+                    try {
+                        const { isAvailable } = await checkEmailAvailability(value);
+                        if (!isAvailable) {
+                            newErrors.email = 'This email is already registered';
+                        } else {
+                            delete newErrors.email;
+                        }
+                    } catch (error) {
+                        console.error('Email check failed:', error);
+                        // Don't block the user if the check fails
+                        delete newErrors.email;
+                    }
                 }
                 break;
             
@@ -66,14 +93,6 @@ const Register = () => {
                     newErrors.confirmEmail = 'Emails do not match';
                 } else {
                     delete newErrors.confirmEmail;
-                }
-                break;
-
-            case 'institutionName':
-                if (!value) {
-                    newErrors.institutionName = 'Institution name is required';
-                } else {
-                    delete newErrors.institutionName;
                 }
                 break;
 
@@ -97,6 +116,7 @@ const Register = () => {
                 }
                 break;
 
+            case 'institutionName':
             case 'website':
             case 'foundingDate':
             case 'slogan':
@@ -112,80 +132,102 @@ const Register = () => {
         }
 
         setErrors(newErrors);
+        return Object.keys(newErrors).length === 0;
     };
 
-    const handleNext = () => {
-        const stepErrors = {};
+    // Update handleChange to use async validation
+    const handleChange = async (e) => {
+        const { name, value } = e.target;
+        setFormData(prevState => ({
+            ...prevState,
+            [name]: value
+        }));
         
-        if (step === 1) {
-            if (!formData.email) stepErrors.email = 'Email is required';
-            if (!formData.confirmEmail) stepErrors.confirmEmail = 'Confirm email is required';
-            if (!formData.password) stepErrors.password = 'Password is required';
-            if (!formData.confirmPassword) stepErrors.confirmPassword = 'Confirm password is required';
-            
-            if (formData.email && !/\S+@\S+\.\S+/.test(formData.email)) {
-                stepErrors.email = 'Invalid email format';
-            }
-            if (formData.email !== formData.confirmEmail) {
-                stepErrors.confirmEmail = 'Emails do not match';
-            }
-            if (formData.password !== formData.confirmPassword) {
-                stepErrors.confirmPassword = 'Passwords do not match';
-            }
-        }
-        
-        if (step === 2) {
-            if (!formData.institutionName) stepErrors.institutionName = 'Institution name is required';
-            if (!formData.website) stepErrors.website = 'Website is required';
-            if (!formData.foundingDate) stepErrors.foundingDate = 'Founding date is required';
-            if (!formData.slogan) stepErrors.slogan = 'Mission statement is required';
+        if (name === 'email') {
+            // Add debounce for email validation
+            clearTimeout(emailCheckTimeout.current);
+            emailCheckTimeout.current = setTimeout(() => {
+                validateField(name, value);
+            }, 500); // Wait 500ms after user stops typing
+        } else {
+            validateField(name, value);
         }
 
-        if (Object.keys(stepErrors).length === 0) {
-            setStep(step + 1);
-            setErrors({});
-        } else {
-            setErrors(stepErrors);
+        if (name === 'password') {
+            checkPasswordStrength(value);
         }
+    };
+
+    const handleStepChange = (newStep) => {
+        console.log('Attempting to change step from', step, 'to', newStep);
+        setStep(newStep);
     };
 
     const handleBack = () => {
-        setStep(step - 1);
+        handleStepChange(step - 1);
         setErrors({});
+    };
+
+    // Update handleNext
+    const handleNext = async () => {
+        if (step === 1) {
+            // Validate email and password fields
+            const emailValid = await validateField('email', formData.email);
+            const confirmEmailValid = await validateField('confirmEmail', formData.confirmEmail);
+            const passwordValid = await validateField('password', formData.password);
+            const confirmPasswordValid = await validateField('confirmPassword', formData.confirmPassword);
+
+            if (emailValid && confirmEmailValid && passwordValid && confirmPasswordValid) {
+                handleStepChange(step + 1);
+            }
+        } else if (step === 2) {
+            // Validate institution details
+            ['institutionName', 'website', 'foundingDate', 'slogan'].forEach(field => {
+                validateField(field, formData[field]);
+            });
+        }
     };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        if (step !== 3) return;
+
         setIsLoading(true);
-
         try {
-            const response = await fetch('http://localhost:9095/api/auth/signup', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(formData)
-            });
+            console.log('Attempting registration...');
+            await register(formData);
             
-            const data = await response.json();
-            
-            if (!response.ok) {
-                throw new Error(data.message || 'Registration failed');
-            }
-
             toast.success('Registration successful!');
-            navigate('/login/admin');
+            setTimeout(() => navigate('/login/admin'), 2000);
+
         } catch (error) {
-            toast.error(error.message || 'Registration failed. Please try again.');
+            console.error('Registration error:', error);
+            if (error.message.includes('already registered')) {
+                toast.error('This email is already registered.');
+            } else {
+                toast.error(error.message || 'Registration failed.');
+            }
         } finally {
             setIsLoading(false);
         }
     };
 
-    // Add missing form fields for step 1
+    // Add ref for debouncing
+    const emailCheckTimeout = useRef(null);
+
+    // Cleanup timeout on unmount
+    useEffect(() => {
+        return () => {
+            if (emailCheckTimeout.current) {
+                clearTimeout(emailCheckTimeout.current);
+            }
+        };
+    }, []);
+
+    // Render Functions
     const renderCredentialsStep = () => (
         <>
-            <div className="form-group">
+            <div className="admin-register-form-group">
                 <label htmlFor="email">Email</label>
                 <input
                     type="email"
@@ -195,10 +237,10 @@ const Register = () => {
                     onChange={handleChange}
                     className={errors.email ? 'error' : ''}
                 />
-                {errors.email && <span className="error-message">{errors.email}</span>}
+                {errors.email && <span className="admin-register-error-message">{errors.email}</span>}
             </div>
 
-            <div className="form-group">
+            <div className="admin-register-form-group">
                 <label htmlFor="confirmEmail">Confirm Email</label>
                 <input
                     type="email"
@@ -208,10 +250,10 @@ const Register = () => {
                     onChange={handleChange}
                     className={errors.confirmEmail ? 'error' : ''}
                 />
-                {errors.confirmEmail && <span className="error-message">{errors.confirmEmail}</span>}
+                {errors.confirmEmail && <span className="admin-register-error-message">{errors.confirmEmail}</span>}
             </div>
 
-            <div className="form-group">
+            <div className="admin-register-form-group">
                 <label htmlFor="password">Password</label>
                 <input
                     type="password"
@@ -221,14 +263,14 @@ const Register = () => {
                     onChange={handleChange}
                     className={errors.password ? 'error' : ''}
                 />
-                {errors.password && <span className="error-message">{errors.password}</span>}
+                {errors.password && <span className="admin-register-error-message">{errors.password}</span>}
                 {formData.password && (
-                    <div className="password-strength">
-                        <div className="strength-bars">
+                    <div className="admin-register-password-strength">
+                        <div className="admin-register-strength-bars">
                             {[...Array(5)].map((_, index) => (
                                 <div 
                                     key={index} 
-                                    className={`strength-bar ${index < passwordStrength ? 'active' : ''}`}
+                                    className={`admin-register-strength-bar ${index < passwordStrength ? 'active' : ''}`}
                                 />
                             ))}
                         </div>
@@ -237,7 +279,7 @@ const Register = () => {
                 )}
             </div>
 
-            <div className="form-group">
+            <div className="admin-register-form-group">
                 <label htmlFor="confirmPassword">Confirm Password</label>
                 <input
                     type="password"
@@ -247,15 +289,14 @@ const Register = () => {
                     onChange={handleChange}
                     className={errors.confirmPassword ? 'error' : ''}
                 />
-                {errors.confirmPassword && <span className="error-message">{errors.confirmPassword}</span>}
+                {errors.confirmPassword && <span className="admin-register-error-message">{errors.confirmPassword}</span>}
             </div>
         </>
     );
 
-    // Add missing form fields for step 2
     const renderInstitutionDetailsStep = () => (
         <>
-            <div className="form-group">
+            <div className="admin-register-form-group">
                 <label htmlFor="institutionName">Institution Name</label>
                 <input
                     type="text"
@@ -265,10 +306,10 @@ const Register = () => {
                     onChange={handleChange}
                     className={errors.institutionName ? 'error' : ''}
                 />
-                {errors.institutionName && <span className="error-message">{errors.institutionName}</span>}
+                {errors.institutionName && <span className="admin-register-error-message">{errors.institutionName}</span>}
             </div>
 
-            <div className="form-group">
+            <div className="admin-register-form-group">
                 <label htmlFor="website">Website</label>
                 <input
                     type="url"
@@ -279,10 +320,10 @@ const Register = () => {
                     className={errors.website ? 'error' : ''}
                     placeholder="https://"
                 />
-                {errors.website && <span className="error-message">{errors.website}</span>}
+                {errors.website && <span className="admin-register-error-message">{errors.website}</span>}
             </div>
 
-            <div className="form-group">
+            <div className="admin-register-form-group">
                 <label htmlFor="foundingDate">Founding Date</label>
                 <input
                     type="date"
@@ -292,10 +333,10 @@ const Register = () => {
                     onChange={handleChange}
                     className={errors.foundingDate ? 'error' : ''}
                 />
-                {errors.foundingDate && <span className="error-message">{errors.foundingDate}</span>}
+                {errors.foundingDate && <span className="admin-register-error-message">{errors.foundingDate}</span>}
             </div>
 
-            <div className="form-group">
+            <div className="admin-register-form-group">
                 <label htmlFor="slogan">Mission Statement</label>
                 <textarea
                     id="slogan"
@@ -305,37 +346,36 @@ const Register = () => {
                     className={errors.slogan ? 'error' : ''}
                     rows="3"
                 />
-                {errors.slogan && <span className="error-message">{errors.slogan}</span>}
+                {errors.slogan && <span className="admin-register-error-message">{errors.slogan}</span>}
             </div>
         </>
     );
 
-    // Add review step content
     const renderReviewStep = () => (
-        <div className="review-content">
-            <div className="review-section">
+        <div className="admin-register-review-content">
+            <div className="admin-register-review-section">
                 <h4>Account Credentials</h4>
-                <div className="review-item">
+                <div className="admin-register-review-item">
                     <span>Email:</span>
                     <span>{formData.email}</span>
                 </div>
             </div>
 
-            <div className="review-section">
+            <div className="admin-register-review-section">
                 <h4>Institution Details</h4>
-                <div className="review-item">
+                <div className="admin-register-review-item">
                     <span>Institution Name:</span>
                     <span>{formData.institutionName}</span>
                 </div>
-                <div className="review-item">
+                <div className="admin-register-review-item">
                     <span>Website:</span>
                     <span>{formData.website}</span>
                 </div>
-                <div className="review-item">
+                <div className="admin-register-review-item">
                     <span>Founding Date:</span>
                     <span>{formData.foundingDate}</span>
                 </div>
-                <div className="review-item">
+                <div className="admin-register-review-item">
                     <span>Mission Statement:</span>
                     <span>{formData.slogan}</span>
                 </div>
@@ -343,101 +383,161 @@ const Register = () => {
         </div>
     );
 
+    const validateEmail = async (email) => {
+        if (!email) {
+            return 'Email is required';
+        }
+
+        // Basic email format validation
+        if (!/\S+@\S+\.\S+/.test(email)) {
+            return 'Please enter a valid email address';
+        }
+
+        try {
+            const { isAvailable } = await checkEmail(email);
+            if (!isAvailable) {
+                return 'This email is already registered';
+            }
+            return ''; // No error
+        } catch (error) {
+            if (error.message === 'Invalid email format') {
+                return 'Please enter a valid email address';
+            }
+            console.error('Email validation error:', error);
+            return 'Unable to verify email availability';
+        }
+    };
+
+    // Add debouncing for email validation
+    const debouncedEmailCheck = useCallback(
+        debounce(async (email, callback) => {
+            const error = await validateEmail(email);
+            callback(error);
+        }, 500),
+        []
+    );
+
+    const handleEmailChange = (e) => {
+        const { value } = e.target;
+        setFormData(prev => ({ ...prev, email: value }));
+        
+        // Clear previous error immediately when user starts typing
+        setErrors(prev => ({ ...prev, email: '' }));
+        
+        // Debounced validation
+        debouncedEmailCheck(value, (error) => {
+            setErrors(prev => ({ ...prev, email: error }));
+        });
+    };
+
     return (
-        <div className="register-container">
-            <Link to="/" className="back-link">
-                ← Back to Home
-            </Link>
-            
-            <div className="register-card">
-                <div className="register-content">
-                    <div className="register-form-section">
-                        <header className="register-header">
-                            <h1>Admin Registration</h1>
-                            <p>Create your institution's account</p>
-                        </header>
+        <>
+            <ToastContainer 
+                position="top-right"
+                autoClose={5000}
+                hideProgressBar={false}
+                newestOnTop
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+                theme="light"
+            />
+            <div className="admin-register-container">
+                <Link to="/" className="admin-register-back-link">
+                    ← Back to Home
+                </Link>
+                
+                <div className="admin-register-card">
+                    <div className="admin-register-content">
+                        <div className="admin-register-form-section">
+                            <header className="admin-register-header">
+                                <h1>Admin Registration</h1>
+                                <p>Create your institution's account</p>
+                            </header>
 
-                        <div className="stepper">
-                            {steps.map((stepName, index) => (
-                                <div 
-                                    key={index} 
-                                    className={`step ${index + 1 === step ? 'active' : ''} 
-                                              ${index + 1 < step ? 'completed' : ''}`}
-                                >
-                                    <div className="step-number">{index + 1}</div>
-                                    <div className="step-name">{stepName}</div>
-                                </div>
-                            ))}
+                            <div className="admin-register-stepper">
+                                {steps.map((stepName, index) => (
+                                    <div 
+                                        key={index} 
+                                        className={`admin-register-step ${index + 1 === step ? 'active' : ''} 
+                                                  ${index + 1 < step ? 'completed' : ''}`}
+                                    >
+                                        <div className="admin-register-step-number">{index + 1}</div>
+                                        <div className="admin-register-step-name">{stepName}</div>
+                                    </div>
+                                ))}
+                            </div>
+                            
+                            <form onSubmit={handleSubmit} className="admin-register-form">
+                                {step === 1 && (
+                                    <>
+                                        {renderCredentialsStep()}
+                                        <div className="admin-register-form-actions">
+                                            <button type="button" onClick={handleNext}>
+                                                Next
+                                            </button>
+                                        </div>
+                                    </>
+                                )}
+
+                                {step === 2 && (
+                                    <>
+                                        {renderInstitutionDetailsStep()}
+                                        <div className="admin-register-form-actions">
+                                            <button type="button" onClick={handleBack}>
+                                                Back
+                                            </button>
+                                            <button type="button" onClick={handleNext}>
+                                                Next
+                                            </button>
+                                        </div>
+                                    </>
+                                )}
+
+                                {step === 3 && (
+                                    <>
+                                        {renderReviewStep()}
+                                        <div className="admin-register-form-actions">
+                                            <button type="button" onClick={handleBack}>
+                                                Back
+                                            </button>
+                                            <button 
+                                                type="submit" 
+                                                className={isLoading ? 'loading' : ''}
+                                                disabled={isLoading}
+                                            >
+                                                {isLoading ? 'Processing...' : 'Submit'}
+                                            </button>
+                                        </div>
+                                    </>
+                                )}
+                            </form>
                         </div>
-                        
-                        <form onSubmit={handleSubmit} className="register-form">
-                            {step === 1 && (
-                                <>
-                                    {renderCredentialsStep()}
-                                    <div className="form-actions">
-                                        <button type="button" onClick={handleNext}>
-                                            Next
-                                        </button>
-                                    </div>
-                                </>
-                            )}
 
-                            {step === 2 && (
-                                <>
-                                    {renderInstitutionDetailsStep()}
-                                    <div className="form-actions">
-                                        <button type="button" onClick={handleBack}>
-                                            Back
-                                        </button>
-                                        <button type="button" onClick={handleNext}>
-                                            Next
-                                        </button>
-                                    </div>
-                                </>
-                            )}
-
-                            {step === 3 && (
-                                <>
-                                    {renderReviewStep()}
-                                    <div className="form-actions">
-                                        <button type="button" onClick={handleBack}>
-                                            Back
-                                        </button>
-                                        <button 
-                                            type="submit" 
-                                            className={isLoading ? 'loading' : ''}
-                                            disabled={isLoading}
-                                        >
-                                            {isLoading ? 'Processing...' : 'Submit'}
-                                        </button>
-                                    </div>
-                                </>
-                            )}
-                        </form>
-                    </div>
-
-                    <div className="register-image-section">
-                        <div className="register-image-container">
-                        <img 
-                            src={manImg} 
-                            alt="Registration illustration" 
-                            className="register-image"
-                        />
-                        </div>
-                      
-                        <div className="features-list">
-                            <h3>Why Choose Us?</h3>
-                            <ul>
-                                <li>✓ Comprehensive Institution Management</li>
-                                <li>✓ Secure Data Protection</li>
-                                <li>✓ 24/7 Technical Support</li>
-                                <li>✓ Custom Reporting Tools</li>
-                            </ul>
+                        <div className="admin-register-image-section">
+                            <div className="admin-register-image-container">
+                                <img 
+                                    src={manImg} 
+                                    alt="Registration illustration" 
+                                    className="admin-register-image"
+                                />
+                            </div>
+                            <div className="admin-register-features-list">
+                                <h3>Why Choose Us?</h3>
+                                <ul>
+                                    <li>✓ Comprehensive Institution Management</li>
+                                    <li>✓ Secure Data Protection</li>
+                                    <li>✓ 24/7 Technical Support</li>
+                                    <li>✓ Custom Reporting Tools</li>
+                                </ul>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
+        </>
     );
 };
 

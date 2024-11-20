@@ -2,9 +2,12 @@ export const API_BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:9
 
 export const API_ENDPOINTS = {
     AUTH: {
-        LOGIN: '/auth/login',
+        LOGIN_ADMIN: '/auth/adminLogin',
+        LOGOUT: '/auth/logout',
+        REFRESH_TOKEN: '/auth/refresh-token',
         REGISTER: '/auth/signup',
-        LOGOUT: '/auth/logout'
+        CHECK_EMAIL: '/auth/check-email',
+        VERIFY_EMAIL: '/auth/verify-email'
     },
     USERS: {
         PROFILE: '/users/profile',

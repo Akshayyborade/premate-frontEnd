@@ -21,13 +21,13 @@ const Login = () => {
         );
     }
 
-    // Redirect if user is already logged in
-    if (user) {
-        return <Navigate to="/dashboard" replace />;
-    }
+    // // Redirect if user is already logged in
+    // if (user) {
+    //     return <Navigate to="/dashboard" replace />;
+    // }
 
     const handleLoginSuccess = () => {
-        navigate('/dashboard');
+        navigate('/admin/dashboard');
     };
 
     return (

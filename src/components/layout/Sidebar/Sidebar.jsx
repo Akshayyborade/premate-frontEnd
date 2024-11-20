@@ -1,13 +1,17 @@
 import React from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useLocation } from 'react-router-dom';
 import './Sidebar.css';
 
 const Sidebar = () => {
+    const location = useLocation();
+    const isRootOrHome = location.pathname === '/admin' || location.pathname === '/admin/';
+
     const menuItems = [
         { path: '/admin/dashboard', icon: '📊', label: 'Dashboard' },
         { path: '/admin/students', icon: '👨‍🎓', label: 'Students' },
         { path: '/admin/teachers', icon: '👨‍🏫', label: 'Teachers' },
         { path: '/admin/courses', icon: '📚', label: 'Courses' },
+        { path: '/admin/exams', icon: '📝', label: 'Exams' },
         { path: '/admin/settings', icon: '⚙️', label: 'Settings' },
     ];
 
@@ -24,7 +28,7 @@ const Sidebar = () => {
                         key={item.path}
                         to={item.path}
                         className={({ isActive }) => 
-                            `sidebar-link ${isActive ? 'active' : ''}`
+                            `sidebar-link ${isActive || (isRootOrHome && item.path === '/admin/dashboard') ? 'active' : ''}`
                         }
                     >
                         <span className="sidebar-icon">{item.icon}</span>

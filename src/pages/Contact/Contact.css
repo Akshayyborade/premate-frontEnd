@@ -1,0 +1,353 @@
+.edu-contact-page {
+    padding: 24px;
+    background-color: #f8f9fa;
+    min-height: 100vh;
+}
+
+.edu-contact-container {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* Header */
+.edu-contact-header {
+    text-align: center;
+    margin-bottom: 48px;
+}
+
+.edu-contact-header h1 {
+    font-size: 2.5rem;
+    color: #2c3e50;
+    margin-bottom: 16px;
+}
+
+.edu-contact-header p {
+    color: #666;
+    font-size: 1.1rem;
+}
+
+/* Contact Content Layout */
+.edu-contact-content {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 48px;
+    margin-bottom: 48px;
+}
+
+/* Contact Information Cards */
+.edu-contact-info {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.edu-info-card {
+    background: white;
+    padding: 24px;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+.edu-info-card i {
+    font-size: 2rem;
+    color: #4CAF50;
+    margin-bottom: 16px;
+}
+
+.edu-info-card h3 {
+    color: #2c3e50;
+    margin-bottom: 12px;
+}
+
+.edu-info-card p {
+    color: #666;
+    margin-bottom: 8px;
+}
+
+/* Contact Form */
+.edu-contact-form-container {
+    background: white;
+    padding: 32px;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.edu-contact-form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.edu-form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.edu-form-group label {
+    color: #2c3e50;
+    font-weight: 500;
+}
+
+.edu-form-group input,
+.edu-form-group textarea {
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    font-size: 1rem;
+}
+
+.edu-form-group textarea {
+    resize: vertical;
+    min-height: 120px;
+}
+
+.edu-submit-btn {
+    background: #4CAF50;
+    color: white;
+    padding: 12px 24px;
+    border: none;
+    border-radius: 6px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.edu-submit-btn:hover {
+    background: #45a049;
+    transform: translateY(-2px);
+}
+
+.edu-success-message {
+    background: #e8f5e9;
+    color: #2e7d32;
+    padding: 12px;
+    border-radius: 6px;
+    text-align: center;
+    margin-top: 16px;
+}
+
+/* Map Section */
+.edu-map-section {
+    margin-bottom: 48px;
+}
+
+.edu-map-section h2 {
+    text-align: center;
+    color: #2c3e50;
+    margin-bottom: 24px;
+}
+
+.edu-map-container {
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* FAQ Section */
+.edu-faq-section {
+    margin-bottom: 48px;
+}
+
+.edu-faq-section h2 {
+    text-align: center;
+    color: #2c3e50;
+    margin-bottom: 32px;
+}
+
+.edu-faq-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 24px;
+}
+
+.edu-faq-card {
+    background: white;
+    padding: 24px;
+    border-radius: 12px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    transition: transform 0.3s ease;
+}
+
+.edu-faq-card:hover {
+    transform: translateY(-5px);
+}
+
+.edu-faq-card h3 {
+    color: #2c3e50;
+    margin-bottom: 12px;
+}
+
+.edu-faq-card p {
+    color: #666;
+    line-height: 1.6;
+}
+
+/* Social Media Section */
+.edu-social-section {
+    text-align: center;
+    margin-bottom: 48px;
+}
+
+.edu-social-section h2 {
+    color: #2c3e50;
+    margin-bottom: 24px;
+}
+
+.edu-social-links {
+    display: flex;
+    justify-content: center;
+    gap: 24px;
+}
+
+.edu-social-link {
+    color: #666;
+    font-size: 1.5rem;
+    transition: all 0.3s ease;
+    text-decoration: none;
+}
+
+.edu-social-link:hover {
+    color: #4CAF50;
+    transform: translateY(-2px);
+}
+
+/* Form Focus States */
+.edu-form-group input:focus,
+.edu-form-group textarea:focus {
+    outline: none;
+    border-color: #4CAF50;
+    box-shadow: 0 0 0 2px rgba(76, 175, 80, 0.1);
+}
+
+/* Loading State for Submit Button */
+.edu-submit-btn.loading {
+    background: #45a049;
+    cursor: not-allowed;
+    opacity: 0.7;
+}
+
+/* Error States */
+.edu-form-group input.error,
+.edu-form-group textarea.error {
+    border-color: #dc3545;
+}
+
+.edu-error-message {
+    color: #dc3545;
+    font-size: 0.875rem;
+    margin-top: 4px;
+}
+
+/* Responsive Design */
+@media screen and (max-width: 768px) {
+    .edu-contact-page {
+        padding: 16px;
+    }
+
+    .edu-contact-content {
+        grid-template-columns: 1fr;
+    }
+
+    .edu-contact-header h1 {
+        font-size: 2rem;
+    }
+
+    .edu-contact-header p {
+        font-size: 1rem;
+    }
+
+    .edu-info-card {
+        padding: 20px;
+    }
+
+    .edu-contact-form-container {
+        padding: 24px;
+    }
+
+    .edu-form-group input,
+    .edu-form-group textarea {
+        padding: 10px;
+    }
+
+    .edu-submit-btn {
+        width: 100%;
+    }
+
+    .edu-faq-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .edu-social-links {
+        flex-wrap: wrap;
+        gap: 16px;
+    }
+}
+
+/* Small Screen Adjustments */
+@media screen and (max-width: 480px) {
+    .edu-contact-header h1 {
+        font-size: 1.75rem;
+    }
+
+    .edu-info-card i {
+        font-size: 1.75rem;
+    }
+
+    .edu-info-card h3 {
+        font-size: 1.25rem;
+    }
+
+    .edu-map-container iframe {
+        height: 300px;
+    }
+}
+
+/* Print Styles */
+@media print {
+    .edu-contact-page {
+        padding: 0;
+    }
+
+    .edu-contact-form-container,
+    .edu-map-section,
+    .edu-social-section {
+        display: none;
+    }
+
+    .edu-info-card {
+        break-inside: avoid;
+        box-shadow: none;
+        border: 1px solid #ddd;
+    }
+}
+
+/* Animations */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.edu-contact-container {
+    animation: fadeIn 0.5s ease-out;
+}
+
+/* Accessibility */
+.edu-form-group input:focus-visible,
+.edu-form-group textarea:focus-visible {
+    outline: 2px solid #4CAF50;
+    outline-offset: 1px;
+}
+
+.edu-social-link:focus-visible {
+    outline: 2px solid #4CAF50;
+    outline-offset: 4px;
+    border-radius: 4px;
+} 

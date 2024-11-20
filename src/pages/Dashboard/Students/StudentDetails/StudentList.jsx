@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import DataTable from '../../../components/common/DataTable/DataTable';
-import Button from '../../../components/common/Button/Button';
-import SearchBar from '../../../components/common/SearchBar/SearchBar';
-import { studentService } from '../../../services/api/student.service';
+import DataTable from '../../../../components/common/DataTable/DataTable';
+import Button from '../../../../components/common/Button/Button';
+import SearchBar from '../../../../components/common/SearchBar/SearchBar';
+import { studentService } from '../../../../services/api/student.service';
 import './StudentList.css';
 
 const StudentList = () => {

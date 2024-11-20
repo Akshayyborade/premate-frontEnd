@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { studentService } from '../../../../services/api/student.service';
-import Button from '../../../../components/common/Button';
-import DataTable from '../../../../components/common/DataTable';
+import Button from '../../../../components/common/Button/Button';
+import DataTable from '../../../../components/common/DataTable/DataTable';
 import './FeeHistory.css';
 
 const FeeHistory = ({ studentId }) => {

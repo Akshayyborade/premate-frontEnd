@@ -9,7 +9,7 @@
     --shadow: rgba(0, 0, 0, 0.1);
 }
 
-.register-container {
+.admin-register-container {
     height: 95vh;
     padding: 1rem;
     background-color: #f5f5f5;
@@ -17,7 +17,7 @@
     flex-direction: column;
 }
 
-.back-link {
+.admin-register-back-link {
     display: inline-flex;
     align-items: center;
     color: #666;
@@ -27,11 +27,11 @@
     transition: color 0.3s;
 }
 
-.back-link:hover {
+.admin-register-back-link:hover {
     color: #333;
 }
 
-.register-card {
+.admin-register-card {
     flex: 1;
     margin: 0 auto;
     width: 100%;
@@ -43,50 +43,50 @@
     flex-direction: column;
 }
 
-.register-content {
+.admin-register-content {
     flex: 1;
     display: flex;
 }
 
-.register-form-section {
+.admin-register-form-section {
     flex: 1;
     padding: 1.5rem;
     overflow: hidden;
 }
 
-.register-header {
+.admin-register-header {
     text-align: center;
     margin-bottom: 1rem;
 }
 
-.register-header h1 {
+.admin-register-header h1 {
     color: #333;
     font-size: 1.8rem;
     margin-bottom: 0.5rem;
 }
 
-.register-header p {
+.admin-register-header p {
     color: #666;
     font-size: 0.9rem;
 }
 
-.register-form {
+.admin-register-form {
     max-width: 500px;
     margin: 0 auto;
 }
 
-.form-group {
+.admin-register-form-group {
     margin-bottom: 1rem;
 }
 
-.form-group label {
+.admin-register-form-group label {
     display: block;
     margin-bottom: 0.5rem;
     color: #333;
     font-weight: 500;
 }
 
-.form-group input {
+.admin-register-form-group input {
     width: 100%;
     padding: 0.75rem;
     border: 1px solid #ddd;
@@ -95,214 +95,31 @@
     transition: border-color 0.3s;
 }
 
-.form-group input:focus {
+.admin-register-form-group input:focus {
     outline: none;
     border-color: #4a90e2;
 }
 
-.form-group input.error {
+.admin-register-form-group input.error {
     border-color: #ff4d4f;
 }
 
-.error-message {
+.admin-register-error-message {
     color: #ff4d4f;
     font-size: 0.775rem;
     margin-top: 0.25rem;
     display: block;
 }
 
-.password-meter {
-    margin-bottom: 1.5rem;
-}
-
-.strength-bars {
-    display: flex;
-    gap: 4px;
-    margin-bottom: 0.5rem;
-}
-
-.strength-bar {
-    height: 4px;
-    flex: 1;
-    background-color: #ddd;
-    border-radius: 2px;
-    transition: background-color 0.3s;
-}
-
-.strength-bar.active {
-    background-color: #4a90e2;
-}
-
-.strength-bar.active:nth-child(1) { background-color: #ff4d4f; }
-.strength-bar.active:nth-child(2) { background-color: #faad14; }
-.strength-bar.active:nth-child(3) { background-color: #52c41a; }
-.strength-bar.active:nth-child(4) { background-color: #1890ff; }
-.strength-bar.active:nth-child(5) { background-color: #722ed1; }
-
-.strength-text {
-    color: #666;
-    font-size: 0.875rem;
-}
-
-.submit-button {
-    width: 100%;
-    padding: 1rem;
-    background-color: #4a90e2;
-    color: white;
-    border: none;
-    border-radius: 8px;
-    font-size: 0.9rem;
-    font-weight: 400;
-    cursor: pointer;
-    transition: background-color 0.3s;
-}
-
-.submit-button:hover {
-    background-color: #357abd;
-}
-
-.submit-button:disabled {
-    background-color: #ccc;
-    cursor: not-allowed;
-}
-
-.submit-button.loading {
-    opacity: 0.8;
-}
-
-.login-link {
-    text-align: center;
-    margin-top: 1.5rem;
-    color: #666;
-}
-
-.login-link a {
-    color: #4a90e2;
-    text-decoration: none;
-    font-weight: 400;
-}
-
-.login-link a:hover {
-    text-decoration: underline;
-}
-
-.register-image-section {
-    flex: 1;
-    background-color: #f8f9fa;
-    padding: 1.5rem;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-.register-image-container{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 60%;
-    width: 100%;
-   
-
-}
-
-.register-image {
-    max-width: 50%;
-    height: auto;
-    margin-bottom: 1rem;
-    object-fit: contain;
-    max-height: 200px;
-}
-
-.features-list {
-    text-align: center;
-    padding: 1rem;
-    background-color: white;
-    border-radius: 10px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-    width: 80%;
-  
-}
-
-.features-list h3 {
-    color: #333;
-    margin-bottom: 0.75rem;
-    font-size: 1.05rem;
-}
-
-.features-list ul {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-}
-
-.features-list li {
-    color: #666;
-    margin-bottom: 0.5rem;
-    font-size: 0.8rem;
-    line-height: 1.4;
-}
-
-/* Responsive Design */
-@media (max-width: 992px) {
-    .register-content {
-        flex-direction: column;
-    }
-
-    .register-image-section {
-        padding: 1rem;
-    }
-
-    .register-image {
-        max-width: 50%;
-        max-height: 150px;
-    }
-
-    .features-list {
-        margin-top: 0.5rem;
-        padding: 0.5rem;
-    }
-}
-
-@media (max-height: 768px) {
-    .register-header h1 {
-        font-size: 1.5rem;
-    }
-
-    .form-group {
-        margin-bottom: 0.75rem;
-    }
-
-    .form-group input {
-        padding: 0.5rem;
-    }
-
-    .register-image {
-        max-height: 200px;
-    }
-}
-
-/* Stepper Styles */
-.stepper {
+.admin-register-stepper {
     display: flex;
     justify-content: space-between;
-    margin: 1rem 0;
-    position: relative;
-    max-width: 600px;
     margin: 2rem auto;
+    max-width: 600px;
+    position: relative;
 }
 
-.stepper::before {
-    content: '';
-    position: absolute;
-    top: 50%;
-    left: 0;
-    right: 0;
-    height: 2px;
-    background: #e0e0e0;
-    transform: translateY(-50%);
-    z-index: 1;
-}
-
-.step {
+.admin-register-step {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -312,7 +129,7 @@
     padding: 0 10px;
 }
 
-.step-number {
+.admin-register-step-number {
     width: 32px;
     height: 32px;
     border-radius: 50%;
@@ -326,37 +143,21 @@
     transition: all 0.3s ease;
 }
 
-.step-name {
+.admin-register-step-name {
     font-size: 0.875rem;
     color: #666;
     text-align: center;
     transition: all 0.3s ease;
 }
 
-.step.active .step-number {
-    background-color: #4a90e2;
-    color: white;
-}
-
-.step.active .step-name {
-    color: #4a90e2;
-    font-weight: 500;
-}
-
-.step.completed .step-number {
-    background-color: #52c41a;
-    color: white;
-}
-
-/* Form Actions */
-.form-actions {
+.admin-register-form-actions {
     display: flex;
     justify-content: space-between;
     margin-top: 1rem;
     gap: 1rem;
 }
 
-.form-actions button {
+.admin-register-form-actions button {
     padding: 0.75rem 2rem;
     border: none;
     border-radius: 8px;
@@ -365,64 +166,183 @@
     transition: all 0.3s ease;
 }
 
-.form-actions button[type="button"] {
+.admin-register-form-actions button[type="button"] {
     background-color: #f5f5f5;
     color: #666;
 }
 
-.form-actions button[type="button"]:hover {
+.admin-register-form-actions button[type="button"]:hover {
     background-color: #e0e0e0;
 }
 
-.form-actions button[type="submit"] {
+.admin-register-form-actions button[type="submit"] {
     background-color: #4a90e2;
     color: white;
 }
 
-.form-actions button[type="submit"]:hover {
+.admin-register-form-actions button[type="submit"]:hover {
     background-color: #357abd;
 }
 
-.form-actions button.loading {
+.admin-register-form-actions button.loading {
     opacity: 0.7;
     cursor: not-allowed;
 }
 
+.admin-register-image-section {
+    flex: 1;
+    background-color: #f8f9fa;
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.admin-register-image-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 60%;
+    width: 100%;
+}
+
+.admin-register-image {
+    max-width: 50%;
+    height: auto;
+    object-fit: contain;
+    max-height: 200px;
+}
+
+.admin-register-features-list {
+    text-align: center;
+    padding: 1rem;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    width: 80%;
+}
+
+.admin-register-features-list h3 {
+    color: #333;
+    margin-bottom: 0.75rem;
+    font-size: 1.05rem;
+}
+
+.admin-register-features-list ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.admin-register-features-list li {
+    color: #666;
+    margin-bottom: 0.5rem;
+    font-size: 0.8rem;
+    line-height: 1.4;
+}
+
+/* Responsive Design */
+@media (max-width: 992px) {
+    .admin-register-content {
+        flex-direction: column;
+    }
+
+    .admin-register-image-section {
+        padding: 1rem;
+    }
+
+    .admin-register-image {
+        max-width: 50%;
+        max-height: 150px;
+    }
+
+    .admin-register-features-list {
+        margin-top: 0.5rem;
+        padding: 0.5rem;
+    }
+}
+
+@media (max-height: 768px) {
+    .admin-register-header h1 {
+        font-size: 1.5rem;
+    }
+
+    .admin-register-form-group {
+        margin-bottom: 0.75rem;
+    }
+
+    .admin-register-form-group input {
+        padding: 0.5rem;
+    }
+
+    .admin-register-image {
+        max-height: 200px;
+    }
+}
+
+/* Stepper Styles */
+.admin-register-stepper::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: #e0e0e0;
+    transform: translateY(-50%);
+    z-index: 1;
+}
+
+.admin-register-step.active .admin-register-step-number {
+    background-color: #4a90e2;
+    color: white;
+}
+
+.admin-register-step.active .admin-register-step-name {
+    color: #4a90e2;
+    font-weight: 500;
+}
+
+.admin-register-step.completed .admin-register-step-number {
+    background-color: #52c41a;
+    color: white;
+}
+
 /* Review Section */
-.review-section {
+.admin-register-review-section {
     background-color: #f8f9fa;
     border-radius: 8px;
     padding: 1.5rem;
     margin-bottom: 2rem;
 }
 
-.review-section h3 {
+.admin-register-review-section h3 {
     color: #333;
     margin-bottom: 1rem;
 }
 
-.review-item {
+.admin-register-review-item {
     display: flex;
     justify-content: space-between;
     padding: 0.75rem 0;
     border-bottom: 1px solid #e0e0e0;
 }
 
-.review-item:last-child {
+.admin-register-review-item:last-child {
     border-bottom: none;
 }
 
-.review-label {
+.admin-register-review-label {
     color: #666;
     font-weight: 500;
 }
 
-.review-value {
+.admin-register-review-value {
     color: #333;
 }
 
 /* Animation for step transitions */
-.register-form > div {
+.admin-register-form > div {
     animation: fadeIn 0.3s ease-in-out;
 }
 
@@ -438,39 +358,35 @@
 }
 
 /* Responsive adjustments */
-@media (max-width: 768px) {
-    .stepper {
-        margin: 1.5rem 0;
+@media screen and (max-width: 768px) {
+    .admin-register-content {
+        flex-direction: column;
     }
-
-    .step-name {
-        font-size: 0.75rem;
-    }
-
-    .form-actions {
+    
+    .admin-register-form-actions {
         flex-direction: column-reverse;
     }
-
-    .form-actions button {
+    
+    .admin-register-form-actions button {
         width: 100%;
     }
 }
 
 /* Password Strength Meter additional styles */
-.password-strength-meter {
+.admin-register-password-strength-meter {
     margin-top: 0.5rem;
     padding: 1rem;
     background-color: #f8f9fa;
     border-radius: 4px;
 }
 
-.strength-bars {
+.admin-register-strength-bars {
     display: flex;
     gap: 4px;
     margin-bottom: 0.5rem;
 }
 
-.strength-bar {
+.admin-register-strength-bar {
     height: 4px;
     flex: 1;
     background-color: #e0e0e0;
@@ -478,30 +394,30 @@
     transition: background-color 0.3s;
 }
 
-.strength-bar.active:nth-child(1) { background-color: #ff4d4f; }
-.strength-bar.active:nth-child(2) { background-color: #faad14; }
-.strength-bar.active:nth-child(3) { background-color: #52c41a; }
-.strength-bar.active:nth-child(4) { background-color: #1890ff; }
-.strength-bar.active:nth-child(5) { background-color: #722ed1; }
+.admin-register-strength-bar.active:nth-child(1) { background-color: #ff4d4f; }
+.admin-register-strength-bar.active:nth-child(2) { background-color: #faad14; }
+.admin-register-strength-bar.active:nth-child(3) { background-color: #52c41a; }
+.admin-register-strength-bar.active:nth-child(4) { background-color: #1890ff; }
+.admin-register-strength-bar.active:nth-child(5) { background-color: #722ed1; }
 
-.strength-text {
+.admin-register-strength-text {
     font-size: 0.75rem;
     color: #666;
 }
 
 /* Add custom scrollbar styles */
-.register-form-section::-webkit-scrollbar,
-.register-image-section::-webkit-scrollbar {
+.admin-register-form-section::-webkit-scrollbar,
+.admin-register-image-section::-webkit-scrollbar {
     display: none;
 }
 
-.register-form-section::-webkit-scrollbar-thumb,
-.register-image-section::-webkit-scrollbar-thumb {
+.admin-register-form-section::-webkit-scrollbar-thumb,
+.admin-register-image-section::-webkit-scrollbar-thumb {
     background-color: rgba(0, 0, 0, 0.2);
     border-radius: 3px;
 }
 
-.register-form-section::-webkit-scrollbar-track,
-.register-image-section::-webkit-scrollbar-track {
+.admin-register-form-section::-webkit-scrollbar-track,
+.admin-register-image-section::-webkit-scrollbar-track {
     background-color: rgba(0, 0, 0, 0.1);
 } 

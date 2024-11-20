@@ -1,27 +1,32 @@
 import { useEffect } from 'react';
 import { useAuth } from '../../../../hooks/useAuth';
 import { authService } from '../../../../services/api/auth.service';
+import { toast } from 'react-toastify';
 
 const TokenRefresher = () => {
-    const { user } = useAuth();
+    const { user, logout } = useAuth();
 
     useEffect(() => {
         if (!user) return;
 
         const refreshToken = async () => {
             try {
-                const response = await authService.refreshToken();
-                localStorage.setItem('token', response.token);
+                await authService.refreshToken();
             } catch (error) {
-                console.error('Failed to refresh token:', error);
+                console.error('Token refresh failed:', error);
+                toast.error('Session expired. Please login again.');
+                logout();
             }
         };
 
-        // Refresh token every 14 minutes (assuming token expires in 15 minutes)
+        // Refresh token every 14 minutes
         const interval = setInterval(refreshToken, 14 * 60 * 1000);
 
+        // Initial refresh
+        refreshToken();
+
         return () => clearInterval(interval);
-    }, [user]);
+    }, [user, logout]);
 
     return null;
 };
