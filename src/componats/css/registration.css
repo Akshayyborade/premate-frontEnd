@@ -1,0 +1,63 @@
+.info{
+  width: 50%;
+  display: flex;
+  align-items: center;
+}
+.registration{
+  display: flex;
+  align-items: center;
+  margin-top: 1rem;
+  
+
+}
+
+.registration-form{
+  margin: 13px;
+  width: 50%;
+}
+.registration-form h1{
+  text-align: center;
+  font-size: 1.8rem;
+}
+p{
+  text-align: center; 
+}
+.reg-label-ad,
+.reg-input-ad[type=date],
+.reg-input-ad[type=email],
+.reg-input-ad[type=text],
+.reg-input-ad[type=password],.formgroup {
+    display: block;
+    margin: auto;
+    width: 75%;
+    padding: 5px;
+}
+animated-input {
+  opacity: 0;
+  animation: slideIn 0.5s forwards; /* Slide in animation */
+}
+
+@keyframes slideIn {
+  from {
+      opacity: 0;
+      transform: translateY(-20px);
+  }
+  to {
+      opacity: 1;
+      transform: translateY(0);
+  }
+}
+/* button  {
+  display: block !important;
+  margin: auto !important;
+  padding: 10px !important;
+  width: 50% !important;
+  
+  background-color: green !important;
+  color: aliceblue !important;
+} */
+
+label{
+  margin-bottom: 0 !important;
+  display: flex !important;
+}

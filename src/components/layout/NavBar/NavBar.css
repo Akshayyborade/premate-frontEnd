@@ -1,0 +1,130 @@
+.navbar {
+    background: rgba(255, 255, 255, 0.9);
+    backdrop-filter: blur(6px);
+    box-shadow: rgba(0, 0, 0, 0.25) 0px 14px 28px, rgba(0, 0, 0, 0.22) 0px 10px 10px;
+    padding: 0.5rem 0;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+.navbar-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.navbar-brand {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+}
+
+.navbar-logo {
+    height: 45px;
+    width: 65px;
+}
+
+.navbar-menu {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+}
+
+.navbar-start {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+}
+
+.navbar-item {
+    color: var(--text-color);
+    text-decoration: none;
+    font-size: 0.875rem;
+    font-weight: 500;
+    transition: color 0.2s ease;
+}
+
+.navbar-item:hover {
+    color: var(--primary-color);
+}
+
+.navbar-end {
+    display: flex;
+    align-items: center;
+}
+
+.navbar-toggle {
+    display: none;
+    background: none;
+    border: none;
+    padding: 0.5rem;
+    cursor: pointer;
+}
+
+.navbar-toggle-icon {
+    display: block;
+    width: 24px;
+    height: 2px;
+    background: var(--text-color);
+    position: relative;
+    transition: background 0.2s ease;
+}
+
+.navbar-toggle-icon::before,
+.navbar-toggle-icon::after {
+    content: '';
+    position: absolute;
+    width: 24px;
+    height: 2px;
+    background: var(--text-color);
+    transition: transform 0.2s ease;
+}
+
+.navbar-toggle-icon::before {
+    top: -6px;
+}
+
+.navbar-toggle-icon::after {
+    bottom: -6px;
+}
+
+@media (max-width: 768px) {
+    .navbar-toggle {
+        display: block;
+    }
+
+    .navbar-menu {
+        display: none;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        background: var(--white);
+        padding: 1rem;
+        flex-direction: column;
+        align-items: stretch;
+        box-shadow: var(--shadow-md);
+    }
+
+    .navbar-menu.is-open {
+        display: flex;
+    }
+
+    .navbar-start {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .navbar-item {
+        padding: 0.5rem 0;
+    }
+
+    .navbar-end {
+        margin-top: 1rem;
+        justify-content: center;
+    }
+} 

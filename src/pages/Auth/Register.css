@@ -1,0 +1,423 @@
+:root {
+    --primary-color: #28a745;
+    --primary-dark: #218838;
+    --secondary-color: #2c3e50;
+    --error-color: #dc3545;
+    --text-muted: #6c757d;
+    --border-color: #dee2e6;
+    --white: #fff;
+    --shadow: rgba(0, 0, 0, 0.1);
+}
+
+.admin-register-container {
+    height: 95vh;
+    padding: 1rem;
+    background-color: #f5f5f5;
+    display: flex;
+    flex-direction: column;
+}
+
+.admin-register-back-link {
+    display: inline-flex;
+    align-items: center;
+    color: #666;
+    text-decoration: none;
+    margin-bottom: 2rem;
+    font-size: 1rem;
+    transition: color 0.3s;
+}
+
+.admin-register-back-link:hover {
+    color: #333;
+}
+
+.admin-register-card {
+    flex: 1;
+    margin: 0 auto;
+    width: 100%;
+    max-width: 1200px;
+    background: white;
+    border-radius: 15px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+}
+
+.admin-register-content {
+    flex: 1;
+    display: flex;
+}
+
+.admin-register-form-section {
+    flex: 1;
+    padding: 1.5rem;
+    overflow: hidden;
+}
+
+.admin-register-header {
+    text-align: center;
+    margin-bottom: 1rem;
+}
+
+.admin-register-header h1 {
+    color: #333;
+    font-size: 1.8rem;
+    margin-bottom: 0.5rem;
+}
+
+.admin-register-header p {
+    color: #666;
+    font-size: 0.9rem;
+}
+
+.admin-register-form {
+    max-width: 500px;
+    margin: 0 auto;
+}
+
+.admin-register-form-group {
+    margin-bottom: 1rem;
+}
+
+.admin-register-form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    color: #333;
+    font-weight: 500;
+}
+
+.admin-register-form-group input {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    transition: border-color 0.3s;
+}
+
+.admin-register-form-group input:focus {
+    outline: none;
+    border-color: #4a90e2;
+}
+
+.admin-register-form-group input.error {
+    border-color: #ff4d4f;
+}
+
+.admin-register-error-message {
+    color: #ff4d4f;
+    font-size: 0.775rem;
+    margin-top: 0.25rem;
+    display: block;
+}
+
+.admin-register-stepper {
+    display: flex;
+    justify-content: space-between;
+    margin: 2rem auto;
+    max-width: 600px;
+    position: relative;
+}
+
+.admin-register-step {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    z-index: 2;
+    background: white;
+    padding: 0 10px;
+}
+
+.admin-register-step-number {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background-color: #e0e0e0;
+    color: #666;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 500;
+    margin-bottom: 8px;
+    transition: all 0.3s ease;
+}
+
+.admin-register-step-name {
+    font-size: 0.875rem;
+    color: #666;
+    text-align: center;
+    transition: all 0.3s ease;
+}
+
+.admin-register-form-actions {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 1rem;
+    gap: 1rem;
+}
+
+.admin-register-form-actions button {
+    padding: 0.75rem 2rem;
+    border: none;
+    border-radius: 8px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.admin-register-form-actions button[type="button"] {
+    background-color: #f5f5f5;
+    color: #666;
+}
+
+.admin-register-form-actions button[type="button"]:hover {
+    background-color: #e0e0e0;
+}
+
+.admin-register-form-actions button[type="submit"] {
+    background-color: #4a90e2;
+    color: white;
+}
+
+.admin-register-form-actions button[type="submit"]:hover {
+    background-color: #357abd;
+}
+
+.admin-register-form-actions button.loading {
+    opacity: 0.7;
+    cursor: not-allowed;
+}
+
+.admin-register-image-section {
+    flex: 1;
+    background-color: #f8f9fa;
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.admin-register-image-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 60%;
+    width: 100%;
+}
+
+.admin-register-image {
+    max-width: 50%;
+    height: auto;
+    object-fit: contain;
+    max-height: 200px;
+}
+
+.admin-register-features-list {
+    text-align: center;
+    padding: 1rem;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    width: 80%;
+}
+
+.admin-register-features-list h3 {
+    color: #333;
+    margin-bottom: 0.75rem;
+    font-size: 1.05rem;
+}
+
+.admin-register-features-list ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.admin-register-features-list li {
+    color: #666;
+    margin-bottom: 0.5rem;
+    font-size: 0.8rem;
+    line-height: 1.4;
+}
+
+/* Responsive Design */
+@media (max-width: 992px) {
+    .admin-register-content {
+        flex-direction: column;
+    }
+
+    .admin-register-image-section {
+        padding: 1rem;
+    }
+
+    .admin-register-image {
+        max-width: 50%;
+        max-height: 150px;
+    }
+
+    .admin-register-features-list {
+        margin-top: 0.5rem;
+        padding: 0.5rem;
+    }
+}
+
+@media (max-height: 768px) {
+    .admin-register-header h1 {
+        font-size: 1.5rem;
+    }
+
+    .admin-register-form-group {
+        margin-bottom: 0.75rem;
+    }
+
+    .admin-register-form-group input {
+        padding: 0.5rem;
+    }
+
+    .admin-register-image {
+        max-height: 200px;
+    }
+}
+
+/* Stepper Styles */
+.admin-register-stepper::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: #e0e0e0;
+    transform: translateY(-50%);
+    z-index: 1;
+}
+
+.admin-register-step.active .admin-register-step-number {
+    background-color: #4a90e2;
+    color: white;
+}
+
+.admin-register-step.active .admin-register-step-name {
+    color: #4a90e2;
+    font-weight: 500;
+}
+
+.admin-register-step.completed .admin-register-step-number {
+    background-color: #52c41a;
+    color: white;
+}
+
+/* Review Section */
+.admin-register-review-section {
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.admin-register-review-section h3 {
+    color: #333;
+    margin-bottom: 1rem;
+}
+
+.admin-register-review-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 0.75rem 0;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.admin-register-review-item:last-child {
+    border-bottom: none;
+}
+
+.admin-register-review-label {
+    color: #666;
+    font-weight: 500;
+}
+
+.admin-register-review-value {
+    color: #333;
+}
+
+/* Animation for step transitions */
+.admin-register-form > div {
+    animation: fadeIn 0.3s ease-in-out;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Responsive adjustments */
+@media screen and (max-width: 768px) {
+    .admin-register-content {
+        flex-direction: column;
+    }
+    
+    .admin-register-form-actions {
+        flex-direction: column-reverse;
+    }
+    
+    .admin-register-form-actions button {
+        width: 100%;
+    }
+}
+
+/* Password Strength Meter additional styles */
+.admin-register-password-strength-meter {
+    margin-top: 0.5rem;
+    padding: 1rem;
+    background-color: #f8f9fa;
+    border-radius: 4px;
+}
+
+.admin-register-strength-bars {
+    display: flex;
+    gap: 4px;
+    margin-bottom: 0.5rem;
+}
+
+.admin-register-strength-bar {
+    height: 4px;
+    flex: 1;
+    background-color: #e0e0e0;
+    border-radius: 2px;
+    transition: background-color 0.3s;
+}
+
+.admin-register-strength-bar.active:nth-child(1) { background-color: #ff4d4f; }
+.admin-register-strength-bar.active:nth-child(2) { background-color: #faad14; }
+.admin-register-strength-bar.active:nth-child(3) { background-color: #52c41a; }
+.admin-register-strength-bar.active:nth-child(4) { background-color: #1890ff; }
+.admin-register-strength-bar.active:nth-child(5) { background-color: #722ed1; }
+
+.admin-register-strength-text {
+    font-size: 0.75rem;
+    color: #666;
+}
+
+/* Add custom scrollbar styles */
+.admin-register-form-section::-webkit-scrollbar,
+.admin-register-image-section::-webkit-scrollbar {
+    display: none;
+}
+
+.admin-register-form-section::-webkit-scrollbar-thumb,
+.admin-register-image-section::-webkit-scrollbar-thumb {
+    background-color: rgba(0, 0, 0, 0.2);
+    border-radius: 3px;
+}
+
+.admin-register-form-section::-webkit-scrollbar-track,
+.admin-register-image-section::-webkit-scrollbar-track {
+    background-color: rgba(0, 0, 0, 0.1);
+} 

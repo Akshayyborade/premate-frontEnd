@@ -1,0 +1,61 @@
+.recent-activities {
+    background: var(--white);
+    border-radius: var(--border-radius-lg);
+    padding: 1.5rem;
+    box-shadow: var(--shadow-sm);
+}
+
+.activities-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.activity-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    padding: 0.75rem;
+    background: var(--bg-light);
+    border-radius: var(--border-radius-md);
+}
+
+.activity-icon {
+    font-size: 1.25rem;
+    width: 24px;
+    text-align: center;
+}
+
+.activity-content {
+    flex: 1;
+}
+
+.activity-text {
+    margin: 0;
+    font-size: 0.875rem;
+    line-height: 1.5;
+}
+
+.activity-user {
+    font-weight: 600;
+    color: var(--primary-color);
+}
+
+.activity-time {
+    display: block;
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    margin-top: 0.25rem;
+}
+
+.no-activities {
+    text-align: center;
+    color: var(--text-muted);
+    padding: 2rem;
+}
+
+.activities-loading {
+    text-align: center;
+    color: var(--text-muted);
+    padding: 2rem;
+} 

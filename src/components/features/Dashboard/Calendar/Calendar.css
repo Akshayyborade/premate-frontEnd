@@ -1,0 +1,73 @@
+.calendar {
+    background: var(--white);
+    border-radius: var(--border-radius-lg);
+    padding: 1.5rem;
+    box-shadow: 0 2px 4px var(--shadow);
+}
+
+.calendar-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+}
+
+.calendar-header h3 {
+    margin: 0;
+    color: var(--secondary-color);
+}
+
+.calendar-header button {
+    background: none;
+    border: none;
+    font-size: 1.25rem;
+    color: var(--text-muted);
+    cursor: pointer;
+    padding: 0.5rem;
+}
+
+.calendar-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+
+}
+
+.calendar-day-header {
+    text-align: center;
+    font-weight: 500;
+    color: var(--text-muted);
+    padding: 0.5rem;
+}
+
+.calendar-day {
+    aspect-ratio: 1;
+    padding: 0.5rem;
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius-sm);
+}
+
+.calendar-day.disabled {
+    opacity: 0.5;
+}
+
+.day-number {
+    font-size: 0.875rem;
+    color: var(--secondary-color);
+}
+
+.day-events {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.25rem;
+    margin-top: 0.25rem;
+}
+
+.event-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+}
+
+.event-dot.exam { background: #dc3545; }
+.event-dot.class { background: #28a745; }
+.event-dot.meeting { background: #ffc107; } 

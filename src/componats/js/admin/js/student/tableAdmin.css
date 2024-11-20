@@ -1,0 +1,31 @@
+.table-custom {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  .table-custom th, .table-custom td {
+    padding: 12px;
+    text-align: left;
+    border-style: none;
+    border-bottom: 1px solid hsl(0, 9%, 91%); /* Light border for rows */
+  }
+  
+  .table-custom thead th {
+    background-color: #ffffff; /* Light background for header */
+    font-weight: bold;
+  }
+  
+  .table-custom tbody tr:hover {
+    background-color: hsl(0, 0%, 100%); /* Light grey on hover */
+    border-style: none;
+  }
+  
+ 
+  
+  .table-custom .gradient-button {
+ 
+    margin-right: 4px;
+  }
+  
+ 
+  

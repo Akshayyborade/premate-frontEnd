@@ -1,0 +1,147 @@
+.registration-container {
+    min-height: 100vh;
+    background: linear-gradient(135deg, var(--bg-light) 0%, rgba(40, 167, 69, 0.1) 100%);
+    padding: 2rem;
+}
+
+.registration-card {
+    background: var(--white);
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.registration-form-container {
+    padding: 2.5rem;
+}
+
+.registration-title {
+    color: var(--secondary-color);
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+}
+
+.registration-subtitle {
+    color: var(--text-muted);
+}
+
+.registration-form .form-group {
+    margin-bottom: 1.5rem;
+}
+
+.animated-input {
+    transition: all 0.3s ease;
+}
+
+.animated-input:focus-within {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(40, 167, 69, 0.15);
+}
+
+.password-strength-meter {
+    margin-top: -1rem;
+    padding: 0.5rem 0;
+}
+
+.strength-bars {
+    display: flex;
+    gap: 5px;
+    margin-bottom: 0.5rem;
+}
+
+.strength-bar {
+    height: 4px;
+    flex: 1;
+    background: #e0e0e0;
+    border-radius: 2px;
+    transition: background-color 0.3s ease;
+}
+
+.strength-bar.active:nth-child(1) { background-color: #ff4444; }
+.strength-bar.active:nth-child(2) { background-color: #ffbb33; }
+.strength-bar.active:nth-child(3) { background-color: #ffeb3b; }
+.strength-bar.active:nth-child(4) { background-color: #00C851; }
+.strength-bar.active:nth-child(5) { background-color: #007E33; }
+
+.submit-button {
+    background: var(--primary-color);
+    border: none;
+    padding: 1rem;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.submit-button:hover:not(:disabled) {
+    background: var(--primary-dark);
+    transform: translateY(-2px);
+}
+
+.registration-image-container {
+    background: linear-gradient(135deg, var(--primary-light) 0%, var(--primary-color) 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    padding: 2rem;
+}
+
+.registration-image {
+    max-width: 80%;
+    height: auto;
+    animation: float 6s ease-in-out infinite;
+}
+
+.features-overlay {
+    position: absolute;
+    bottom: 2rem;
+    left: 2rem;
+    right: 2rem;
+    background: rgba(255, 255, 255, 0.9);
+    padding: 1.5rem;
+    border-radius: 15px;
+    backdrop-filter: blur(5px);
+}
+
+.features-overlay h3 {
+    color: var(--secondary-color);
+    margin-bottom: 1rem;
+}
+
+.features-overlay ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.features-overlay li {
+    margin-bottom: 0.5rem;
+    color: var(--text-muted);
+}
+
+.back-button {
+    color: var(--secondary-color);
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.back-button:hover {
+    color: var(--primary-color);
+}
+
+@keyframes float {
+    0% { transform: translateY(0px); }
+    50% { transform: translateY(-20px); }
+    100% { transform: translateY(0px); }
+}
+
+@media (max-width: 992px) {
+    .registration-image-container {
+        display: none;
+    }
+    
+    .registration-form-container {
+        padding: 1.5rem;
+    }
+} 
