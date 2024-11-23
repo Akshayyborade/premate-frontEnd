@@ -1,214 +1,220 @@
-/* Main Container */
+/* Layout Container */
 .dashboard-container {
-    padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background-color: var(--background-color);
+  padding: 1.5rem;
 }
 
-/* Page Header */
-.page-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 2rem;
-}
-
-.page-header h1 {
-    font-size: 1.875rem;
-    font-weight: 700;
-    color: var(--secondary-color);
-    margin: 0;
-}
-
-/* Quick Actions Bar */
-.quick-actions-bar {
-    display: flex;
-    gap: 1rem;
-    margin-bottom: 1.5rem;
-    flex-wrap: wrap;
-}
-
-.action-controls {
-    display: flex;
-    gap: 1rem;
-}
-
-.action-controls select {
-    padding: 0.5rem;
-    border: 1px solid var(--border-color);
-    border-radius: var(--border-radius-sm);
-    background-color: var(--white);
-}
-
-/* Main Content Layout */
+/* Main Layout Grid */
 .dashboard-content {
-    display: grid;
-    grid-template-columns: 1fr 300px;
+    /* display: grid
+; */
+    /* grid-template-columns: minmax(0, 1fr) 300px; */
     gap: 1.5rem;
+    /* height: calc(100vh - 4rem); */
+    /* max-width: 1920px; */
+    /* margin: 0 auto; */
+    display: flex
+;
 }
 
-/* Main Section */
+/* Main Content Area */
 .dashboard-main {
-    display: flex;
+    /* display: grid
+; */
+    /* grid-template-rows: auto 1fr 2fr; */
+    gap: 1.5rem;
+    /* overflow-y: auto; */
+    display: flex
+;
     flex-direction: column;
-    gap: 1.5rem;
 }
 
-/* Dashboard Cards */
-.dashboard-card {
-    padding: 1.5rem;
-    background-color: var(--white);
-    border: 1px solid var(--border-color);
-}
-
+/* Top Section - Quick Actions */
 .dashboard-top {
-    composes: dashboard-card;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+  padding: 1.25rem;
+  background: var(--white);
+  border-radius: 0.5rem;
+  box-shadow: var(--shadow-sm);
 }
 
+/* Middle Section - Timetable */
 .dashboard-middle {
-    composes: dashboard-card;
+  padding: 1.25rem;
+  background: var(--white);
+  border-radius: 0.5rem;
+  box-shadow: var(--shadow-sm);
+  overflow: auto;
 }
 
-/* Analytics Grid */
+/* Bottom Section - Analytics and Calendar */
 .dashboard-bottom {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
+    /* display: grid
+; */
+    /* grid-template-columns: 3fr 2fr; */
     gap: 1.5rem;
+    /* min-height: 400px; */
+    display: flex
+;
 }
 
 .analytics-section,
 .calendar-section {
-    composes: dashboard-card;
+  padding: 1.25rem;
+  background: var(--white);
+  border-radius: 0.5rem;
+  box-shadow: var(--shadow-sm);
+  display: flex;
+  flex-direction: column;
 }
 
-/* Status Indicators */
-.status-indicator {
-    padding: 0.25rem 0.75rem;
-    border-radius: 1rem;
-    font-size: 0.875rem;
-    font-weight: 500;
-}
-
-.status-indicator.success {
-    background: #dcfce7;
-    color: #15803d;
-}
-
-.status-indicator.warning {
-    background: #fef3c7;
-    color: #b45309;
-}
-
-.status-indicator.error {
-    background: #fee2e2;
-    color: #dc2626;
-}
-
-/* Sidebar */
+/* Sidebar Layout */
 .dashboard-sidebar {
-    display: flex;
-    flex-direction: column;
-    gap: 1.5rem;
+  display: grid;
+  grid-template-rows: 1fr 1fr;
+  gap: 1.5rem;
+  height: 100%;
 }
 
 .task-section,
 .activities-section {
-    composes: dashboard-card;
+  background: var(--white);
+  border-radius: 0.5rem;
+  padding: 1.25rem;
+  box-shadow: var(--shadow-sm);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
 }
 
-/* Task Items */
-.task-item {
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
-    padding: 0.75rem 0;
-    border-bottom: 1px solid var(--border-color);
+/* Task List Container */
+.task-list {
+  flex: 1;
+  overflow-y: auto;
+  padding-right: 0.5rem;
 }
 
-/* Activity Items */
-.activity-item {
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
-    padding: 0.75rem 0;
+/* Activities List Container */
+.activities-list {
+  flex: 1;
+  overflow-y: auto;
+  padding-right: 0.5rem;
 }
 
-.activity-avatar {
-    width: 32px;
-    height: 32px;
-    background: var(--primary-light);
-    color: var(--white);
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-weight: 600;
+/* Section Headers */
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid var(--border-color);
 }
 
-/* Loading State */
-.dashboard-overlay {
-    position: fixed;
-    inset: 0;
-    background: rgba(255, 255, 255, 0.9);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 1000;
-}
-
-/* Custom Scrollbar */
-.scrollable {
-    scrollbar-width: thin;
-    scrollbar-color: rgba(0, 0, 0, 0.2) transparent;
-}
-
-.scrollable::-webkit-scrollbar {
-    width: 6px;
-}
-
-.scrollable::-webkit-scrollbar-thumb {
-    background-color: rgba(0, 0, 0, 0.2);
-    border-radius: 3px;
-}
-
-.dashboard-main,
-.dashboard-sidebar {
-    composes: scrollable;
-}
-
-/* Responsive Design */
+/* Responsive Layouts */
 @media (max-width: 1400px) {
-    .dashboard-bottom {
-        grid-template-columns: 1fr;
-    }
+  .dashboard-bottom {
+    grid-template-columns: 1fr;
+  }
+  
+  .analytics-section,
+  .calendar-section {
+    min-height: 350px;
+  }
 }
 
 @media (max-width: 1200px) {
-    .dashboard-content {
-        grid-template-columns: 1fr;
-    }
-
-    .dashboard-sidebar {
-        grid-row: 1;
-    }
+  .dashboard-content {
+    grid-template-columns: 1fr;
+    height: auto;
+  }
+  
+  .dashboard-main {
+    grid-template-rows: auto auto 1fr;
+  }
+  
+  .dashboard-sidebar {
+    grid-template-rows: auto;
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .task-section,
+  .activities-section {
+    height: 400px;
+  }
 }
 
 @media (max-width: 768px) {
-    .dashboard-container {
-        padding: 1rem;
-    }
+  .dashboard-container {
+    padding: 1rem;
+  }
+  
+  .dashboard-content {
+    gap: 1rem;
+  }
+  
+  .dashboard-sidebar {
+    grid-template-columns: 1fr;
+  }
+  
+  .dashboard-bottom {
+    gap: 1rem;
+  }
+  
+  .task-section,
+  .activities-section {
+    height: 350px;
+  }
+}
 
-    .dashboard-content {
-        gap: 1rem;
-    }
+/* Fixed Height Containers */
+.fixed-height-container {
+  height: 100%;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
 
-    .dashboard-card {
-        padding: 1rem;
-    }
+.fixed-height-content {
+  flex: 1;
+  overflow-y: auto;
+  padding-right: 0.5rem;
+}
 
-    .quick-actions-bar {
-        flex-direction: column;
-    }
+/* Grid Helper Classes */
+.grid-2-cols {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+}
 
-    .action-controls {
-        flex-wrap: wrap;
-    }
-} 
+.grid-3-cols {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+}
+
+.grid-4-cols {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1rem;
+}
+
+@media (max-width: 1024px) {
+  .grid-4-cols {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 640px) {
+  .grid-2-cols,
+  .grid-3-cols,
+  .grid-4-cols {
+    grid-template-columns: 1fr;
+  }
+}

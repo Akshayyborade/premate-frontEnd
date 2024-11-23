@@ -86,20 +86,21 @@ const AnalyticsCharts = ({ data }) => {
             </div>
 
             <div className="charts-grid">
-                <div className="chart-container">
-                    <h3>Course Enrollments</h3>
-                    <Doughnut
-                        data={enrollmentData}
-                        options={{
-                            responsive: true,
-                            plugins: {
-                                legend: {
-                                    position: 'right'
-                                }
-                            }
-                        }}
-                    />
-                </div>
+               {data.enrollments &&
+               <div className="chart-container">
+               <h3>Course Enrollments</h3>
+               <Doughnut
+                   data={enrollmentData}
+                   options={{
+                       responsive: true,
+                       plugins: {
+                           legend: {
+                               position: 'right'
+                           }
+                       }
+                   }}
+               />
+           </div>} 
 
                 <div className="chart-container">
                     <h3>Attendance Rate</h3>

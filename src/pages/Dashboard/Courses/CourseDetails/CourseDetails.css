@@ -286,7 +286,7 @@
     outline-offset: 2px;
 }
 
-/* Dark Mode Support */
+/* Dark Mode Support
 @media (prefers-color-scheme: dark) {
     .card {
         background: #1e1e1e;
@@ -302,4 +302,4 @@
     .section-header {
         border-bottom-color: #404040;
     }
-} 
+}  */

@@ -1,82 +1,190 @@
-.timetable {
-    width: 100%;
-}
-
-.timetable-header {
+.timetable-container {
+    padding: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  
+  .timetable-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 1.5rem;
-}
-
-.timetable-filters {
+    margin-bottom: 24px;
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+  
+  .timetable-header h2 {
+    margin: 0;
+    color: #2c3e50;
+    font-size: 24px;
+  }
+  
+  .timetable-filters {
     display: flex;
-    gap: 1rem;
-}
-
-.timetable-filters select {
-    padding: 0.5rem;
+    gap: 12px;
+  }
+  
+  .timetable-filters select {
+    padding: 8px 12px;
+    border-radius: 6px;
     border: 1px solid #ddd;
-    border-radius: 4px;
-    background-color: white;
-}
-
-.timetable-date-navigator {
+    background-color: #fff;
+    font-size: 14px;
+    cursor: pointer;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+  
+  .timetable-filters select:hover {
+    border-color: #b3b3b3;
+  }
+  
+  .timetable-filters select:focus {
+    border-color: #4a90e2;
+    box-shadow: 0 0 0 2px rgba(74, 144, 226, 0.2);
+  }
+  
+  .timetable-controls {
     display: flex;
     align-items: center;
-    justify-content: center;
-    gap: 1rem;
-    margin-bottom: 1.5rem;
-}
-
-.timetable-date-navigator button {
-    padding: 0.5rem 1rem;
+    margin-bottom: 24px;
+    gap: 12px;
+  }
+  
+  .nav-button,
+  .view-toggle {
+    padding: 8px 16px;
+    border-radius: 6px;
     border: 1px solid #ddd;
-    border-radius: 4px;
-    background-color: white;
+    background-color: #fff;
     cursor: pointer;
-}
-
-.timetable-date-navigator button:hover {
-    background-color: #f0f0f0;
-}
-
-.timetable-content {
+    font-size: 14px;
+    transition: all 0.2s;
+  }
+  
+  .nav-button:hover,
+  .view-toggle:hover {
+    background-color: #f5f5f5;
+    border-color: #b3b3b3;
+  }
+  
+  .date-display {
+    padding: 8px 16px;
+    font-size: 16px;
+    font-weight: 500;
+  }
+  
+  .timetable-day-view,
+  .timetable-week-view {
+    background-color: #fff;
+    border-radius: 8px;
+    padding: 16px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  .timetable-week-view {
     overflow-x: auto;
-}
-
-.timetable table {
+  }
+  
+  table {
     width: 100%;
     border-collapse: collapse;
-}
-
-.timetable th,
-.timetable td {
-    padding: 1rem;
+    min-width: 800px;
+  }
+  
+  th {
+    padding: 12px;
+    background-color: #f8f9fa;
+    border-bottom: 2px solid #dee2e6;
     text-align: left;
-    border-bottom: 1px solid #ddd;
-}
-
-.timetable th {
-    background-color: #f8f9fa;
     font-weight: 600;
-}
-
-.timetable tr:hover {
+    color: #2c3e50;
+  }
+  
+  td {
+    padding: 12px;
+    border-bottom: 1px solid #dee2e6;
+    color: #2c3e50;
+  }
+  
+  tr:hover {
     background-color: #f8f9fa;
-}
-
-@media (max-width: 768px) {
+  }
+  
+  .day-name {
+    font-weight: 500;
+  }
+  
+  .date {
+    font-size: 0.8em;
+    color: #666;
+  }
+  
+  .scheduled {
+    background-color: #f8f9fa;
+  }
+  
+  .schedule-slot {
+    padding: 4px;
+  }
+  
+  .subject {
+    font-weight: 500;
+    margin-bottom: 4px;
+  }
+  
+  .teacher,
+  .room {
+    font-size: 0.8em;
+    color: #666;
+  }
+  
+  /* Responsive styles */
+  @media (max-width: 768px) {
     .timetable-header {
-        flex-direction: column;
-        gap: 1rem;
+      flex-direction: column;
+      align-items: stretch;
     }
-
+  
     .timetable-filters {
-        width: 100%;
+      flex-direction: column;
     }
-
-    .timetable-filters select {
-        flex: 1;
+  
+    .timetable-controls {
+      flex-wrap: wrap;
+      justify-content: center;
     }
-} 
+  
+    .date-display {
+      width: 100%;
+      text-align: center;
+      order: -1;
+    }
+  
+    .view-toggle {
+      width: 100%;
+      margin-top: 8px;
+    }
+  }
+  
+  /* Print styles */
+  @media print {
+    .timetable-container {
+      padding: 0;
+    }
+  
+    .timetable-controls,
+    .view-toggle {
+      display: none;
+    }
+  
+    .timetable-day-view,
+    .timetable-week-view {
+      box-shadow: none;
+      padding: 0;
+    }
+  
+    table {
+      border: 1px solid #dee2e6;
+    }
+  }

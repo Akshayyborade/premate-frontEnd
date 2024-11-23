@@ -37,7 +37,7 @@ const DashboardHome = () => {
     // Mock data for analytics
     const analyticsData = {
         revenue: [1500, 2300, 3200, 4100, 2800, 3500],
-        enrollments: [45, 32, 38, 41, 35],
+       
         attendance: {
             labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri'],
             values: [85, 90, 88, 92, 87]
@@ -97,23 +97,7 @@ const DashboardHome = () => {
 
             <div className="dashboard-content">
                 <main className="dashboard-main">
-                    <section className="dashboard-top">
-                        <ErrorBoundary>
-                            <Suspense fallback={<LoadingSpinner />}>
-                                <QuickActions />
-                            </Suspense>
-                        </ErrorBoundary>
-                    </section>
-
                     <section className="dashboard-middle">
-                        <ErrorBoundary>
-                            <Suspense fallback={<LoadingSpinner />}>
-                                <Timetable data={timetableData} />
-                            </Suspense>
-                        </ErrorBoundary>
-                    </section>
-
-                    <section className="dashboard-bottom">
                         <div className="analytics-section">
                             <ErrorBoundary>
                                 <Suspense fallback={<LoadingSpinner />}>
@@ -121,17 +105,25 @@ const DashboardHome = () => {
                                 </Suspense>
                             </ErrorBoundary>
                         </div>
-                        <div className="calendar-section">
-                            <ErrorBoundary>
-                                <Suspense fallback={<LoadingSpinner />}>
-                                    <Calendar events={calendarEvents} />
-                                </Suspense>
-                            </ErrorBoundary>
-                        </div>
+                        
+                    </section>
+                    <section className="dashboard-bottom">
+                        <ErrorBoundary>
+                            <Suspense fallback={<LoadingSpinner />}>
+                                <Timetable data={timetableData} />
+                            </Suspense>
+                        </ErrorBoundary>
                     </section>
                 </main>
 
                 <aside className="dashboard-sidebar">
+                <section className="dashboard-top">
+                        <ErrorBoundary>
+                            <Suspense fallback={<LoadingSpinner />}>
+                                <QuickActions />
+                            </Suspense>
+                        </ErrorBoundary>
+                    </section>
                     <div className="task-section">
                         <ErrorBoundary>
                             <Suspense fallback={<LoadingSpinner />}>
@@ -146,6 +138,13 @@ const DashboardHome = () => {
                             </Suspense>
                         </ErrorBoundary>
                     </div>
+                    <div className="calendar-section">
+                            <ErrorBoundary>
+                                <Suspense fallback={<LoadingSpinner />}>
+                                    <Calendar events={calendarEvents} />
+                                </Suspense>
+                            </ErrorBoundary>
+                        </div>
                 </aside>
             </div>
 
