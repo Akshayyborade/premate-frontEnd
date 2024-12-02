@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+
 import { ToastContainer } from 'react-toastify';
 import { AuthProvider } from './context/AuthContext';
 import TokenRefresher from './components/features/Auth/TokenRefresher/TokenRefresher';
@@ -17,7 +17,9 @@ import Contact from './pages/Contact/Contact';
 import About from './pages/About/About';
 import Test from './pages/Test/Test';
 import Service from './pages/Service/Service';
-
+import Unauthorized from './pages/Auth/UnauthorizedPage'
+// Import necessary routing components from react-router-dom
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 const App = () => {
     return (
         <BrowserRouter>
@@ -25,31 +27,23 @@ const App = () => {
                 <Routes>
                     {/* Public Routes */}
                     <Route path="/" element={<LandingPage />} />
-                    <Route path="/admin-register" element={<AdminRegister />} />
                     <Route path="/login/:role" element={<Login />} />
-                    <Route path="/demo" element={<Demo />} />
-                    <Route path="/contact" element={<Contact />} />
-                    <Route path="/about" element={<About />} />
-                    <Route path='/test' element={<Test/>}/>
-                    <Route path='/services' element={<Service/>}/>
-                    {/* <Route path="/privacy-policy" element={<PrivacyPolicy />} /> */}
-                    {/* <Route path="/terms-of-service" element={<TermsOfService />} /> */}
+                    <Route path="/admin-register" element={<AdminRegister />} />
+                    <Route path="/unauthorized" element={<Unauthorized />} />
+
                     {/* Protected Admin Routes */}
                     <Route 
                         path="/admin/*" 
                         element={
-                            <PrivateRoute 
-                                role="ADMIN"
-                                redirectTo="/login/admin"
-                            >
+                            <PrivateRoute role="ADMIN" redirectTo="/login/admin">
                                 <AdminLayout>
-                                   
-                                    <Dashboard></Dashboard>
+                                    <Dashboard />
                                 </AdminLayout>
                             </PrivateRoute>
-                        }
+                        } 
                     />
 
+                    {/* Catch-all route */}
                     <Route path="*" element={<Navigate to="/" replace />} />
                 </Routes>
                 <ToastContainer />
@@ -58,4 +52,4 @@ const App = () => {
     );
 };
 
-export default App; 
+export default App;

@@ -45,11 +45,11 @@
 }
 
 .chart-container {
-    background: var(--white);
-    padding: 1.5rem;
-    border-radius: var(--border-radius-lg);
-    box-shadow: 0 2px 4px var(--shadow);
-    height: 300px;
+    max-width: 300px;
+    max-height: 250px;
+    justify-content: center;
+    display: flex;
+    flex-direction: column;
 }
 
 .attendance-stats {

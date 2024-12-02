@@ -65,16 +65,16 @@
 }
 
 /* Form Styles */
-.form-group {
+/* .form-group {
     margin-bottom: 20px;
-}
+} */
 
-.form-label {
+/* .form-label {
     display: block;
     margin-bottom: 8px;
     color: #2c3e50;
     font-weight: 500;
-}
+} */
 
 .form-input {
     width: 100%;
@@ -281,12 +281,12 @@
     border: 0;
 }
 
-:focus {
+/* :focus {
     outline: 2px solid #4CAF50;
     outline-offset: 2px;
-}
+} */
 
-/* Dark Mode Support */
+/* Dark Mode Support
 @media (prefers-color-scheme: dark) {
     .card {
         background: #1e1e1e;
@@ -302,4 +302,4 @@
     .section-header {
         border-bottom-color: #404040;
     }
-} 
+}  */

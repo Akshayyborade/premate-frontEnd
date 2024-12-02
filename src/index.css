@@ -21,3 +21,8 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+h3{
+  margin: 0 0 1rem;
+  color: var(--secondary-color);
+  font-size: 1.25rem;
+}

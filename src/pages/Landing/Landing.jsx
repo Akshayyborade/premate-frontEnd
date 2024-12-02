@@ -27,12 +27,12 @@ const Landing = () => {
     const { isAuthenticated } = useAuth();
     const navigate = useNavigate();
     
-    useEffect(() => {
-        if (isAuthenticated()) {
-            navigate('/admin/dashboard');
-        }
-        setIsLoading(false);
-    }, [isAuthenticated, navigate]);
+    // useEffect(() => {
+    //     if (isAuthenticated()) {
+    //         navigate('/admin/dashboard');
+    //     }
+    //     setIsLoading(false);
+    // }, [isAuthenticated, navigate]);
 
     return (
         <>

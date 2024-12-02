@@ -5,6 +5,7 @@ import LoginForm from '../../components/features/Auth/LoginForm/LoginForm';
 import AuthLayout from '../../components/layout/AuthLayout/AuthLayout';
 import Spinner from '../../components/common/Spinner/Spinner';
 import './Auth.css';
+import LoadingSpinner from '../../components/common/LoadingSpinner';
 
 const Login = () => {
     const { user, loading } = useAuth();
@@ -15,16 +16,16 @@ const Login = () => {
         return (
             <AuthLayout>
                 <div className="auth-loading">
-                    <Spinner size="large" />
+                    <Spinner fullScreen></Spinner>
                 </div>
             </AuthLayout>
         );
     }
-
-    // // Redirect if user is already logged in
-    // if (user) {
-    //     return <Navigate to="/dashboard" replace />;
-    // }
+   console.log(user);
+    // Redirect if user is already logged in
+    if (user) {
+        return <Navigate to="/admin/dashboard" replace />;
+    }
 
     const handleLoginSuccess = () => {
         navigate('/admin/dashboard');

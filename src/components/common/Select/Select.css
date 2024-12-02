@@ -1,0 +1,33 @@
+.common-select-wrapper {
+    margin-bottom: 15px; /* Space below the select field */
+}
+
+.common-select-label {
+    font-weight: bold; /* Bold labels */
+    margin-bottom: 5px; /* Space below labels */
+    display: block; /* Make labels block elements */
+}
+
+.common-select-field {
+    width: 100%; /* Full width select */
+    padding: 10px; /* Padding inside select */
+    border: 1px solid #ccc; /* Light border for select */
+    border-radius: 4px; /* Rounded corners for select */
+    box-sizing: border-box; /* Include padding in width */
+    appearance: none; /* Remove default arrow */
+    background-color: #fff; /* White background */
+}
+
+.common-select-field.error {
+    border-color: red; /* Red border for error state */
+}
+
+.common-select-error {
+    color: red; /* Red color for error messages */
+    font-size: 12px; /* Smaller font size for error messages */
+}
+
+.common-select-helper {
+    color: #666; /* Gray color for helper text */
+    font-size: 12px; /* Smaller font size for helper text */
+} 

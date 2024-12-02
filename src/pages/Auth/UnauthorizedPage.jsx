@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../../hooks/useAuth';
-import Button from '../../components/common/Button';
+import Button from '../../components/common/Button/Button';
 import './Auth.css';
 
 const UnauthorizedPage = () => {

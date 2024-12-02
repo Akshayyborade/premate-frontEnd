@@ -2,53 +2,45 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useForm } from '../../../../hooks/useForm';
 import { studentService } from '../../../../services/api/student.service';
-import Input from '../../../common/Input';
-import Button from '../../../common/Button';
-import FileUpload from '../../../common/FileUpload';
-import Select from '../../../common/Select';
+import Input from '../../../common/Input/Input';
+import Button from '../../../common/Button/Button';
+import FileUpload from '../../../common/FileUpload/FileUpload';
+import Select from '../../../common/Select/Select';
 import './StudentForm.css';
+import { useAuth } from '../../../../context/AuthContext';
 
 const StudentForm = () => {
     const { id } = useParams();
     const navigate = useNavigate();
     const [loading, setLoading] = useState(false);
     const [photo, setPhoto] = useState(null);
+    const { user } = useAuth();
+    const adminId = user ? user.institutionId : null;
 
     const initialState = {
-        firstName: '',
-        lastName: '',
+        studentName: { fname: '', mName: '', lname: '' },
+        schoolName: '',
+        mobNumber: '',
         email: '',
-        phone: '',
-        dateOfBirth: '',
+        password: '',
         gender: '',
-        address: '',
-        course: '',
-        batch: '',
-        parentName: '',
-        parentPhone: '',
-        emergencyContact: '',
-        bloodGroup: '',
-        previousSchool: '',
-        admissionDate: new Date().toISOString().split('T')[0]
+        dobDate: '',
+        parents: { parentName: '', mobNo: '', parentEmail: '', location: '', relationWithStud: '' },
+        grade: { gradeName: '' },
     };
 
     const validationSchema = {
-        firstName: { required: true },
-        lastName: { required: true },
+        'studentName.fname': { required: true },
+        'studentName.lname': { required: true },
         email: { required: true, email: true },
-        phone: { required: true, pattern: /^\d{10}$/ },
-        dateOfBirth: { required: true },
+        mobNumber: { required: true },
         gender: { required: true },
-        course: { required: true },
-        batch: { required: true },
-        parentName: { required: true },
-        parentPhone: { required: true, pattern: /^\d{10}$/ }
+        dobDate: { required: true },
+        'parents.parentName': { required: true },
+        'parents.mobNo': { required: true },
     };
 
-    const { values, errors, setValues, handleChange, handleSubmit } = useForm(
-        initialState,
-        validationSchema
-    );
+    const { values, errors, setValues, handleChange, handleSubmit } = useForm(initialState, validationSchema);
 
     useEffect(() => {
         if (id) {
@@ -60,7 +52,27 @@ const StudentForm = () => {
         try {
             setLoading(true);
             const data = await studentService.getStudentById(id);
-            setValues(data);
+            setValues({
+                studentName: {
+                    fname: data.name.fname || '',
+                    mName: data.name.mname || '',
+                    lname: data.name.lname || '',
+                },
+                schoolName: data.schoolName || '',
+                mobNumber: data.mobNumber || '',
+                email: data.email || '',
+                password: '',
+                gender: data.gender || '',
+                dobDate: data.dobDate || '',
+                parents: {
+                    parentName: data.parents.parentName || '',
+                    mobNo: data.parents.mobNo || '',
+                    parentEmail: data.parents.email || '',
+                    location: data.parents.location || '',
+                    relationWithStud: data.parents.relationWithStud || '',
+                },
+                grade: { gradeName: data.grade.gradeName || '' },
+            });
             if (data.photo) {
                 setPhoto(data.photo);
             }
@@ -71,29 +83,52 @@ const StudentForm = () => {
         }
     };
 
-    const handlePhotoUpload = (file) => {
-        setPhoto(file);
-    };
-
     const onSubmit = async (formData) => {
         try {
             setLoading(true);
-            const studentData = {
-                ...formData,
-                photo
+
+            // Prepare the studentDto object
+            const studentDto = {
+                name: {
+                    fname: formData.studentName.fname,
+                    mname: formData.studentName.mName,
+                    lname: formData.studentName.lname,
+                },
+                schoolName: formData.schoolName,
+                mobNumber: formData.mobNumber,
+                email: formData.email,
+                gender: formData.gender,
+                dobDate: formData.dobDate,
+                parents: {
+                    parentName: formData.parents.parentName,
+                    mobNo: formData.parents.mobNo,
+                    parentEmail: formData.parents.parentEmail,
+                    location: formData.parents.location,
+                    relationWithStud: formData.parents.relationWithStud,
+                },
+                grade: { gradeName: formData.grade.gradeName },
+                photo: photo,  // Attach photo if exists
             };
 
+            // Make API call to create or update student
+            const studentData = { studentDto, adminId };
             if (id) {
                 await studentService.updateStudent(id, studentData);
             } else {
                 await studentService.createStudent(studentData);
             }
 
-            navigate('/dashboard/students');
+            navigate('/admin/dashboard/students');
         } catch (error) {
             console.error('Error saving student:', error);
         } finally {
             setLoading(false);
+        }
+    };
+
+    const handlePhotoUpload = (file) => {
+        if (file) {
+            setPhoto(URL.createObjectURL(file));
         }
     };
 
@@ -104,172 +139,37 @@ const StudentForm = () => {
             </div>
 
             <form onSubmit={(e) => handleSubmit(e, onSubmit)} className="student-form">
+                {/* Personal Information */}
                 <div className="form-section">
                     <h3>Personal Information</h3>
                     <div className="form-grid">
-                        <FileUpload
-                            label="Student Photo"
-                            onChange={handlePhotoUpload}
-                            preview={photo}
-                            accept="image/*"
-                        />
-                        
-                        <Input
-                            label="First Name"
-                            name="firstName"
-                            value={values.firstName}
-                            onChange={handleChange}
-                            error={errors.firstName}
-                            required
-                        />
-
-                        <Input
-                            label="Last Name"
-                            name="lastName"
-                            value={values.lastName}
-                            onChange={handleChange}
-                            error={errors.lastName}
-                            required
-                        />
-
-                        <Input
-                            label="Email"
-                            type="email"
-                            name="email"
-                            value={values.email}
-                            onChange={handleChange}
-                            error={errors.email}
-                            required
-                        />
-
-                        <Input
-                            label="Phone"
-                            name="phone"
-                            value={values.phone}
-                            onChange={handleChange}
-                            error={errors.phone}
-                            required
-                        />
-
-                        <Input
-                            label="Date of Birth"
-                            type="date"
-                            name="dateOfBirth"
-                            value={values.dateOfBirth}
-                            onChange={handleChange}
-                            error={errors.dateOfBirth}
-                            required
-                        />
-
-                        <Select
-                            label="Gender"
-                            name="gender"
-                            value={values.gender}
-                            onChange={handleChange}
-                            error={errors.gender}
-                            options={[
-                                { value: 'male', label: 'Male' },
-                                { value: 'female', label: 'Female' },
-                                { value: 'other', label: 'Other' }
-                            ]}
-                            required
-                        />
+                        <FileUpload label="Student Photo" onChange={handlePhotoUpload} preview={photo} accept="image/*" />
+                        <Input label="First Name" name="studentName.fname" value={values.studentName.fname} onChange={handleChange} error={errors['studentName.fname']} required />
+                        <Input label="Middle Name" name="studentName.mName" value={values.studentName.mName} onChange={handleChange} />
+                        <Input label="Last Name" name="studentName.lname" value={values.studentName.lname} onChange={handleChange} error={errors['studentName.lname']} required />
+                        <Input label="Email" type="email" name="email" value={values.email} onChange={handleChange} error={errors.email} required />
+                        <Input label="Phone" name="mobNumber" value={values.mobNumber} onChange={handleChange} error={errors.mobNumber} required />
+                        <Select label="Gender" name="gender" value={values.gender} onChange={handleChange} error={errors.gender} options={[{ value: 'male', label: 'Male' }, { value: 'female', label: 'Female' }, { value: 'other', label: 'Other' }]} required />
+                        <Input label="Date of Birth" type="date" name="dobDate" value={values.dobDate} onChange={handleChange} error={errors.dobDate} required />
                     </div>
                 </div>
 
-                <div className="form-section">
-                    <h3>Academic Information</h3>
-                    <div className="form-grid">
-                        <Select
-                            label="Course"
-                            name="course"
-                            value={values.course}
-                            onChange={handleChange}
-                            error={errors.course}
-                            options={[
-                                { value: 'mathematics', label: 'Mathematics' },
-                                { value: 'physics', label: 'Physics' },
-                                { value: 'chemistry', label: 'Chemistry' }
-                            ]}
-                            required
-                        />
-
-                        <Select
-                            label="Batch"
-                            name="batch"
-                            value={values.batch}
-                            onChange={handleChange}
-                            error={errors.batch}
-                            options={[
-                                { value: 'morning', label: 'Morning' },
-                                { value: 'afternoon', label: 'Afternoon' },
-                                { value: 'evening', label: 'Evening' }
-                            ]}
-                            required
-                        />
-
-                        <Input
-                            label="Previous School"
-                            name="previousSchool"
-                            value={values.previousSchool}
-                            onChange={handleChange}
-                        />
-
-                        <Input
-                            label="Admission Date"
-                            type="date"
-                            name="admissionDate"
-                            value={values.admissionDate}
-                            onChange={handleChange}
-                            required
-                        />
-                    </div>
-                </div>
-
+                {/* Parent/Guardian Information */}
                 <div className="form-section">
                     <h3>Parent/Guardian Information</h3>
                     <div className="form-grid">
-                        <Input
-                            label="Parent/Guardian Name"
-                            name="parentName"
-                            value={values.parentName}
-                            onChange={handleChange}
-                            error={errors.parentName}
-                            required
-                        />
-
-                        <Input
-                            label="Parent/Guardian Phone"
-                            name="parentPhone"
-                            value={values.parentPhone}
-                            onChange={handleChange}
-                            error={errors.parentPhone}
-                            required
-                        />
-
-                        <Input
-                            label="Emergency Contact"
-                            name="emergencyContact"
-                            value={values.emergencyContact}
-                            onChange={handleChange}
-                        />
+                        <Input label="Parent/Guardian Name" name="parents.parentName" value={values.parents.parentName} onChange={handleChange} error={errors['parents.parentName']} required />
+                        <Input label="Parent/Guardian Mobile" name="parents.mobNo" value={values.parents.mobNo} onChange={handleChange} error={errors['parents.mobNo']} required />
+                        <Input label="Parent/Guardian Email" type="email" name="parents.parentEmail" value={values.parents.parentEmail} onChange={handleChange} />
+                        <Input label="Location" name="parents.location" value={values.parents.location} onChange={handleChange} />
+                        <Input label="Relation with Student" name="parents.relationWithStud" value={values.parents.relationWithStud} onChange={handleChange} />
                     </div>
                 </div>
 
+                {/* Actions */}
                 <div className="form-actions">
-                    <Button
-                        type="button"
-                        variant="outline"
-                        onClick={() => navigate('/dashboard/students')}
-                    >
-                        Cancel
-                    </Button>
-                    <Button
-                        type="submit"
-                        variant="primary"
-                        isLoading={loading}
-                    >
-                        {id ? 'Update Student' : 'Add Student'}
+                    <Button type="submit" loading={loading}>
+                        {id ? 'Update' : 'Save'}
                     </Button>
                 </div>
             </form>
@@ -277,4 +177,4 @@ const StudentForm = () => {
     );
 };
 
-export default StudentForm; 
+export default StudentForm;

@@ -1,26 +1,23 @@
 .analytics-charts {
     display: flex;
-    flex-direction: column;
+    justify-content: space-between;
     gap: 2rem;
 }
 
 .chart-container {
-    background: var(--white);
-    padding: 1.5rem;
-    border-radius: var(--border-radius-lg);
-    box-shadow: 0 2px 4px var(--shadow);
+    max-width: 300px;
+    max-height: 250px;
+    justify-content: center;
+    display: flex;
+    flex-direction: column;
 }
 
-.chart-container h3 {
-    margin: 0 0 1rem;
-    color: var(--secondary-color);
-    font-size: 1.25rem;
-}
 
 .charts-grid {
-    display: grid;
+    /* display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 1.5rem;
+    gap: 1.5rem; */
+    display: flex;
 }
 
 @media (max-width: 768px) {
