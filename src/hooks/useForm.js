@@ -5,36 +5,52 @@ export const useForm = (initialState = {}, validationSchema = {}) => {
     const [errors, setErrors] = useState({});
     const [isSubmitting, setIsSubmitting] = useState(false);
 
-    const handleChange = useCallback((e) => {
+    const handleChange = (e) => {
         const { name, value } = e.target;
-        setValues(prev => ({
-            ...prev,
-            [name]: value
-        }));
-        // Clear error when user starts typing
-        if (errors[name]) {
-            setErrors(prev => ({
-                ...prev,
-                [name]: ''
-            }));
-        }
-    }, [errors]);
+        const keys = name.split('.'); // Split 'studentName.fname' into ['studentName', 'fname']
+
+        setValues((prev) => {
+            const updatedValues = { ...prev };
+            let currentLevel = updatedValues;
+
+            // Traverse into the nested object until the second-to-last key
+            for (let i = 0; i < keys.length - 1; i++) {
+                const key = keys[i];
+                currentLevel[key] = { ...currentLevel[key] }; // Copy current level
+                currentLevel = currentLevel[key];
+            }
+
+            // Update the final key with the new value
+            currentLevel[keys[keys.length - 1]] = value;
+
+            return updatedValues;
+        });
+    };
 
     const validate = useCallback(() => {
         const validationErrors = {};
-        Object.keys(validationSchema).forEach(key => {
-            const value = values[key];
+
+        Object.keys(validationSchema).forEach((key) => {
+            const keys = key.split('.'); // Split keys for nested validation
+            let currentValue = values;
+
+            // Traverse values to get the target value
+            for (const subKey of keys) {
+                currentValue = currentValue?.[subKey];
+                if (currentValue === undefined) break;
+            }
+
             const rules = validationSchema[key];
 
-            if (rules.required && !value) {
+            if (rules.required && !currentValue) {
                 validationErrors[key] = `${key} is required`;
             }
 
-            if (rules.email && !/\S+@\S+\.\S+/.test(value)) {
+            if (rules.email && !/\S+@\S+\.\S+/.test(currentValue)) {
                 validationErrors[key] = 'Invalid email format';
             }
 
-            if (rules.minLength && value.length < rules.minLength) {
+            if (rules.minLength && currentValue?.length < rules.minLength) {
                 validationErrors[key] = `Minimum length is ${rules.minLength}`;
             }
         });
@@ -43,7 +59,8 @@ export const useForm = (initialState = {}, validationSchema = {}) => {
         return Object.keys(validationErrors).length === 0;
     }, [values, validationSchema]);
 
-    const handleSubmit = useCallback(async (onSubmit) => {
+    const handleSubmit = useCallback(async (e, onSubmit) => {
+        e.preventDefault();
         setIsSubmitting(true);
         if (validate()) {
             try {
@@ -64,6 +81,6 @@ export const useForm = (initialState = {}, validationSchema = {}) => {
         handleChange,
         handleSubmit,
         setValues,
-        setErrors
+        setErrors,
     };
-}; 
+};

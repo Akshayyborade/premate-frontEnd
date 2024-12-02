@@ -1,16 +1,33 @@
-import React, { createContext, useState, useEffect } from 'react';
-import { authService } from '../services/api/auth.service';
+import React, { 
+    createContext, 
+    useState, 
+    useEffect, 
+    useContext 
+} from 'react';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
+import PropTypes from 'prop-types';
+import { authService } from '../services/api/auth.service';
 
-export const AuthContext = createContext(null);
+const AuthContext = createContext({
+    user: null,
+    loading: true,
+    error: null,
+    login: async () => {},
+    register: async () => {},
+    logout: async () => {},
+    verifyEmail: async () => {},
+    checkEmail: async () => {},
+    isAuthenticated: () => false
+});
+
+export const useAuth = () => useContext(AuthContext);
 
 export const AuthProvider = ({ children }) => {
     const [user, setUser] = useState(null);
     const [loading, setLoading] = useState(true);
-    const [isEmailVerified, setIsEmailVerified] = useState(false);
-    const navigate = useNavigate();
     const [error, setError] = useState(null);
+    const navigate = useNavigate();
 
     useEffect(() => {
         checkAuth();
@@ -20,58 +37,88 @@ export const AuthProvider = ({ children }) => {
         try {
             setLoading(true);
             const currentUser = authService.getCurrentUser();
-            const accessToken = authService.getAccessToken();
-            
-            if (currentUser && accessToken) {
+            const isAuthenticated = authService.isAuthenticated();
+            console.log('Current User:', currentUser);
+            console.log('Is Authenticated:', isAuthenticated);
+
+            if (currentUser && isAuthenticated) {
                 setUser(currentUser);
-                setIsEmailVerified(currentUser.enabled);
             } else {
                 setUser(null);
-                setIsEmailVerified(false);
                 authService.clearAuth();
             }
-        } catch (error) {
-            console.error('Auth check failed:', error);
-            setError(error.message);
+        } catch (err) {
+            console.error('Auth check failed:', err);
+            setError(err.message);
             authService.clearAuth();
             setUser(null);
-            setIsEmailVerified(false);
         } finally {
             setLoading(false);
         }
     };
 
-    const isAuthenticated = () => {
-        const currentUser = authService.getCurrentUser();
-        const accessToken = authService.getAccessToken();
-        return Boolean(currentUser && accessToken);
-    };
-
     const login = async (email, password) => {
         try {
+            setLoading(true);
             const response = await authService.login(email, password);
             setUser(response.admin);
-            console.log(response.admin);
-            setIsEmailVerified(response.admin.enabled);
+            setError(null);
             
-            if (response.admin.appUserRole === 'ADMIN') {
-                navigate('/admin/dashboard');
+            // Navigate based on user role
+            switch (response.admin.appUserRole) {
+                case 'ADMIN':
+                    navigate('/admin/dashboard');
+                    break;
+                case 'USER':
+                    navigate('/dashboard');
+                    break;
+                default:
+                    navigate('/');
             }
-            
-            return response;
-        } catch (error) {
-            console.error('Login error:', error);
-            throw error;
+        } catch (err) {
+            const errorMessage = err.message || 'Login failed';
+            console.log(errorMessage);
+            setError(errorMessage);
+            toast.error(errorMessage);
+        } finally {
+            setLoading(false);
         }
     };
 
-    const register = async (formData) => {
+    const register = async (userData) => {
         try {
-            const response = await authService.register(formData);
-            return response;
-        } catch (error) {
-            // Make sure we're not modifying any state here that could trigger a re-render
-            throw error; // Just propagate the error
+            setLoading(true);
+            await authService.register(userData);
+        } catch (err) {
+            const errorMessage = err.message || 'Registration failed';
+            setError(errorMessage);
+            toast.error(errorMessage);
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    const logout = async () => {
+        try {
+            await authService.logout();
+            setUser(null);
+            setError(null);
+            navigate('/login');
+            toast.success('Logged out successfully');
+        } catch (err) {
+            console.error('Logout failed:', err);
+            toast.error('Logout failed. Please try again.');
+        }
+    };
+
+    const verifyEmail = async (token) => {
+        try {
+            const response = await authService.verifyEmail(token);
+            toast.success(response.message || 'Email verified successfully');
+            navigate('/login');
+        } catch (err) {
+            const errorMessage = err.message || 'Email verification failed';
+            toast.error(errorMessage);
         }
     };
 
@@ -84,34 +131,27 @@ export const AuthProvider = ({ children }) => {
         }
     };
 
-    const logout = async () => {
-        try {
-            await authService.logout();
-            setUser(null);
-            setIsEmailVerified(false);
-            navigate('/login');
-        } catch (error) {
-            console.error('Logout failed:', error);
-            toast.error('Logout failed. Please try again.');
-        }
-    };
-
     const value = {
         user,
         loading,
-        isEmailVerified,
         error,
         login,
         register,
         logout,
-        checkAuth,
+        verifyEmail,
         checkEmail,
-        isAuthenticated
+        isAuthenticated: () => authService.isAuthenticated()
     };
 
     return (
         <AuthContext.Provider value={value}>
-            {!loading ? children : <div>Loading...</div>}
+            {children}
         </AuthContext.Provider>
     );
-}; 
+};
+
+AuthProvider.propTypes = {
+    children: PropTypes.node.isRequired
+};
+
+export default AuthContext;

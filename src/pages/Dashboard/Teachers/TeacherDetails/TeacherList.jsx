@@ -1,6 +1,10 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './TeacherList.css';
+import FilterSection from '../../../../components/common/FilterSection/FilterSection';
+import DataTable from '../../../../components/common/DataTable/DataTable';
+import Button from '../../../../components/common/Button/Button';
+import SearchBar from '../../../../components/common/SearchBar/SearchBar';
 
 const TeacherList = () => {
     const navigate = useNavigate();
@@ -28,122 +32,106 @@ const TeacherList = () => {
             joinDate: "2023-02-20"
         }
     ]);
-
+    const [loading, setLoading] = useState(true);
+    const [searchTerm, setSearchTerm] = useState('');
     const [filters, setFilters] = useState({
         search: '',
         department: 'all',
         status: 'all'
     });
+    const handleSearch = (term) => {
+        setSearchTerm(term);
+        // Add your search logic here
+    };
+    const handleFilterChange = (filterName, value) => {
+        setFilters((prevFilters) => ({
+            ...prevFilters,
+            [filterName]: value,
+        }));
+        // Add your filter logic here
+    };
+  
+
 
     const handleViewTeacher = (teacherId) => {
         navigate(`/admin/teachers/${teacherId}`);
     };
 
+    // Table columns
+    const columns = [
+        { header: 'Teacher ID', accessor: 'teacherId' },
+        { header: 'Name', accessor: 'name' },
+        { header: 'Department', accessor: 'department' },
+        { header: 'Subjects', accessor: 'subjects', cell: (row) => row.subjects.join(', ') },
+        {
+            header: 'Status',
+            accessor: 'status',
+            cell: (row) => (
+                <span className={`status-badge ${row.status.toLowerCase()}`}>
+                    {row.status}
+                </span>
+            )
+        },
+        {
+            header: 'Actions',
+            accessor: 'actions',
+            cell: (row) => (
+                <div className="action-buttons">
+                    <Button
+                        variant="outline"
+                        size="small"
+                        onClick={() => handleViewTeacher(row.id)}
+                    >
+                        View
+                    </Button>
+                    <Button variant="outline" size="small">Edit</Button>
+                    <Button variant="outline" size="small">Delete</Button>
+                </div>
+            )
+        }
+    ];
+
+    // Fetch teachers logic can be added here if needed
+
+    // Filter teachers based on search and filters
+    const filteredTeachers = teachers.filter(teacher => {
+        const matchesSearch = teacher.name.toLowerCase().includes(searchTerm.toLowerCase());
+        const matchesDepartment = filters.department === 'all' || teacher.department === filters.department;
+        const matchesStatus = filters.status === 'all' || teacher.status === filters.status;
+        return matchesSearch && matchesDepartment && matchesStatus;
+    });
+
+    // Render component
     return (
         <div className="teacher-list-page">
             <div className="page-header">
                 <h1>Teachers</h1>
-                <button 
-                    className="add-teacher-btn"
+                <Button
+                    variant="primary"
                     onClick={() => navigate('/admin/teachers/new')}
                 >
                     Add New Teacher
-                </button>
+                </Button>
             </div>
 
-            <div className="teacher-stats">
-                <div className="stat-card">
-                    <div className="stat-value">{teachers.length}</div>
-                    <div className="stat-label">Total Teachers</div>
-                </div>
-                <div className="stat-card">
-                    <div className="stat-value">
-                        {teachers.filter(t => t.status === 'Active').length}
-                    </div>
-                    <div className="stat-label">Active Teachers</div>
-                </div>
-                <div className="stat-card">
-                    <div className="stat-value">
-                        {new Set(teachers.map(t => t.department)).size}
-                    </div>
-                    <div className="stat-label">Departments</div>
-                </div>
-            </div>
+            <FilterSection
+                searchTerm={searchTerm}
+                onSearchChange={handleSearch}
+                filters={filters}
+                onFilterChange={handleFilterChange}
+                filterOptions={[
+                    { name: 'department', placeholder: 'All Departments', options: [{ value: 'all', label: 'All Departments' }, { value: 'Computer Science', label: 'Computer Science' }, { value: 'Mathematics', label: 'Mathematics' }] },
+                    { name: 'status', placeholder: 'All Status', options: [{ value: 'all', label: 'All Status' }, { value: 'Active', label: 'Active' }, { value: 'Inactive', label: 'Inactive' }] },
+                ]}
+            />
 
-            <div className="filters-section">
-                <input
-                    type="text"
-                    placeholder="Search teachers..."
-                    value={filters.search}
-                    onChange={(e) => setFilters({...filters, search: e.target.value})}
-                    className="search-input"
-                />
-                
-                <select 
-                    value={filters.department}
-                    onChange={(e) => setFilters({...filters, department: e.target.value})}
-                    className="filter-select"
-                >
-                    <option value="all">All Departments</option>
-                    <option value="Computer Science">Computer Science</option>
-                    <option value="Mathematics">Mathematics</option>
-                    <option value="Physics">Physics</option>
-                </select>
-
-                <select 
-                    value={filters.status}
-                    onChange={(e) => setFilters({...filters, status: e.target.value})}
-                    className="filter-select"
-                >
-                    <option value="all">All Status</option>
-                    <option value="Active">Active</option>
-                    <option value="Inactive">Inactive</option>
-                </select>
-            </div>
-
-            <div className="teachers-table-container">
-                <table className="teachers-table">
-                    <thead>
-                        <tr>
-                            <th>Teacher ID</th>
-                            <th>Name</th>
-                            <th>Department</th>
-                            <th>Subjects</th>
-                            <th>Status</th>
-                            <th>Email</th>
-                            <th>Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {teachers.map(teacher => (
-                            <tr key={teacher.id}>
-                                <td>{teacher.teacherId}</td>
-                                <td>{teacher.name}</td>
-                                <td>{teacher.department}</td>
-                                <td>{teacher.subjects.join(', ')}</td>
-                                <td>
-                                    <span className={`status-badge ${teacher.status.toLowerCase()}`}>
-                                        {teacher.status}
-                                    </span>
-                                </td>
-                                <td>{teacher.email}</td>
-                                <td>
-                                    <div className="action-buttons">
-                                        <button 
-                                            className="view-btn"
-                                            onClick={() => handleViewTeacher(teacher.id)}
-                                        >
-                                            View
-                                        </button>
-                                        <button className="edit-btn">Edit</button>
-                                        <button className="delete-btn">Delete</button>
-                                    </div>
-                                </td>
-                            </tr>
-                        ))}
-                    </tbody>
-                </table>
-            </div>
+            <DataTable
+                columns={columns}
+                data={filteredTeachers}
+                loading={!loading}
+                pagination
+                itemsPerPage={10}
+            />
         </div>
     );
 };

@@ -16,24 +16,7 @@
     margin: 0;
 }
 
-.filters-section {
-    display: flex;
-    gap: 1rem;
-    margin-bottom: 1.5rem;
-    flex-wrap: wrap;
-}
 
-.filter-controls {
-    display: flex;
-    gap: 1rem;
-}
-
-.filter-controls select {
-    padding: 0.5rem;
-    border: 1px solid var(--border-color);
-    border-radius: var(--border-radius-sm);
-    background-color: var(--white);
-}
 
 .student-name-cell {
     display: flex;

@@ -29,6 +29,12 @@
     margin-bottom: 1rem;
 }
 
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
 /* Label Styles */
 .common-input-label {
     color: var(--input-text);
@@ -37,6 +43,12 @@
     display: flex;
     align-items: center;
     user-select: none;
+}
+.form-label {
+    display: block;
+    margin-bottom: 8px;
+    color: #2c3e50;
+    font-weight: 500;
 }
 
 .common-input-required {
@@ -197,4 +209,4 @@
     .common-input-field:focus {
         outline: 2px solid Highlight;
     }
-} 
+}

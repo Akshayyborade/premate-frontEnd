@@ -1,6 +1,6 @@
 .analytics-charts {
     display: flex;
-
+    justify-content: space-between;
     gap: 2rem;
 }
 
@@ -12,11 +12,6 @@
     flex-direction: column;
 }
 
-.chart-container h3 {
-    margin: 0 0 1rem;
-    color: var(--secondary-color);
-    font-size: 1.25rem;
-}
 
 .charts-grid {
     /* display: grid;

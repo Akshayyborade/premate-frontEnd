@@ -1,10 +1,12 @@
 import React from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
+import { useAuth } from '../../../context/AuthContext';
 import './Sidebar.css';
 
 const Sidebar = () => {
     const location = useLocation();
     const isRootOrHome = location.pathname === '/admin' || location.pathname === '/admin/';
+    const { user } = useAuth();
 
     const menuItems = [
         { path: '/admin/dashboard', icon: '📊', label: 'Dashboard' },
@@ -18,7 +20,11 @@ const Sidebar = () => {
     return (
         <aside className="admin-sidebar">
             <div className="sidebar-header">
-                <img src="/logo.png" alt="Logo" className="sidebar-logo" />
+                {user?.base64Image ? (
+                    <img src={`data:image/png;base64,${user.base64Image}`} alt="Logo" className="sidebar-logo" />
+                ) : (
+                    <img src="/logo.png" alt="Default Logo" className="sidebar-logo" />
+                )}
                 <h2 className="sidebar-title">Admin Panel</h2>
             </div>
             
@@ -30,8 +36,9 @@ const Sidebar = () => {
                         className={({ isActive }) => 
                             `sidebar-link ${isActive || (isRootOrHome && item.path === '/admin/dashboard') ? 'active' : ''}`
                         }
+                        aria-label={item.label}
                     >
-                        <span className="sidebar-icon">{item.icon}</span>
+                        <span className="sidebar-icon" aria-hidden="true">{item.icon}</span>
                         <span className="sidebar-label">{item.label}</span>
                     </NavLink>
                 ))}

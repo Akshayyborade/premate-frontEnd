@@ -68,11 +68,11 @@
     gap: 20px;
 }
 
-.form-group {
+/* .form-group {
     display: flex;
     flex-direction: column;
     gap: 8px;
-}
+} */
 
 .form-group label {
     color: #2c3e50;

@@ -1,5 +1,6 @@
 import React, { useState, useMemo } from 'react';
 import './Timetable.css';
+import Button from '../../../common/Button/Button';
 
 const DAYS = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 const TIME_SLOTS = [
@@ -7,11 +8,21 @@ const TIME_SLOTS = [
   '1:00 PM', '2:00 PM', '3:00 PM', '4:00 PM', '5:00 PM'
 ];
 
-const Timetable = ({ data }) => {
+const Timetable = ({ data, onUpdateSchedule }) => {
   const [selectedGrade, setSelectedGrade] = useState(data.grades[0]);
   const [selectedBatch, setSelectedBatch] = useState(data.batches[0]);
   const [currentDate, setCurrentDate] = useState(new Date());
   const [view, setView] = useState('day');
+  const [isEditing, setIsEditing] = useState(false);
+  
+  // New state for editing
+  const [editingSlot, setEditingSlot] = useState({
+    date: '',
+    time: '',
+    subject: '',
+    teacher: '',
+    room: ''
+  });
 
   const formatDate = (date) => {
     return date.toISOString().split('T')[0];
@@ -54,6 +65,61 @@ const Timetable = ({ data }) => {
     );
   };
 
+  // New method to start editing a specific slot
+  const startEditingSlot = (date, time) => {
+    const existingSlot = data.schedule.find(item => 
+      formatDate(new Date(item.date)) === formatDate(date) &&
+      item.time === time &&
+      item.grade === selectedGrade &&
+      item.batch === selectedBatch
+    );
+
+    setEditingSlot({
+      date: formatDate(date),
+      time,
+      subject: existingSlot?.subject || '',
+      teacher: existingSlot?.teacher || '',
+      room: existingSlot?.room || ''
+    });
+    setIsEditing(true);
+  };
+
+  // Method to handle form input changes
+  const handleEditInputChange = (e) => {
+    const { name, value } = e.target;
+    setEditingSlot(prev => ({
+      ...prev,
+      [name]: value
+    }));
+  };
+
+  // Method to save edited slot
+  const saveEditedSlot = () => {
+    if (onUpdateSchedule) {
+      onUpdateSchedule({
+        ...editingSlot,
+        grade: selectedGrade,
+        batch: selectedBatch
+      });
+      setIsEditing(false);
+    }
+  };
+
+  // Method to clear/remove a slot
+  const clearSlot = () => {
+    if (onUpdateSchedule) {
+      onUpdateSchedule({
+        ...editingSlot,
+        grade: selectedGrade,
+        batch: selectedBatch,
+        subject: '',
+        teacher: '',
+        room: ''
+      });
+      setIsEditing(false);
+    }
+  };
+
   const renderDayView = () => {
     const filteredSchedule = getFilteredSchedule(currentDate);
     return (
@@ -65,6 +131,7 @@ const Timetable = ({ data }) => {
               <th>Subject</th>
               <th>Teacher</th>
               <th>Room</th>
+              <th>Actions</th>
             </tr>
           </thead>
           <tbody>
@@ -76,6 +143,16 @@ const Timetable = ({ data }) => {
                   <td>{slot?.subject || '-'}</td>
                   <td>{slot?.teacher || '-'}</td>
                   <td>{slot?.room || '-'}</td>
+                  <td>
+                  
+                     <Button
+                     onClick={()=> startEditingSlot(currentDate,time) 
+                     }
+                     size='small'
+                     variant="outline"
+                     
+                     >Edit</Button>
+                  </td>
                 </tr>
               );
             })}
@@ -116,6 +193,12 @@ const Timetable = ({ data }) => {
                           <div className="room">{slot.room}</div>
                         </div>
                       )}
+                      <button 
+                        onClick={() => startEditingSlot(date, time)}
+                        className="edit-slot-button"
+                      >
+                        Edit
+                      </button>
                     </td>
                   );
                 })}
@@ -127,10 +210,90 @@ const Timetable = ({ data }) => {
     );
   };
 
+  const renderEditForm = () => {
+    return (
+      <div className="edit-timetable-section">
+        <h3>Edit Timetable Slot</h3>
+        <form onSubmit={(e) => {
+          e.preventDefault();
+          saveEditedSlot();
+        }}>
+          <div className="form-group">
+            <label>Date:</label>
+            <input 
+              type="date" 
+              name="date"
+              value={editingSlot.date}
+              onChange={handleEditInputChange}
+              required 
+            />
+          </div>
+          <div className="form-group">
+            <label>Time:</label>
+            <select
+              name="time"
+              value={editingSlot.time}
+              onChange={handleEditInputChange}
+              required
+            >
+              {TIME_SLOTS.map(time => (
+                <option key={time} value={time}>{time}</option>
+              ))}
+            </select>
+          </div>
+          <div className="form-group">
+            <label>Subject:</label>
+            <input 
+              type="text"
+              name="subject"
+              value={editingSlot.subject}
+              onChange={handleEditInputChange}
+            />
+          </div>
+          <div className="form-group">
+            <label>Teacher:</label>
+            <input 
+              type="text"
+              name="teacher"
+              value={editingSlot.teacher}
+              onChange={handleEditInputChange}
+            />
+          </div>
+          <div className="form-group">
+            <label>Room:</label>
+            <input 
+              type="text"
+              name="room"
+              value={editingSlot.room}
+              onChange={handleEditInputChange}
+            />
+          </div>
+          <div className="form-actions">
+            <Button type="submit" variant="primary" size="medium" className="save-button">
+              Save
+            </Button>
+            <Button type="button" onClick={clearSlot} variant="secondary" size="medium" className="clear-button">
+              Clear Slot
+            </Button>
+            <Button 
+              type="button" 
+              onClick={() => setIsEditing(false)} 
+              variant="outline" 
+              size="medium" 
+              className="cancel-button"
+            >
+              Cancel
+            </Button>
+          </div>
+        </form>
+      </div>
+    );
+  };
+
   return (
     <div className="timetable-container">
       <div className="timetable-header">
-        <h2>Class Timetable</h2>
+        <h3>Class Timetable</h3>
         <div className="timetable-filters">
           <select 
             value={selectedGrade}
@@ -174,7 +337,9 @@ const Timetable = ({ data }) => {
         </button>
       </div>
 
-      {view === 'day' ? renderDayView() : renderWeekView()}
+      {isEditing ? renderEditForm() : (
+        view === 'day' ? renderDayView() : renderWeekView()
+      )}
     </div>
   );
 };

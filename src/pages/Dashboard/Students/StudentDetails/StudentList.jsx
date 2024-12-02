@@ -5,6 +5,7 @@ import Button from '../../../../components/common/Button/Button';
 import SearchBar from '../../../../components/common/SearchBar/SearchBar';
 import { studentService } from '../../../../services/api/student.service';
 import './StudentList.css';
+import FilterSection from '../../../../components/common/FilterSection/FilterSection'; // Adjust the import path as necessary
 
 const StudentList = () => {
     const [students, setStudents] = useState([]);
@@ -14,30 +15,14 @@ const StudentList = () => {
         course: '',
         status: ''
     });
-    
+
     const navigate = useNavigate();
 
+    // Table columns
     const columns = [
-        {
-            header: 'Student ID',
-            accessor: 'studentId',
-        },
-        {
-            header: 'Name',
-            accessor: 'name',
-            cell: (row) => (
-                <div className="student-name-cell">
-                    <div className="student-avatar">
-                        {row.name.charAt(0)}
-                    </div>
-                    {row.name}
-                </div>
-            )
-        },
-        {
-            header: 'Course',
-            accessor: 'course',
-        },
+        { header: 'Student ID', accessor: 'studentId' },
+        { header: 'Name', accessor: 'name' },
+        { header: 'Course', accessor: 'course' },
         {
             header: 'Enrollment Date',
             accessor: 'enrollmentDate',
@@ -57,17 +42,23 @@ const StudentList = () => {
             accessor: 'actions',
             cell: (row) => (
                 <div className="action-buttons">
-                    <Button 
-                        variant="outline" 
+                    <Button
+                        variant="outline"
                         size="small"
-                        onClick={() => navigate(`/dashboard/students/${row.id}`)}
+                        onClick={() => {
+                            console.log(`Navigating to view student ID: ${row.studentId}`);
+                            navigate(`/admin/students/${row.studentId}`);
+                        }}
                     >
                         View
                     </Button>
-                    <Button 
-                        variant="outline" 
+                    <Button
+                        variant="outline"
                         size="small"
-                        onClick={() => navigate(`/dashboard/students/${row.id}/edit`)}
+                        onClick={() => {
+                            console.log(`Navigating to edit student ID: ${row.studentId}`);
+                            navigate(`/admin/students/${row.studentId}/edit`);
+                        }}
                     >
                         Edit
                     </Button>
@@ -76,15 +67,30 @@ const StudentList = () => {
         }
     ];
 
-    useEffect(() => {
-        fetchStudents();
-    }, []);
-
     const fetchStudents = async () => {
         try {
             setLoading(true);
+
+            // Fetch raw data from the API
             const data = await studentService.getAllStudents();
-            setStudents(data);
+            console.log(data)
+            // Map the API response to match the expected structure with safe checks
+            const mappedData = data.map(student => ({
+                
+
+                studentId: student.stud_id || 'N/A', // Use 'N/A' if stud_id is missing
+                name: student.name
+                    ? `${student.name.fname || ''} ${student.name.mname || ''} ${student.name.lname || ''}`.trim()
+                    : 'Unknown Name', // Fallback if studentName is undefined
+                course: student.grade ? student.grade.gradeName || 'N/A' : 'N/A', // Fallback for missing grade
+                enrollmentDate: student.dateOfAddmission
+                || 'N/A', // Fallback for missing dobDate
+                status: student.isactive ? "Active" : "Inactive"
+            }));
+
+            setStudents(mappedData); // Update state with mapped data
+            console.log('Mapped data:', mappedData);
+
         } catch (error) {
             console.error('Error fetching students:', error);
         } finally {
@@ -92,69 +98,82 @@ const StudentList = () => {
         }
     };
 
-    const handleSearch = (value) => {
-        setSearchTerm(value);
+
+    // Fetch students on component mount
+    useEffect(() => {
+        fetchStudents();
+    }, []);
+
+    // Handle search term changes
+    const handleSearch = (term) => {
+        setSearchTerm(term);
+        // Add your search logic here
     };
 
-    const handleFilterChange = (name, value) => {
-        setFilters(prev => ({
-            ...prev,
-            [name]: value
+    // Handle filter changes
+    const handleFilterChange = (filterName, value) => {
+        setFilters((prevFilters) => ({
+            ...prevFilters,
+            [filterName]: value,
         }));
+        // Add your filter logic here
     };
 
+    // Filter students based on search and filters
     const filteredStudents = students.filter(student => {
+        console.log(student);
         const matchesSearch = student.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                            student.studentId.toLowerCase().includes(searchTerm.toLowerCase());
+            student.studentId.toString().toLowerCase().includes(searchTerm.toLowerCase());
         const matchesCourse = !filters.course || student.course === filters.course;
         const matchesStatus = !filters.status || student.status === filters.status;
-        
         return matchesSearch && matchesCourse && matchesStatus;
     });
 
+    const filterOptions = [
+        {
+            name: 'course',
+            placeholder: 'All Courses',
+            options: [
+                { value: '', label: 'All Courses' },
+                { value: 'A', label: 'A' },
+                { value: 'B', label: 'B' },
+                { value: 'C', label: 'C' },
+            ],
+        },
+        {
+            name: 'status',
+            placeholder: 'All Status',
+            options: [
+                { value: '', label: 'All Status' },
+                { value: 'Active', label: 'Active' },
+                { value: 'Inactive', label: 'Inactive' },
+                { value: 'Pending', label: 'Pending' },
+            ],
+        },
+    ];
+
+    // Render component
     return (
         <div className="student-list-container">
             <div className="page-header">
                 <h1>Students</h1>
-                <Button 
+                <Button
                     variant="primary"
-                    onClick={() => navigate('/dashboard/students/new')}
+                    onClick={() => navigate('/admin/students/new')}
                 >
                     Add New Student
                 </Button>
             </div>
 
-            <div className="filters-section">
-                <SearchBar 
-                    value={searchTerm}
-                    onChange={handleSearch}
-                    placeholder="Search students..."
-                />
-                
-                <div className="filter-controls">
-                    <select
-                        value={filters.course}
-                        onChange={(e) => handleFilterChange('course', e.target.value)}
-                    >
-                        <option value="">All Courses</option>
-                        <option value="Mathematics">Mathematics</option>
-                        <option value="Physics">Physics</option>
-                        <option value="Chemistry">Chemistry</option>
-                    </select>
+            <FilterSection
+                searchTerm={searchTerm}
+                onSearchChange={handleSearch}
+                filters={filters}
+                onFilterChange={handleFilterChange}
+                filterOptions={filterOptions}
+            />
 
-                    <select
-                        value={filters.status}
-                        onChange={(e) => handleFilterChange('status', e.target.value)}
-                    >
-                        <option value="">All Status</option>
-                        <option value="Active">Active</option>
-                        <option value="Inactive">Inactive</option>
-                        <option value="Pending">Pending</option>
-                    </select>
-                </div>
-            </div>
-
-            <DataTable 
+            <DataTable
                 columns={columns}
                 data={filteredStudents}
                 loading={loading}
@@ -165,4 +184,4 @@ const StudentList = () => {
     );
 };
 
-export default StudentList; 
+export default StudentList;

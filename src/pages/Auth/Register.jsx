@@ -62,8 +62,17 @@ const Register = () => {
 
     // Update validateField function
     const validateField = async (name, value) => {
+        console.log(`Validating field: ${name}, value: ${value}`);
+        console.log('Current formData:', formData);
+
         const newErrors = { ...errors };
-        
+
+        // Check if formData is defined and has the required properties
+        if (!formData || !formData.hasOwnProperty(name)) {
+            console.error(`Field ${name} is not defined in formData.`);
+            return false; // Skip validation if the field is not defined
+        }
+
         switch (name) {
             case 'email':
                 if (!value) {
@@ -80,12 +89,11 @@ const Register = () => {
                         }
                     } catch (error) {
                         console.error('Email check failed:', error);
-                        // Don't block the user if the check fails
-                        delete newErrors.email;
+                        delete newErrors.email; // Don't block the user if the check fails
                     }
                 }
                 break;
-            
+
             case 'confirmEmail':
                 if (!value) {
                     newErrors.confirmEmail = 'Please confirm your email';
@@ -121,9 +129,9 @@ const Register = () => {
             case 'foundingDate':
             case 'slogan':
                 if (!value) {
-                    newErrors[name] = `${name.charAt(0).toUpperCase() + name.slice(1)} is required`;
+                    newErrors.slogan = 'Slogan is required';
                 } else {
-                    delete newErrors[name];
+                    delete newErrors.slogan;
                 }
                 break;
 
@@ -142,7 +150,7 @@ const Register = () => {
             ...prevState,
             [name]: value
         }));
-        
+
         if (name === 'email') {
             // Add debounce for email validation
             clearTimeout(emailCheckTimeout.current);
@@ -171,20 +179,24 @@ const Register = () => {
     // Update handleNext
     const handleNext = async () => {
         if (step === 1) {
+            console.log("step 1")
             // Validate email and password fields
             const emailValid = await validateField('email', formData.email);
             const confirmEmailValid = await validateField('confirmEmail', formData.confirmEmail);
             const passwordValid = await validateField('password', formData.password);
             const confirmPasswordValid = await validateField('confirmPassword', formData.confirmPassword);
-
+            console.log(emailValid, confirmEmailValid, passwordValid, confirmPasswordValid);
             if (emailValid && confirmEmailValid && passwordValid && confirmPasswordValid) {
+                console.log("next")
                 handleStepChange(step + 1);
             }
         } else if (step === 2) {
             // Validate institution details
-            ['institutionName', 'website', 'foundingDate', 'slogan'].forEach(field => {
-                validateField(field, formData[field]);
-            });
+            console.log("step 2")
+            // ['institutionName', 'website', 'foundingDate'].forEach(field => {
+            //     validateField(field, formData[field]);
+            // });
+            handleStepChange(step + 1);
         }
     };
 
@@ -196,8 +208,6 @@ const Register = () => {
         try {
             console.log('Attempting registration...');
             await register(formData);
-            
-            toast.success('Registration successful!');
             setTimeout(() => navigate('/login/admin'), 2000);
 
         } catch (error) {
@@ -268,8 +278,8 @@ const Register = () => {
                     <div className="admin-register-password-strength">
                         <div className="admin-register-strength-bars">
                             {[...Array(5)].map((_, index) => (
-                                <div 
-                                    key={index} 
+                                <div
+                                    key={index}
                                     className={`admin-register-strength-bar ${index < passwordStrength ? 'active' : ''}`}
                                 />
                             ))}
@@ -420,10 +430,10 @@ const Register = () => {
     const handleEmailChange = (e) => {
         const { value } = e.target;
         setFormData(prev => ({ ...prev, email: value }));
-        
+
         // Clear previous error immediately when user starts typing
         setErrors(prev => ({ ...prev, email: '' }));
-        
+
         // Debounced validation
         debouncedEmailCheck(value, (error) => {
             setErrors(prev => ({ ...prev, email: error }));
@@ -432,7 +442,7 @@ const Register = () => {
 
     return (
         <>
-            <ToastContainer 
+            <ToastContainer
                 position="top-right"
                 autoClose={5000}
                 hideProgressBar={false}
@@ -448,7 +458,7 @@ const Register = () => {
                 <Link to="/" className="admin-register-back-link">
                     ← Back to Home
                 </Link>
-                
+
                 <div className="admin-register-card">
                     <div className="admin-register-content">
                         <div className="admin-register-form-section">
@@ -459,8 +469,8 @@ const Register = () => {
 
                             <div className="admin-register-stepper">
                                 {steps.map((stepName, index) => (
-                                    <div 
-                                        key={index} 
+                                    <div
+                                        key={index}
                                         className={`admin-register-step ${index + 1 === step ? 'active' : ''} 
                                                   ${index + 1 < step ? 'completed' : ''}`}
                                     >
@@ -469,7 +479,7 @@ const Register = () => {
                                     </div>
                                 ))}
                             </div>
-                            
+
                             <form onSubmit={handleSubmit} className="admin-register-form">
                                 {step === 1 && (
                                     <>
@@ -503,8 +513,8 @@ const Register = () => {
                                             <button type="button" onClick={handleBack}>
                                                 Back
                                             </button>
-                                            <button 
-                                                type="submit" 
+                                            <button
+                                                type="submit"
                                                 className={isLoading ? 'loading' : ''}
                                                 disabled={isLoading}
                                             >
@@ -518,9 +528,9 @@ const Register = () => {
 
                         <div className="admin-register-image-section">
                             <div className="admin-register-image-container">
-                                <img 
-                                    src={manImg} 
-                                    alt="Registration illustration" 
+                                <img
+                                    src={manImg}
+                                    alt="Registration illustration"
                                     className="admin-register-image"
                                 />
                             </div>

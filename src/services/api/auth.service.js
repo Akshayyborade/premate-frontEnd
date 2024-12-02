@@ -1,6 +1,6 @@
 import axios from 'axios';
-import { API_BASE_URL, API_ENDPOINTS } from '../../Constant/api';
 import { CONFIG } from '../config';
+import { API_BASE_URL } from '../config';
 
 class AuthService {
     constructor() {
@@ -8,7 +8,7 @@ class AuthService {
         this._user = null;
 
         this.api = axios.create({
-            baseURL: API_BASE_URL,
+            baseURL: API_BASE_URL || 'https://api.yourapp.com',
             timeout: CONFIG.API_TIMEOUT,
             headers: {
                 'Content-Type': 'application/json'
@@ -16,31 +16,36 @@ class AuthService {
             withCredentials: true
         });
 
-        // Update request interceptor
+        this.setupInterceptors();
+    }
+
+    setupInterceptors() {
+        // Request Interceptor
         this.api.interceptors.request.use(
             (config) => {
-                if (this._accessToken) {
-                    config.headers.Authorization = `Bearer ${this._accessToken}`;
+                const token = this.getAccessToken();
+                if (token) {
+                    config.headers.Authorization = `Bearer ${token}`;
                 }
                 return config;
             },
             (error) => Promise.reject(error)
         );
 
-        // Update response interceptor
+        // Response Interceptor
         this.api.interceptors.response.use(
             (response) => response,
             async (error) => {
                 const originalRequest = error.config;
 
+                // Handle token refresh for 401 errors
                 if (error.response?.status === 401 && !originalRequest._retry) {
                     originalRequest._retry = true;
                     try {
-                        // Refresh token endpoint will use the HTTP-only cookie
-                        const response = await this.api.post('/auth/refresh-token');
-                        this._accessToken = response.data.accessToken;
+                        const response = await this.refreshToken();
+                        this._accessToken = response.accessToken;
                         
-                        // Retry the original request with new token
+                        // Retry original request
                         originalRequest.headers.Authorization = `Bearer ${this._accessToken}`;
                         return this.api(originalRequest);
                     } catch (refreshError) {
@@ -54,91 +59,70 @@ class AuthService {
         );
     }
 
-    async register(formData) {
-        console.log('Starting registration process...', { formData }); // Debug
+    async register(userData) {
         try {
             const response = await this.api.post('/auth/signup', {
-                email: formData.email,
-                password: formData.password,
-                institutionName: formData.institutionName,
-                website: formData.website,
-                foundingDate: formData.foundingDate,
-                slogan: formData.slogan,
+                ...userData,
                 appUserRole: 'ADMIN',
                 locked: false,
                 enabled: false
             });
 
-            console.log('Registration successful:', response.data); // Debug
             return {
                 success: true,
                 message: response.data.message
             };
         } catch (error) {
-            console.error('Registration error details:', {
-                status: error.response?.status,
-                data: error.response?.data,
-                message: error.message
-            }); // Enhanced error logging
-
-            // If there's a response from the server
-            if (error.response) {
-                const errorMessage = error.response.data?.message || 'Registration failed';
-                switch (error.response.status) {
-                    case 409:
-                        throw new Error('already registered.');
-                    case 400:
-                        throw new Error(errorMessage || 'Invalid registration data');
-                    case 422:
-                        throw new Error('Invalid email or password format');
-                    case 500:
-                        throw new Error('Server error. Please try again later.');
-                    default:
-                        throw new Error(errorMessage);
-                }
-            }
-            
-            // Network or other errors
-            throw new Error('Unable to connect to the server. Please check your internet connection.');
+            this.handleRegistrationError(error);
         }
     }
 
     async login(email, password) {
         try {
-            const response = await this.api.post(API_ENDPOINTS.AUTH.LOGIN_ADMIN, {
-                email,
-                password
-            });
-            console.log(response.data);
+            const response = await this.api.post('/auth/adminLogin', { email, password });
+            console.log(response);
+            
             if (response.data) {
                 const { admin, accessToken } = response.data;
-                this._accessToken = accessToken;
-                this._user = admin;
-
-                // Store non-sensitive user data
-                localStorage.setItem(CONFIG.USER_DATA_KEY, JSON.stringify({
-                    id: admin.institutionId,
-                    email: admin.email,
-                    institutionName: admin.institutionName
-                }));
-
+                this.setAuthData(admin, accessToken);
                 return response.data;
             }
             throw new Error('Invalid response format');
         } catch (error) {
-            console.error('Login error:', error);
             this.handleLoginError(error);
         }
     }
 
     async logout() {
         try {
-            await this.api.post(API_ENDPOINTS.AUTH.LOGOUT);
+            await this.api.post('/auth/logout');
         } catch (error) {
             console.error('Logout error:', error);
         } finally {
             this.clearAuth();
         }
+    }
+
+    async refreshToken() {
+        try {
+            const response = await this.api.post('/auth/refresh-token');
+            return response.data;
+        } catch (error) {
+            throw error;
+        }
+    }
+
+    setAuthData(admin, accessToken) {
+        console.log('Setting auth data:', admin, accessToken); // Debug log
+        this._accessToken = accessToken;
+        this._user = admin;
+        
+        // Store non-sensitive user data
+        localStorage.setItem(CONFIG.USER_DATA_KEY, JSON.stringify({
+            id: admin.institutionId,
+            email: admin.email,
+            role: admin.appUserRole
+        }));
     }
 
     clearAuth() {
@@ -151,45 +135,55 @@ class AuthService {
         if (this._user) return this._user;
         
         const userData = localStorage.getItem(CONFIG.USER_DATA_KEY);
-        if (userData) {
-            this._user = JSON.parse(userData);
-            return this._user;
-        }
-        return null;
+        console.log('Retrieved user data:', userData); // Debug log
+        return userData ? JSON.parse(userData) : null;
     }
 
     isAuthenticated() {
-        return !!this.getAccessToken() && !!this.getCurrentUser();
+        const isAuth = !!this.getAccessToken() && !!this.getCurrentUser();
+        console.log('Is Authenticated:', isAuth); // Debug log
+        return isAuth;
+    }
+
+    getAccessToken() {
+        return this._accessToken;
+    }
+
+    handleRegistrationError(error) {
+        const errorMap = {
+            409: 'User already exists',
+            400: 'Invalid registration data',
+            422: 'Invalid email or password format',
+            500: 'Server error. Please try again later.'
+        };
+
+        const status = error.response?.status;
+        const message = error.response?.data?.message || errorMap[status] || 'Registration failed';
+        
+        throw new Error(message);
     }
 
     handleLoginError(error) {
-        console.error('Handling login error:', error); // Debugging line
-        const status = error.response?.status;
-        const message = error.response?.data?.message;
+        const errorMap = {
+            401: 'Invalid email or password',
+            423: 'Account not verified',
+            429: 'Too many login attempts'
+        };
 
-        switch (status) {
-            case 401:
-                throw new Error('Invalid email or password');
-            case 423:
-                throw new Error('Account not verified. Please check your email');
-            case 429:
-                throw new Error('Too many login attempts. Please try again later');
-            default:
-                throw new Error(message || 'Login failed');
-        }
+        const status = error.response?.status;
+        const message = error.response?.data?.message || errorMap[status] || 'Login failed';
+        
+        throw new Error(message);
     }
 
     async verifyEmail(token) {
-        console.log('Verifying email with token:', token); // Debugging line
         try {
-            const response = await this.api.get(`/api/auth/verify-email?token=${token}`);
-            console.log('Verify email response:', response); // Debugging line
+            const response = await this.api.get(`/auth/verify-email?token=${token}`);
             return {
                 success: true,
                 message: response.data
             };
         } catch (error) {
-            console.error('Verify email error:', error); // Debugging line
             throw new Error(error.response?.data || 'Email verification failed');
         }
     }
@@ -220,10 +214,6 @@ class AuthService {
             throw error;
         }
     }
-
-    getAccessToken() {
-        return this._accessToken;
-    }
 }
 
-export const authService = new AuthService(); 
+export const authService = new AuthService();

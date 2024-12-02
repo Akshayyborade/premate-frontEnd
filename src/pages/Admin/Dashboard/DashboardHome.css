@@ -27,8 +27,9 @@
     /* grid-template-rows: auto 1fr 2fr; */
     gap: 1.5rem;
     /* overflow-y: auto; */
-    display: flex
-;
+    display: flex;
+    height: 100%;
+    width: 65%;
     flex-direction: column;
 }
 
@@ -45,23 +46,18 @@
 
 /* Middle Section - Timetable */
 .dashboard-middle {
-  padding: 1.25rem;
+
   background: var(--white);
   border-radius: 0.5rem;
   box-shadow: var(--shadow-sm);
   overflow: auto;
 }
 
-/* Bottom Section - Analytics and Calendar */
+/* Bottom Section - Analytics and Calendar
 .dashboard-bottom {
-    /* display: grid
-; */
-    /* grid-template-columns: 3fr 2fr; */
-    gap: 1.5rem;
-    /* min-height: 400px; */
-    display: flex
+
 ;
-}
+} */
 
 .analytics-section,
 .calendar-section {
@@ -75,10 +71,11 @@
 
 /* Sidebar Layout */
 .dashboard-sidebar {
-  display: grid;
-  grid-template-rows: 1fr 1fr;
+ display: flex;
+ flex-direction: column;
   gap: 1.5rem;
   height: 100%;
+  width: 35%;
 }
 
 .task-section,

@@ -59,7 +59,7 @@ const ExamList = () => {
             <div className="exam-list-header">
                 <h1>Exam Management</h1>
                 <div className="header-actions">
-                    <Link to="generator" className="create-exam-btn">
+                    <Link to="new" className="create-exam-btn">
                         Create New Exam
                     </Link>
                 </div>

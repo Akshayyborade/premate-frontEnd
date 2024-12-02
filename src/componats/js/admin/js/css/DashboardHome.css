@@ -98,3 +98,48 @@ button {
 button:hover {
     background-color: #0056b3;
 }
+
+@media (max-width: 768px) {
+    .dashboard {
+        padding: 10px; /* Increased padding for mobile */
+    }
+
+    .container {
+        flex-direction: column; /* Stack elements vertically */
+        gap: 10px; /* Reduced gap for mobile */
+    }
+
+    .top_panel, .bottom_panel {
+        flex-direction: column; /* Stack panels vertically */
+        gap: 10px; /* Adjusted gap */
+    }
+
+    .top_panel > div, .bottom_panel > div {
+        flex-direction: column; /* Ensure cards stack vertically */
+        padding: 8px; /* Reduced padding */
+    }
+
+    .card-container {
+        flex-direction: column; /* Stack cards vertically */
+        gap: 10px; /* Adjusted gap */
+    }
+
+    .events, .info-card, .chart-card, .tasks-card, .notices-card {
+        flex-direction: column; /* Ensure cards stack vertically */
+        padding: 8px; /* Reduced padding */
+    }
+
+    .scrollmenu {
+        flex-direction: column; /* Stack menu items vertically */
+        overflow-x: auto; /* Allow horizontal scrolling if needed */
+    }
+
+    .scrollmenu a {
+        padding: 12px; /* Adjusted padding for mobile */
+    }
+
+    button {
+        width: 100%; /* Full width buttons */
+        padding: 10px; /* Increased padding for better touch targets */
+    }
+}

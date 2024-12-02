@@ -58,10 +58,6 @@
     flex-direction: column;
 }
 
-.chart-container h3 {
-    margin: 0 0 1rem;
-    color: var(--secondary-color);
-}
 
 .exam-details {
     background: var(--white);

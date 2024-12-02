@@ -16,16 +16,14 @@ const Breadcrumbs = () => {
 
     return (
         <nav className="breadcrumbs">
-            <Link to="/" className="breadcrumb-item">
-                Home
-            </Link>
+           
             {pathnames.map((name, index) => {
                 const routeTo = `/${pathnames.slice(0, index + 1).join('/')}`;
                 const isLast = index === pathnames.length - 1;
 
                 return (
                     <React.Fragment key={routeTo}>
-                        <span className="breadcrumb-separator">/</span>
+                        <span className="breadcrumb-separator"></span>
                         {isLast ? (
                             <span className="breadcrumb-item active">
                                 {getBreadcrumbName(name)}

@@ -30,7 +30,7 @@ const StudentDetails = () => {
     };
 
     if (loading) return <div>Loading...</div>;
-    // if (!student) return <div>Student not found</div>;
+    if (!student) return <div>Student not found</div>;
 
     const tabs = [
         { id: 'overview', label: 'Overview' },
@@ -45,20 +45,20 @@ const StudentDetails = () => {
             <div className="details-header">
                 <div className="student-profile">
                     <div className="student-avatar">
-                        {student?.photo ? (
-                            <img src={student.photo} alt={student.name} />
+                        {student.photo ? (
+                            <img src={student.photo} alt={`${student.name.fname} ${student.name.lname}`} />
                         ) : (
-                            <span>{student?.name.charAt(0)}</span>
+                            <span>{student.name.fname.charAt(0)}</span>
                         )}
                     </div>
                     <div className="student-info">
-                        <h1>{student?.name}</h1>
+                        <h1>{`${student.name.fname} ${student.name.lname}`}</h1>
                         <div className="student-meta">
-                            <span>ID: {student?.studentId}</span>
-                            <span>Course: {student?.course}</span>
-                            <span>Batch: {student?.batch}</span>
-                            <span className={`status ${student?.status.toLowerCase()}`}>
-                                {student?.status}
+                            <span>ID: {student.stud_id}</span>
+                            <span>Course: {student.grade.gradeName}</span>
+                            <span>Batch: {student.grade.batch || 'N/A'}</span>
+                            <span className={`status ${student.isactive ? 'active' : 'inactive'}`}>
+                                {student.isactive ? 'Active' : 'Inactive'}
                             </span>
                         </div>
                     </div>
@@ -66,7 +66,10 @@ const StudentDetails = () => {
                 <div className="details-actions">
                     <Button
                         variant="outline"
-                        onClick={() => navigate(`/dashboard/students/${id}/edit`)}
+                        onClick={() => {
+                            console.log(`Navigating to edit for student ID: ${id}`);
+                            navigate(`/admin/students/${id}/edit`);
+                        }}
                     >
                         Edit
                     </Button>
@@ -96,23 +99,23 @@ const StudentDetails = () => {
                             <div className="info-grid">
                                 <div className="info-item">
                                     <label>Date of Birth</label>
-                                    <span>{student?.dateOfBirth}</span>
+                                    <span>{student.dobDate}</span>
                                 </div>
                                 <div className="info-item">
                                     <label>Gender</label>
-                                    <span>{student?.gender}</span>
+                                    <span>{student.gender}</span>
                                 </div>
                                 <div className="info-item">
                                     <label>Email</label>
-                                    <span>{student?.email}</span>
+                                    <span>{student.email}</span>
                                 </div>
                                 <div className="info-item">
                                     <label>Phone</label>
-                                    <span>{student?.phone}</span>
+                                    <span>{student.mobNumber}</span>
                                 </div>
                                 <div className="info-item">
                                     <label>Address</label>
-                                    <span>{student?.address}</span>
+                                    <span>{`${student.address?.city}, ${student.address?.state}, ${student.address?.zip}`}</span>
                                 </div>
                             </div>
                         </div>
@@ -122,15 +125,15 @@ const StudentDetails = () => {
                             <div className="info-grid">
                                 <div className="info-item">
                                     <label>Parent Name</label>
-                                    <span>{student?.parentName}</span>
+                                    <span>{student.parents.parentName}</span>
                                 </div>
                                 <div className="info-item">
                                     <label>Parent Phone</label>
-                                    <span>{student?.parentPhone}</span>
+                                    <span>{student.parents.mobNo}</span>
                                 </div>
                                 <div className="info-item">
                                     <label>Emergency Contact</label>
-                                    <span>{student?.emergencyContact}</span>
+                                    <span>{student.parents.mobNo}</span> {/* Assuming this is the emergency contact */}
                                 </div>
                             </div>
                         </div>
@@ -140,11 +143,11 @@ const StudentDetails = () => {
                             <div className="info-grid">
                                 <div className="info-item">
                                     <label>Admission Date</label>
-                                    <span>{student?.admissionDate}</span>
+                                    <span>{student.dateOfAddmission}</span>
                                 </div>
                                 <div className="info-item">
                                     <label>Previous School</label>
-                                    <span>{student?.previousSchool}</span>
+                                    <span>{student.schoolName}</span>
                                 </div>
                             </div>
                         </div>

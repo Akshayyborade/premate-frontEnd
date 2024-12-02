@@ -1,67 +1,96 @@
-.button {
+:root {
+    /* Green-based design tokens */
+    --green-50: #ebfbee;
+    --green-100: #d3f9d8;
+    --green-200: #b2f2bb;
+    --green-300: #8ce99a;
+    --green-400: #69db7c;
+    --green-500: #40c057;
+    --green-600: #2b9348;
+    --green-700: #228b22;
+    --green-800: #1b5e20;
+    --green-900: #0d1b0d;
+  
+    /* Border radius options */
+    --border-radius-sm: 0.25rem;
+    --border-radius-md: 0.5rem;
+    --border-radius-lg: 0.75rem;
+  }
+  
+  .button {
     display: inline-flex;
     align-items: center;
     justify-content: center;
     padding: 0.75rem 1.5rem;
-    border: none;
+    border: 1px solid transparent;
     border-radius: var(--border-radius-md);
     font-size: 0.875rem;
     font-weight: 500;
     cursor: pointer;
     transition: all 0.2s ease;
-}
-
-.button-full {
+    
+    /* Green theme base styles */
+    background-color: var(--button-bg, var(--green-500));
+    color: var(--button-text, #ffffff);
+    border-color: var(--button-border, transparent);
+    
+    /* Subtle shadow for depth */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  .button:hover:not(:disabled) {
+    background-color: var(--button-hover-bg, var(--green-600));
+    transform: translateY(-1px);
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.15);
+  }
+  
+  .button:active:not(:disabled) {
+    transform: translateY(1px);
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+  }
+  
+  .button-full {
     width: 100%;
-}
-
-/* Variants */
-.button-primary {
-    background: var(--primary-color);
-    color: var(--white);
-}
-
-.button-primary:hover {
-    background: var(--primary-dark);
-}
-
-.button-secondary {
-    background: var(--secondary-color);
-    color: var(--white);
-}
-
-.button-secondary:hover {
-    background: var(--secondary-dark);
-}
-
-.button-outline {
-    background: transparent;
-    border: 1px solid var(--primary-color);
-    color: var(--primary-color);
-}
-
-.button-outline:hover {
-    background: var(--primary-light);
-}
-
-/* Sizes */
-.button-small {
+  }
+  
+  /* Variant-specific styles */
+  .button-outline {
+    background-color: var(--button-bg, transparent);
+    border-color: var(--button-border, var(--green-500));
+    color: var(--button-text, var(--green-700));
+  }
+  
+  .button-outline:hover:not(:disabled) {
+    background-color: var(--button-hover-bg, var(--green-50));
+  }
+  
+  /* Size variants */
+  .button-small {
     padding: 0.5rem 1rem;
     font-size: 0.75rem;
-}
-
-.button-medium {
+  }
+  
+  .button-medium {
     padding: 0.75rem 1.5rem;
     font-size: 0.875rem;
-}
-
-.button-large {
+  }
+  
+  .button-large {
     padding: 1rem 2rem;
     font-size: 1rem;
-}
-
-/* Disabled state */
-.button:disabled {
+  }
+  
+  /* Disabled state */
+  .button:disabled {
     opacity: 0.6;
     cursor: not-allowed;
-} 
+    transform: none;
+    box-shadow: none;
+  }
+  
+  /* Responsive touch considerations */
+  @media (max-width: 768px) {
+    .button {
+      padding: 0.625rem 1.25rem;
+    }
+  }

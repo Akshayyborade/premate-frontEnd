@@ -14,6 +14,8 @@ import LoadingSpinner from '../../../components/common/LoadingSpinner';
 import Timetable from '../../../components/features/Dashboard/Timetable/Timetable';
 import './DashboardHome.css';
 
+import { useAuth } from '../../../context/AuthContext';
+
 // PropTypes for data structures
 const AnalyticsDataShape = {
     revenue: PropTypes.arrayOf(PropTypes.number).isRequired,
@@ -33,7 +35,9 @@ const CalendarEventShape = {
 const DashboardHome = () => {
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState(null);
-
+    
+    const {user } = useAuth();
+    console.log(user);
     // Mock data for analytics
     const analyticsData = {
         revenue: [1500, 2300, 3200, 4100, 2800, 3500],
