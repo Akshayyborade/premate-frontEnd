@@ -5,13 +5,35 @@ import ExamProfile from './ExamProfile';
 import QuestionPaperGenerator from './QuestionPaperGenerator';
 import './ExamDetails.css';
 
+/**
+ * ExamDetails Component
+ * 
+ * Main router container for exam-related features. Handles routing between:
+ * - Exam list (main view)
+ * - Individual exam profiles
+ * - Question paper generator tool
+ */
 const ExamDetails = () => {
     return (
         <div className="exam-details-wrapper">
             <Routes>
-                <Route index element={<ExamList />} />
-                <Route path=":id" element={<ExamProfile />} />
-                <Route path="generator" element={<QuestionPaperGenerator />} />
+                {/* Main exam list view */}
+                <Route 
+                    index 
+                    element={<ExamList />} 
+                />
+                
+                {/* Individual exam profile view */}
+                <Route 
+                    path=":id" 
+                    element={<ExamProfile />} 
+                />
+                
+                {/* Question paper generator tool */}
+                <Route 
+                    path="generator" 
+                    element={<QuestionPaperGenerator />} 
+                />
             </Routes>
         </div>
     );

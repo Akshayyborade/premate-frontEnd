@@ -1,12 +1,33 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useCallback } from 'react';
+import { Form, Input, Select, InputNumber, Switch, Radio, Space, message, Checkbox } from 'antd';
 import './ExamPaperLayout.css';
 import Button from '../../../components/common/Button/Button';
 import { useNavigate } from 'react-router-dom';
-import QuestionPaperBuilder from './QuestionPaperBuilder';
 
+const { Option } = Select;
+const { TextArea } = Input;
+
+/**
+ * ExamPaperLayout Component
+ * 
+ * Handles the layout and configuration of exam papers.
+ * Features:
+ * - Basic exam information
+ * - Section configuration
+ * - Question type management
+ * - Paper styling options
+ * - Additional features configuration
+ * 
+ * @param {Object} props
+ * @param {Function} props.onConfigSubmit - Callback for configuration submission
+ */
 const ExamPaperLayout = ({ onConfigSubmit }) => {
-    const navigation= useNavigate();
-    // Comprehensive State Management
+    const navigate = useNavigate();
+    const [form] = Form.useForm();
+
+    // -----------------------------
+    // State Management
+    // -----------------------------
     const [paperConfig, setPaperConfig] = useState({
         basicInfo: {
             subject: '',
@@ -15,6 +36,8 @@ const ExamPaperLayout = ({ onConfigSubmit }) => {
             examType: 'Final',
             totalMarks: '',
             duration: '',
+            class: '',
+            term: '',
         },
         questionSection: {
             sections: [
@@ -67,50 +90,10 @@ const ExamPaperLayout = ({ onConfigSubmit }) => {
         }
     });
 
-    const [sections, setSections] = useState([]);
-
-    // Unified function to add sections
-    const addSection = useCallback(() => {
-        const newSection = {
-            sectionName: `Section ${String.fromCharCode(65 + sections.length)}`,
-            questionTypes: [{ type: 'MCQ', count: 0, marksPerQuestion: 0 }]
-        };
-        setSections(prev => [...prev, newSection]);
-    }, [sections.length]);
-
-    // Unified function to handle configuration submission
-    const handleConfigSubmit = useCallback((newConfig) => {
-        setPaperConfig(newConfig);
-        onConfigSubmit(newConfig);
-    }, [onConfigSubmit]);
-
-    // Dynamic Section and Question Type Management
-    const addQuestionType = (sectionIndex) => {
-        const newQuestionTypes = [...paperConfig.questionSection.sections[sectionIndex].questionTypes];
-        newQuestionTypes.push({ 
-            type: 'ShortAnswer', 
-            count: 0, 
-            marksPerQuestion: 0,
-            wordLimit: 0
-        });
-
-        const updatedSections = [...paperConfig.questionSection.sections];
-        updatedSections[sectionIndex] = {
-            ...updatedSections[sectionIndex],
-            questionTypes: newQuestionTypes
-        };
-
-        setPaperConfig(prev => ({
-            ...prev,
-            questionSection: {
-                ...prev.questionSection,
-                sections: updatedSections
-            }
-        }));
-    };
-
-    // Comprehensive Update Methods
-    const updateBasicInfo = (field, value) => {
+    // -----------------------------
+    // Update Handlers
+    // -----------------------------
+    const updateBasicInfo = useCallback((field, value) => {
         setPaperConfig(prev => ({
             ...prev,
             basicInfo: {
@@ -118,62 +101,29 @@ const ExamPaperLayout = ({ onConfigSubmit }) => {
                 [field]: value
             }
         }));
-    };
+    }, []);
 
-    const updateSectionQuestionType = (sectionIndex, questionTypeIndex, field, value) => {
-        const updatedSections = [...paperConfig.questionSection.sections];
-        updatedSections[sectionIndex].questionTypes[questionTypeIndex] = {
-            ...updatedSections[sectionIndex].questionTypes[questionTypeIndex],
-            [field]: value
-        };
-
-        setPaperConfig(prev => ({
-            ...prev,
-            questionSection: {
-                ...prev.questionSection,
-                sections: updatedSections
-            }
-        }));
-    };
-
-    const updatePaperStyle = (field, value) => {
-        setPaperConfig(prev => ({
-            ...prev,
-            paperStyle: {
-                ...prev.paperStyle,
+    const updateSectionQuestionType = useCallback((sectionIndex, questionTypeIndex, field, value) => {
+        setPaperConfig(prev => {
+            const updatedSections = [...prev.questionSection.sections];
+            updatedSections[sectionIndex].questionTypes[questionTypeIndex] = {
+                ...updatedSections[sectionIndex].questionTypes[questionTypeIndex],
                 [field]: value
-            }
-        }));
-    };
-
-    const updateMarginSettings = (field, value) => {
-        setPaperConfig(prev => ({
-            ...prev,
-            paperStyle: {
-                ...prev.paperStyle,
-                marginSettings: {
-                    ...prev.paperStyle.marginSettings,
-                    [field]: value
+            };
+            return {
+                ...prev,
+                questionSection: {
+                    ...prev.questionSection,
+                    sections: updatedSections
                 }
-            }
-        }));
-    };
+            };
+        });
+    }, []);
 
-    const updateAdditionalFeatures = (category, field, value) => {
-        setPaperConfig(prev => ({
-            ...prev,
-            additionalFeatures: {
-                ...prev.additionalFeatures,
-                [category]: {
-                    ...prev.additionalFeatures[category],
-                    [field]: value
-                }
-            }
-        }));
-    };
-
+    // -----------------------------
     // Validation and Submission
-    const validateConfiguration = () => {
+    // -----------------------------
+    const validateConfiguration = useCallback(() => {
         const errors = {};
         const { basicInfo, questionSection } = paperConfig;
 
@@ -197,193 +147,267 @@ const ExamPaperLayout = ({ onConfigSubmit }) => {
             isValid: Object.keys(errors).length === 0,
             errors
         };
-    };
+    }, [paperConfig]);
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        const { isValid, errors } = validateConfiguration();
+    const handleSubmit = useCallback(async (values) => {
+        try {
+            const { isValid, errors } = validateConfiguration();
 
-        if (isValid) {
-            onConfigSubmit(paperConfig);
-        } else {
-            console.error('Validation Errors:', errors);
-            // Optionally set error state to display to user
+            if (!isValid) {
+                Object.keys(errors).forEach(key => {
+                    message.error(errors[key]);
+                });
+                return;
+            }
+
+            await onConfigSubmit(paperConfig);
+            message.success('Exam paper configuration saved successfully!');
+            navigate('/admin/exams/preview');
+        } catch (error) {
+            message.error('Failed to save configuration: ' + error.message);
         }
-    };
-    const handlePreview=() =>{
-        navigation("/admin/exams/preview")
-    }
+    }, [paperConfig, validateConfiguration, onConfigSubmit, navigate]);
 
+    // -----------------------------
+    // Render Component
+    // -----------------------------
     return (
         <div className="exam-paper-configuration">
             <h2>Advanced Exam Paper Configuration</h2>
-            <form onSubmit={handleSubmit}>
+            
+            <Form
+                form={form}
+                layout="vertical"
+                onFinish={handleSubmit}
+                initialValues={paperConfig}
+                className="config-form"
+            >
                 {/* Basic Information Section */}
                 <div className="configuration-section">
                     <h3>Basic Information</h3>
                     <div className="form-grid">
-                        <input 
-                            placeholder="Subject" 
-                            value={paperConfig.basicInfo.subject}
-                            onChange={(e) => updateBasicInfo('subject', e.target.value)}
-                        />
-                        <select 
-                            value={paperConfig.basicInfo.board}
-                            onChange={(e) => updateBasicInfo('board', e.target.value)}
+                        <Form.Item
+                            label="Subject"
+                            name={['basicInfo', 'subject']}
+                            rules={[{ required: true, message: 'Please enter subject' }]}
                         >
-                            <option value="">Select Board</option>
-                            <option value="CBSE">CBSE</option>
-                            <option value="ICSE">ICSE</option>
-                            <option value="State Board">State Board</option>
-                        </select>
-                        <input 
-                            type="number" 
-                            placeholder="Total Marks" 
-                            value={paperConfig.basicInfo.totalMarks}
-                            onChange={(e) => updateBasicInfo('totalMarks', e.target.value)}
-                        />
-                        <input 
-                            type="number" 
-                            placeholder="Duration (minutes)" 
-                            value={paperConfig.basicInfo.duration}
-                            onChange={(e) => updateBasicInfo('duration', e.target.value)}
-                        />
+                            <Input placeholder="Enter subject name" />
+                        </Form.Item>
+
+                        <Form.Item
+                            label="Board"
+                            name={['basicInfo', 'board']}
+                            rules={[{ required: true, message: 'Please select board' }]}
+                        >
+                            <Select placeholder="Select board">
+                                <Option value="CBSE">CBSE</Option>
+                                <Option value="ICSE">ICSE</Option>
+                                <Option value="State">State Board</Option>
+                            </Select>
+                        </Form.Item>
+
+                        <Form.Item
+                            label="Class"
+                            name={['basicInfo', 'class']}
+                            rules={[{ required: true, message: 'Please select class' }]}
+                        >
+                            <Select placeholder="Select class">
+                                {[...Array(12)].map((_, i) => (
+                                    <Option key={i + 1} value={`${i + 1}`}>
+                                        Class {i + 1}
+                                    </Option>
+                                ))}
+                            </Select>
+                        </Form.Item>
+
+                        <Form.Item
+                            label="Total Marks"
+                            name={['basicInfo', 'totalMarks']}
+                            rules={[{ required: true, message: 'Please enter total marks' }]}
+                        >
+                            <InputNumber min={1} placeholder="Enter total marks" />
+                        </Form.Item>
+
+                        <Form.Item
+                            label="Duration (minutes)"
+                            name={['basicInfo', 'duration']}
+                            rules={[{ required: true, message: 'Please enter duration' }]}
+                        >
+                            <InputNumber min={15} step={15} placeholder="Enter duration" />
+                        </Form.Item>
+
+                        <Form.Item
+                            label="Exam Type"
+                            name={['basicInfo', 'examType']}
+                        >
+                            <Radio.Group>
+                                <Radio value="Final">Final</Radio>
+                                <Radio value="Midterm">Midterm</Radio>
+                                <Radio value="Practice">Practice</Radio>
+                            </Radio.Group>
+                        </Form.Item>
                     </div>
                 </div>
 
-                {/* Question Sections */}
+                {/* Question Configuration Section */}
                 <div className="configuration-section">
                     <h3>Question Configuration</h3>
                     {paperConfig.questionSection.sections.map((section, sectionIndex) => (
-                        <div key={sectionIndex} className="section-container">
+                        <div key={sectionIndex} className="section-config">
                             <h4>{section.sectionName}</h4>
-                            {section.questionTypes.map((questionType, questionTypeIndex) => (
-                                <div key={questionTypeIndex} className="question-type-config">
-                                    <select 
-                                        value={questionType.type}
-                                        onChange={(e) => updateSectionQuestionType(
-                                            sectionIndex, 
-                                            questionTypeIndex, 
-                                            'type', 
-                                            e.target.value
+                            {section.questionTypes.map((qType, typeIndex) => (
+                                <div key={typeIndex} className="question-type-config">
+                                    <Space size="large">
+                                        <Form.Item
+                                            label="Question Type"
+                                            name={['questionSection', 'sections', sectionIndex, 'questionTypes', typeIndex, 'type']}
+                                        >
+                                            <Select style={{ width: 120 }}>
+                                                <Option value="MCQ">MCQ</Option>
+                                                <Option value="ShortAnswer">Short Answer</Option>
+                                                <Option value="LongAnswer">Long Answer</Option>
+                                            </Select>
+                                        </Form.Item>
+
+                                        <Form.Item
+                                            label="Count"
+                                            name={['questionSection', 'sections', sectionIndex, 'questionTypes', typeIndex, 'count']}
+                                        >
+                                            <InputNumber min={0} />
+                                        </Form.Item>
+
+                                        <Form.Item
+                                            label="Marks per Question"
+                                            name={['questionSection', 'sections', sectionIndex, 'questionTypes', typeIndex, 'marksPerQuestion']}
+                                        >
+                                            <InputNumber min={0} />
+                                        </Form.Item>
+
+                                        {qType.type === 'MCQ' && (
+                                            <>
+                                                <Form.Item
+                                                    label="Option Count"
+                                                    name={['questionSection', 'sections', sectionIndex, 'questionTypes', typeIndex, 'optionCount']}
+                                                >
+                                                    <InputNumber min={2} max={6} />
+                                                </Form.Item>
+
+                                                <Form.Item
+                                                    label="Negative Marking"
+                                                    name={['questionSection', 'sections', sectionIndex, 'questionTypes', typeIndex, 'negativeMarking']}
+                                                    valuePropName="checked"
+                                                >
+                                                    <Switch />
+                                                </Form.Item>
+                                            </>
                                         )}
-                                    >
-                                        <option value="MCQ">Multiple Choice</option>
-                                        <option value="ShortAnswer">Short Answer</option>
-                                        <option value="LongAnswer">Long Answer</option>
-                                        <option value="Numerical">Numerical</option>
-                                    </select>
-                                    <input 
-                                        type="number" 
-                                        placeholder="Number of Questions"
-                                        value={questionType.count}
-                                        onChange={(e) => updateSectionQuestionType(
-                                            sectionIndex, 
-                                            questionTypeIndex, 
-                                            'count', 
-                                            e.target.value
-                                        )}
-                                    />
-                                    <input 
-                                        type="number" 
-                                        placeholder="Marks per Question"
-                                        value={questionType.marksPerQuestion}
-                                        onChange={(e) => updateSectionQuestionType(
-                                            sectionIndex, 
-                                            questionTypeIndex, 
-                                            'marksPerQuestion', 
-                                            e.target.value
-                                        )}
-                                    />
+                                    </Space>
                                 </div>
                             ))}
-                            <button 
-                                type="button" 
-                                onClick={() => addQuestionType(sectionIndex)}
-                            >
-                                Add Question Type
-                            </button>
                         </div>
                     ))}
-                    <button type="button" onClick={addSection}>
-                        Add Section
-                    </button>
                 </div>
 
-                {/* Paper Style Configuration */}
+                {/* Paper Style Section */}
                 <div className="configuration-section">
                     <h3>Paper Style</h3>
                     <div className="form-grid">
-                        <select 
-                            value={paperConfig.paperStyle.layout}
-                            onChange={(e) => updatePaperStyle('layout', e.target.value)}
+                        <Form.Item
+                            label="Layout"
+                            name={['paperStyle', 'layout']}
                         >
-                            <option value="Bullets">Bullets</option>
-                            <option value="Table">Table</option>
-                            <option value="Grid">Grid</option>
-                            <option value="Paragraph">Paragraph</option>
-                        </select>
-                        <select 
-                            value={paperConfig.paperStyle.pageOrientation}
-                            onChange={(e) => updatePaperStyle('pageOrientation', e.target.value)}
+                            <Select>
+                                <Option value="Bullets">Bullets</Option>
+                                <Option value="Numbers">Numbers</Option>
+                                <Option value="Roman">Roman Numerals</Option>
+                            </Select>
+                        </Form.Item>
+
+                        <Form.Item
+                            label="Font Size"
+                            name={['paperStyle', 'fontSize']}
                         >
-                            <option value="Portrait">Portrait</option>
-                            <option value="Landscape">Landscape</option>
-                        </select>
-                        <input 
-                            type="number" 
-                            placeholder="Font Size" 
-                            value={paperConfig.paperStyle.fontSize}
-                            onChange={(e) => updatePaperStyle('fontSize', e.target.value)}
-                        />
+                            <InputNumber min={8} max={16} />
+                        </Form.Item>
+
+                        <Form.Item
+                            label="Font Family"
+                            name={['paperStyle', 'fontFamily']}
+                        >
+                            <Select>
+                                <Option value="Arial">Arial</Option>
+                                <Option value="Times">Times New Roman</Option>
+                                <Option value="Calibri">Calibri</Option>
+                            </Select>
+                        </Form.Item>
+
+                        <Form.Item
+                            label="Page Orientation"
+                            name={['paperStyle', 'pageOrientation']}
+                        >
+                            <Radio.Group>
+                                <Radio value="Portrait">Portrait</Radio>
+                                <Radio value="Landscape">Landscape</Radio>
+                            </Radio.Group>
+                        </Form.Item>
                     </div>
                 </div>
 
-                {/* Additional Features */}
+                {/* Additional Features Section */}
                 <div className="configuration-section">
                     <h3>Additional Features</h3>
-                    <div className="feature-toggles">
-                        <label>
-                            <input 
-                                type="checkbox"
-                                checked={paperConfig.additionalFeatures.optionalQuestions.enabled}
-                                onChange={() => updateAdditionalFeatures(
-                                    'optionalQuestions', 
-                                    'enabled', 
-                                    !paperConfig.additionalFeatures.optionalQuestions.enabled
-                                )}
-                            />
-                            Optional Questions
-                        </label>
-                        {paperConfig.additionalFeatures.optionalQuestions.enabled && (
-                            <div>
-                                <input 
-                                    type="number"
-                                    placeholder="Optional Question Count"
-                                    value={paperConfig.additionalFeatures.optionalQuestions.optionalQuestionCount}
-                                    onChange={(e) => updateAdditionalFeatures(
-                                        'optionalQuestions', 
-                                        'optionalQuestionCount', 
-                                        e.target.value
-                                    )}
-                                />
-                            </div>
-                        )}
+                    <div className="form-grid">
+                        <Form.Item
+                            label="Language Options"
+                            name={['additionalFeatures', 'languageOptions']}
+                        >
+                            <Select mode="multiple" placeholder="Select languages">
+                                <Option value="english">English</Option>
+                                <Option value="hindi">Hindi</Option>
+                                <Option value="gujarati">Gujarati</Option>
+                            </Select>
+                        </Form.Item>
+
+                        <Form.Item
+                            label="Optional Questions"
+                            name={['additionalFeatures', 'optionalQuestions', 'enabled']}
+                            valuePropName="checked"
+                        >
+                            <Switch />
+                        </Form.Item>
+
+                        <Form.Item
+                            label="Special Instructions"
+                            name={['additionalFeatures', 'specialInstructions']}
+                        >
+                            <TextArea rows={4} />
+                        </Form.Item>
+
+                        <Form.Item
+                            label="Assistive Tools"
+                            name={['additionalFeatures', 'assistiveTools']}
+                        >
+                            <Checkbox.Group>
+                                <Checkbox value="calculator">Calculator</Checkbox>
+                                <Checkbox value="graphPaper">Graph Paper</Checkbox>
+                                <Checkbox value="formulaSheet">Formula Sheet</Checkbox>
+                            </Checkbox.Group>
+                        </Form.Item>
                     </div>
-                    <textarea 
-                        placeholder="Special Instructions"
-                        value={paperConfig.additionalFeatures.specialInstructions}
-                        onChange={(e) => updateAdditionalFeatures(
-                            'additionalFeatures', 
-                            'specialInstructions', 
-                            e.target.value
-                        )}
-                    />
                 </div>
-              
-                <button type="submit">Generate Exam Paper Configuration</button>
-            </form>
-            
+
+                {/* Form Actions */}
+                <div className="form-actions">
+                    <Space size="large">
+                        <Button type="primary" htmlType="submit">
+                            Generate Configuration
+                        </Button>
+                        <Button onClick={() => navigate('/admin/exams')}>
+                            Cancel
+                        </Button>
+                    </Space>
+                </div>
+            </Form>
         </div>
     );
 };

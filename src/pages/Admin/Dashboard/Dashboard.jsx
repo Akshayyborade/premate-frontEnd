@@ -1,47 +1,85 @@
 import React from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
+
+// Component Imports
 import DashboardHome from './DashboardHome';
+import Breadcrumbs from '../../../components/common/Breadcrumbs/Breadcrumbs';
+
+// Student Related Components
 import StudentList from '../../Dashboard/Students/StudentDetails/StudentList';
 import StudentDetails from '../../Dashboard/Students/StudentDetails/StudentDetails';
 import StudentForm from '../../../components/features/Students/StudentForm/StudentForm';
-import TeacherDetails from '../../Dashboard/Teachers/TeacherDetails/TeacherDetails';
-import CourseDetails from '../../Dashboard/Courses/CourseDetails/CourseDetails';
-import ExamDetails from '../../Dashboard/Exams/ExamDetails/ExamDetails';
-import Settings from '../Settings/Settings';
-import Breadcrumbs from '../../../components/common/Breadcrumbs/Breadcrumbs';
+
+// Teacher Related Components
 import TeacherList from '../../Dashboard/Teachers/TeacherDetails/TeacherList';
 import TeacherProfile from '../../Dashboard/Teachers/TeacherDetails/TeacherProfile';
+import TeacherDetails from '../../Dashboard/Teachers/TeacherDetails/TeacherDetails';
+
+// Course and Exam Components
+import CourseDetails from '../../Dashboard/Courses/CourseDetails/CourseDetails';
+import ExamDetails from '../../Dashboard/Exams/ExamDetails/ExamDetails';
 import QuestionPaperBuilder from '../../Dashboard/QuestionPaper/QuestionPaperBuilder';
 
+// Settings Component
+import Settings from '../Settings/Settings';
+
+/**
+ * Dashboard Component
+ * 
+ * Main routing component for the admin dashboard.
+ * Handles navigation between different sections:
+ * - Dashboard Home
+ * - Student Management
+ * - Teacher Management
+ * - Course Management
+ * - Exam Management
+ * - Settings
+ */
 const Dashboard = () => {
     return (
         <>
+            {/* Navigation Breadcrumbs */}
             <Breadcrumbs />
+
+            {/* Main Route Configuration */}
             <Routes>
-                {/* Most specific routes first */}
-                <Route path="students/new" element={<StudentForm />} />
-                <Route path="students/:id/edit" element={<StudentForm />} />
-                <Route path="students/:id" element={<StudentDetails />} />
-                <Route path="students" element={<StudentList />} />
-
-                {/* Teachers Routing */}
-                <Route path="teachers" element={<TeacherList/>}/>
-                <Route path="teachers/:id" element={<TeacherProfile/>}/>
-
-                {/* Exam section */}
-                <Route path="exams/new" element={<QuestionPaperBuilder/>}/>
-
-                {/* Default dashboard route */}
+                {/* Dashboard Home Routes */}
                 <Route index element={<DashboardHome />} />
                 <Route path="dashboard" element={<DashboardHome />} />
 
-                {/* Other specific routes */}
+                {/* Student Management Routes */}
+                <Route path="students">
+                    <Route index element={<StudentList />} />
+                    <Route path="new" element={<StudentForm />} />
+                    <Route path=":id">
+                        <Route index element={<StudentDetails />} />
+                        <Route path="edit" element={<StudentForm />} />
+                    </Route>
+                </Route>
+
+                {/* Teacher Management Routes */}
+                <Route path="teachers">
+                    <Route index element={<TeacherList />} />
+                    <Route path=":id" element={<TeacherProfile />} />
+                </Route>
+
+                {/* Course Management Route */}
                 <Route path="courses" element={<CourseDetails />} />
-                <Route path="exams" element={<ExamDetails />} />
+
+                {/* Exam Management Routes */}
+                <Route path="exams">
+                    <Route index element={<ExamDetails />} />
+                    <Route path="new" element={<QuestionPaperBuilder />} />
+                </Route>
+
+                {/* Settings Route */}
                 <Route path="settings" element={<Settings />} />
 
-                {/* Catch-all route */}
-                <Route path="*" element={<Navigate to="/admin/dashboard" replace />} />
+                {/* Fallback Route - Redirect to Dashboard */}
+                <Route 
+                    path="*" 
+                    element={<Navigate to="/admin/dashboard" replace />} 
+                />
             </Routes>
         </>
     );

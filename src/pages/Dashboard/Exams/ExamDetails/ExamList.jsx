@@ -5,6 +5,9 @@ import './ExamList.css';
 import FilterSection from '../../../../components/common/FilterSection/FilterSection';
 
 const ExamList = () => {
+    // -----------------------------
+    // Mock Data (Replace with API)
+    // -----------------------------
     const [exams, setExams] = useState([
         {
             id: 1,
@@ -26,9 +29,11 @@ const ExamList = () => {
             totalMarks: 100,
             status: 'draft'
         }
-        // Add more exam data
     ]);
 
+    // -----------------------------
+    // Filter State Management
+    // -----------------------------
     const [filters, setFilters] = useState({
         subject: '',
         class: '',
@@ -37,6 +42,9 @@ const ExamList = () => {
 
     const [searchTerm, setSearchTerm] = useState('');
 
+    // -----------------------------
+    // Filter Handlers
+    // -----------------------------
     const handleFilterChange = (field, value) => {
         setFilters(prev => ({
             ...prev,
@@ -44,19 +52,28 @@ const ExamList = () => {
         }));
     };
 
+    // Apply all filters to exams list
     const filteredExams = exams.filter(exam => {
         return (
+            // Subject filter
             (filters.subject === '' || exam.subject === filters.subject) &&
+            // Class filter
             (filters.class === '' || exam.class === filters.class) &&
+            // Status filter
             (filters.status === '' || exam.status === filters.status) &&
+            // Search term filter (checks name and subject)
             (searchTerm === '' || 
              exam.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
              exam.subject.toLowerCase().includes(searchTerm.toLowerCase()))
         );
     });
 
+    // -----------------------------
+    // Render Component
+    // -----------------------------
     return (
         <div className="exam-list-page">
+            {/* Header Section */}
             <div className="exam-list-header">
                 <h1>Exam Management</h1>
                 <div className="header-actions">
@@ -66,35 +83,49 @@ const ExamList = () => {
                 </div>
             </div>
 
+            {/* Filter Section */}
             <FilterSection 
                 searchTerm={searchTerm} 
                 onSearchChange={setSearchTerm} 
                 filters={filters} 
                 onFilterChange={handleFilterChange} 
                 filterOptions={[
-                    { name: 'subject', placeholder: 'All Subjects', options: [
-                        { value: '', label: 'All Subjects' },
-                        { value: 'Mathematics', label: 'Mathematics' },
-                        { value: 'Science', label: 'Science' },
-                        { value: 'English', label: 'English' },
-                    ]},
-                    { name: 'class', placeholder: 'All Classes', options: [
-                        { value: '', label: 'All Classes' },
-                        { value: '9th', label: '9th' },
-                        { value: '10th', label: '10th' },
-                        { value: '11th', label: '11th' },
-                        { value: '12th', label: '12th' },
-                    ]},
-                    { name: 'status', placeholder: 'All Status', options: [
-                        { value: '', label: 'All Status' },
-                        { value: 'upcoming', label: 'Upcoming' },
-                        { value: 'ongoing', label: 'Ongoing' },
-                        { value: 'completed', label: 'Completed' },
-                        { value: 'draft', label: 'Draft' },
-                    ]},
+                    {
+                        name: 'subject',
+                        placeholder: 'All Subjects',
+                        options: [
+                            { value: '', label: 'All Subjects' },
+                            { value: 'Mathematics', label: 'Mathematics' },
+                            { value: 'Science', label: 'Science' },
+                            { value: 'English', label: 'English' },
+                        ]
+                    },
+                    {
+                        name: 'class',
+                        placeholder: 'All Classes',
+                        options: [
+                            { value: '', label: 'All Classes' },
+                            { value: '9th', label: '9th' },
+                            { value: '10th', label: '10th' },
+                            { value: '11th', label: '11th' },
+                            { value: '12th', label: '12th' },
+                        ]
+                    },
+                    {
+                        name: 'status',
+                        placeholder: 'All Status',
+                        options: [
+                            { value: '', label: 'All Status' },
+                            { value: 'upcoming', label: 'Upcoming' },
+                            { value: 'ongoing', label: 'Ongoing' },
+                            { value: 'completed', label: 'Completed' },
+                            { value: 'draft', label: 'Draft' },
+                        ]
+                    },
                 ]}
             />
 
+            {/* Exam Grid */}
             <div className="exam-grid">
                 {filteredExams.map(exam => (
                     <motion.div
@@ -103,6 +134,7 @@ const ExamList = () => {
                         whileHover={{ y: -5 }}
                         transition={{ duration: 0.2 }}
                     >
+                        {/* Exam Card Header */}
                         <div className="exam-card-header">
                             <h3>{exam.name}</h3>
                             <span className={`status-badge ${exam.status}`}>
@@ -110,6 +142,7 @@ const ExamList = () => {
                             </span>
                         </div>
                         
+                        {/* Exam Card Content */}
                         <div className="exam-card-content">
                             <div className="exam-info">
                                 <p><strong>Subject:</strong> {exam.subject}</p>
@@ -120,6 +153,7 @@ const ExamList = () => {
                             </div>
                         </div>
 
+                        {/* Exam Card Actions */}
                         <div className="exam-card-actions">
                             <Link to={`${exam.id}`} className="view-btn">
                                 View Details
@@ -131,6 +165,7 @@ const ExamList = () => {
                 ))}
             </div>
 
+            {/* No Results Message */}
             {filteredExams.length === 0 && (
                 <div className="no-results">
                     <h3>No exams found</h3>
@@ -141,4 +176,4 @@ const ExamList = () => {
     );
 };
 
-export default ExamList; 
+export default ExamList;
