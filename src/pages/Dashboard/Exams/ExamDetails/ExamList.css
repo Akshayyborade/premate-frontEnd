@@ -31,13 +31,8 @@
 }
 
 /* Filters Section */
-.filters-section {
-    display: flex;
-    gap: 16px;
-    margin-bottom: 24px;
-    flex-wrap: wrap;
-}
 
+/* 
 .search-box {
     flex: 1;
     min-width: 200px;
@@ -63,7 +58,7 @@
     border-radius: 6px;
     font-size: 14px;
     min-width: 150px;
-}
+} */
 
 /* Exam Grid */
 .exam-grid {
@@ -184,7 +179,7 @@
         flex-direction: column;
         gap: 16px;
     }
-
+/* 
     .filters-section {
         flex-direction: column;
     }
@@ -192,7 +187,7 @@
     .search-box,
     .filter-controls select {
         width: 100%;
-    }
+    } */
 
     .exam-card-actions {
         flex-direction: column;

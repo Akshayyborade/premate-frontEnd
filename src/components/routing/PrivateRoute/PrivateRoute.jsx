@@ -31,7 +31,7 @@ const PrivateRoute = ({ children, role, redirectTo = '/login' }) => {
             replace
         />;
     }
-
+    console.log(user.appUserRole);
     // Check role-based authorization
     if (role && user?.appUserRole !== role) {
         toast.error('You are not authorized to access this page');

@@ -44,6 +44,7 @@ export const AuthProvider = ({ children }) => {
             if (currentUser && isAuthenticated) {
                 setUser(currentUser);
             } else {
+                console.log("clearing context .....");
                 setUser(null);
                 authService.clearAuth();
             }
@@ -103,6 +104,7 @@ export const AuthProvider = ({ children }) => {
             await authService.logout();
             setUser(null);
             setError(null);
+            localStorage.clear();
             navigate('/login');
             toast.success('Logged out successfully');
         } catch (err) {

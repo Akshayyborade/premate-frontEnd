@@ -85,6 +85,8 @@ class AuthService {
             if (response.data) {
                 const { admin, accessToken } = response.data;
                 this.setAuthData(admin, accessToken);
+                // // Store access token in localStorage
+                localStorage.setItem('accessToken', accessToken);
                 return response.data;
             }
             throw new Error('Invalid response format');
@@ -121,7 +123,7 @@ class AuthService {
         localStorage.setItem(CONFIG.USER_DATA_KEY, JSON.stringify({
             id: admin.institutionId,
             email: admin.email,
-            role: admin.appUserRole
+            appUserRole: admin.appUserRole
         }));
     }
 
@@ -142,11 +144,13 @@ class AuthService {
     isAuthenticated() {
         const isAuth = !!this.getAccessToken() && !!this.getCurrentUser();
         console.log('Is Authenticated:', isAuth); // Debug log
+        console.log('Access Token:', this.getAccessToken()); // Debug log
+        console.log('Current User:', this.getCurrentUser()); // Debug log
         return isAuth;
     }
 
     getAccessToken() {
-        return this._accessToken;
+        return this._accessToken || localStorage.getItem('accessToken');
     }
 
     handleRegistrationError(error) {

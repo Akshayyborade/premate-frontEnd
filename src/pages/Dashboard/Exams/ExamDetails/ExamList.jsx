@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import './ExamList.css';
+import FilterSection from '../../../../components/common/FilterSection/FilterSection';
 
 const ExamList = () => {
     const [exams, setExams] = useState([
@@ -65,50 +66,34 @@ const ExamList = () => {
                 </div>
             </div>
 
-            <div className="filters-section">
-                <div className="search-box">
-                    <input
-                        type="text"
-                        placeholder="Search exams..."
-                        value={searchTerm}
-                        onChange={(e) => setSearchTerm(e.target.value)}
-                    />
-                </div>
-
-                <div className="filter-controls">
-                    <select
-                        value={filters.subject}
-                        onChange={(e) => handleFilterChange('subject', e.target.value)}
-                    >
-                        <option value="">All Subjects</option>
-                        <option value="Mathematics">Mathematics</option>
-                        <option value="Science">Science</option>
-                        <option value="English">English</option>
-                    </select>
-
-                    <select
-                        value={filters.class}
-                        onChange={(e) => handleFilterChange('class', e.target.value)}
-                    >
-                        <option value="">All Classes</option>
-                        <option value="9th">9th</option>
-                        <option value="10th">10th</option>
-                        <option value="11th">11th</option>
-                        <option value="12th">12th</option>
-                    </select>
-
-                    <select
-                        value={filters.status}
-                        onChange={(e) => handleFilterChange('status', e.target.value)}
-                    >
-                        <option value="">All Status</option>
-                        <option value="upcoming">Upcoming</option>
-                        <option value="ongoing">Ongoing</option>
-                        <option value="completed">Completed</option>
-                        <option value="draft">Draft</option>
-                    </select>
-                </div>
-            </div>
+            <FilterSection 
+                searchTerm={searchTerm} 
+                onSearchChange={setSearchTerm} 
+                filters={filters} 
+                onFilterChange={handleFilterChange} 
+                filterOptions={[
+                    { name: 'subject', placeholder: 'All Subjects', options: [
+                        { value: '', label: 'All Subjects' },
+                        { value: 'Mathematics', label: 'Mathematics' },
+                        { value: 'Science', label: 'Science' },
+                        { value: 'English', label: 'English' },
+                    ]},
+                    { name: 'class', placeholder: 'All Classes', options: [
+                        { value: '', label: 'All Classes' },
+                        { value: '9th', label: '9th' },
+                        { value: '10th', label: '10th' },
+                        { value: '11th', label: '11th' },
+                        { value: '12th', label: '12th' },
+                    ]},
+                    { name: 'status', placeholder: 'All Status', options: [
+                        { value: '', label: 'All Status' },
+                        { value: 'upcoming', label: 'Upcoming' },
+                        { value: 'ongoing', label: 'Ongoing' },
+                        { value: 'completed', label: 'Completed' },
+                        { value: 'draft', label: 'Draft' },
+                    ]},
+                ]}
+            />
 
             <div className="exam-grid">
                 {filteredExams.map(exam => (

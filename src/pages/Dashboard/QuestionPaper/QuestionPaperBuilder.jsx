@@ -1,40 +1,59 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import SectionForm from "./SectionForm";
 import PreviewModal from "./PreviewModal";
 
-const QuestionPaperBuilder = () => {
+const QuestionPaperBuilder = ({ onAddPaperFormat }) => {
   const [sections, setSections] = useState([]);
   const [paperDetails, setPaperDetails] = useState({});
-  const [showPreview, setShowPreview] = useState(false);
+  const [isPreviewOpen, setIsPreviewOpen] = useState(false);
 
-  const addPaperFormat = (newPaperDetails) => {
+  useEffect(() => {
+    if (paperDetails.sections) {
+      setSections(paperDetails.sections);
+    }
+  }, [paperDetails]);
+
+  const addPaperFormat = useCallback((newPaperDetails) => {
     setPaperDetails(newPaperDetails);
-    setSections(newPaperDetails.sections);
-    setShowPreview(true);
-  };
+    onAddPaperFormat(newPaperDetails);
+    setIsPreviewOpen(true);
+  }, [onAddPaperFormat]);
 
-  const handleSubmit = async () => {
-    const response = await fetch("/api/generate-paper", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ sections }),
-    });
+  const handleSubmit = useCallback(async () => {
+    try {
+      const response = await fetch("/api/generate-paper", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ sections }),
+      });
 
-    const result = await response.json();
-    console.log("Generated Paper:", result);
-  };
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+
+      const result = await response.json();
+      console.log("Generated Paper:", result);
+    } catch (error) {
+      console.error("Error generating paper:", error);
+    }
+  }, [sections]);
+
+  const closePreview = useCallback(() => {
+    setIsPreviewOpen(false);
+  }, []);
 
   return (
     <div>
       <SectionForm onAddPaperFormat={addPaperFormat} />
       <button onClick={handleSubmit}>Submit</button>
-      {showPreview && (
+
+      {isPreviewOpen && (
         <PreviewModal
           sections={sections}
           paperDetails={paperDetails}
-          onClose={() => setShowPreview(false)}
+          onClose={closePreview}
         />
       )}
     </div>
