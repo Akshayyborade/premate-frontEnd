@@ -57,7 +57,7 @@
     font-size: 14px;
 }
 
-/* Filters Section */
+/* Filters Section
 .filters-section {
     display: flex;
     gap: 16px;
@@ -80,7 +80,7 @@
     border-radius: 4px;
     min-width: 150px;
     font-size: 14px;
-}
+} */
 
 /* Table Styles */
 .teachers-table-container {

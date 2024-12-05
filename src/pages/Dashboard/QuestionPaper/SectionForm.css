@@ -1,42 +1,56 @@
 /* src/pages/Dashboard/QuestionPaper/SectionForm.css */
-.section-form {
-    font-family: Arial, sans-serif;
-    margin: 20px;
-  }
-  
-  .section {
-    border: 1px solid #ddd;
-    padding: 10px;
-    margin: 10px 0;
-    border-radius: 5px;
-    background-color: #f9f9f9;
-  }
-  
-  h2 {
-    color: #333;
-  }
-  
-  label {
-    font-weight: bold;
-  }
-  
-  input, textarea, select {
-    width: 100%;
-    padding: 8px;
-    margin: 5px 0 15px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-  }
-  
-  button {
-    background-color: #4CAF50;
-    color: white;
-    padding: 10px 15px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-  }
-  
-  button:hover {
-    background-color: #45a049;
-  }
+.section-form-exam {
+  font-family: Arial, sans-serif;
+  margin: 20px;
+}
+
+.section {
+  border: 1px solid #ddd;
+  padding: 10px;
+  margin: 10px 0;
+  border-radius: 5px;
+  background-color: #f9f9f9;
+}
+
+.form-column-exam {
+  display: flex;
+  flex-direction: column;
+
+}
+
+.form-row-exam {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+h2 {
+  color: #333;
+}
+
+label {
+  font-weight: bold;
+}
+
+input,
+textarea,
+select {
+  width: 100%;
+  padding: 8px;
+  margin: 5px 0 15px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+button {
+  background-color: #4CAF50;
+  color: white;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #45a049;
+}

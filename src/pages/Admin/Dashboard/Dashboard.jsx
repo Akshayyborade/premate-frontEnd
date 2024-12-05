@@ -13,7 +13,6 @@ import TeacherList from '../../Dashboard/Teachers/TeacherDetails/TeacherList';
 import TeacherProfile from '../../Dashboard/Teachers/TeacherDetails/TeacherProfile';
 import QuestionPaperBuilder from '../../Dashboard/QuestionPaper/QuestionPaperBuilder';
 
-
 const Dashboard = () => {
     return (
         <>
@@ -29,7 +28,7 @@ const Dashboard = () => {
                 <Route path="teachers" element={<TeacherList/>}/>
                 <Route path="teachers/:id" element={<TeacherProfile/>}/>
 
-                {/* exam section */}
+                {/* Exam section */}
                 <Route path="exams/new" element={<QuestionPaperBuilder/>}/>
 
                 {/* Default dashboard route */}
@@ -37,7 +36,6 @@ const Dashboard = () => {
                 <Route path="dashboard" element={<DashboardHome />} />
 
                 {/* Other specific routes */}
-                {/* <Route path="teachers" element={<TeacherDetails />} /> */}
                 <Route path="courses" element={<CourseDetails />} />
                 <Route path="exams" element={<ExamDetails />} />
                 <Route path="settings" element={<Settings />} />

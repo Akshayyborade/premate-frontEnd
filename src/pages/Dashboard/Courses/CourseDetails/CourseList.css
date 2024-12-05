@@ -68,7 +68,7 @@
     font-size: 14px;
 }
 
-/* Filters Section */
+/* Filters Section
 .filters-section {
     display: flex;
     gap: 16px;
@@ -99,7 +99,7 @@
     min-width: 180px;
     font-size: 14px;
     background-color: white;
-}
+} */
 
 /* Table Styles */
 .courses-table-container {

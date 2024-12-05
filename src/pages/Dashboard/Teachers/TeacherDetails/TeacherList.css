@@ -68,7 +68,7 @@
     font-size: 14px;
 }
 
-/* Filters Section */
+/* Filters Section
 .filters-section {
     display: flex;
     gap: 16px;
@@ -106,7 +106,7 @@
 .filter-select:focus {
     outline: none;
     border-color: #4CAF50;
-}
+} */
 
 /* Table Styles */
 .teachers-table-container {

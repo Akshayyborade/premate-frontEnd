@@ -1,44 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import { motion } from 'framer-motion';
 import './QuestionPaperGenerator.css';
 import { Select, Slider, Button, Tooltip, message, Modal, Spin } from 'antd';
 import { CloudDownloadOutlined, EditOutlined, EyeOutlined } from '@ant-design/icons';
 import axios from 'axios';
 
-const QuestionPaperGenerator = () => {
-    const [paperConfig, setPaperConfig] = useState({
-        board: 'CBSE',
-        state: 'Maharashtra',
-        subject: 'Mathematics',
-        class: '10',
-        totalMarks: 100,
-        duration: 180,
-        difficultyDistribution: {
-            easy: 30,
-            medium: 50,
-            hard: 20
-        },
-        questionTypes: {
-            mcq: 30,
-            shortAnswer: 40,
-            longAnswer: 30
-        },
-        examType: 'semester',
-        language: 'English',
-        paperFormat: 'PDF',
-        includeAnswerKey: true,
-        blueprint: {
-            totalQuestions: 50,
-            mandatoryQuestions: 35,
-            optionalQuestions: 15,
-            sectionWiseMarks: {
-                'Section A': 30,
-                'Section B': 40,
-                'Section C': 30
-            }
-        }
-    });
-
+const QuestionPaperGenerator = ({ paperConfig, setPaperConfig }) => {
     const [sections, setSections] = useState([
         {
             name: 'Section A - MCQ',
@@ -62,72 +29,26 @@ const QuestionPaperGenerator = () => {
         }
     ]);
 
-    const [questionBank, setQuestionBank] = useState({
-        mcq: [
-            { id: 1, text: 'Sample MCQ 1', difficulty: 'easy', marks: 1 },
-            { id: 2, text: 'Sample MCQ 2', difficulty: 'medium', marks: 1 }
-            // Add more questions
-        ],
-        shortAnswer: [
-            { id: 1, text: 'Sample Short Answer 1', difficulty: 'medium', marks: 3 },
-            { id: 2, text: 'Sample Short Answer 2', difficulty: 'hard', marks: 4 }
-            // Add more questions
-        ],
-        longAnswer: [
-            { id: 1, text: 'Sample Long Answer 1', difficulty: 'medium', marks: 5 },
-            { id: 2, text: 'Sample Long Answer 2', difficulty: 'hard', marks: 8 }
-            // Add more questions
-        ]
-    });
+    const [loading, setLoading] = useState(false);
+    const [generatedPaper, setGeneratedPaper] = useState(null);
+    const [showPreview, setShowPreview] = useState(false);
+    const [previewMode, setPreviewMode] = useState('final');
 
-    const handleConfigChange = (field, value) => {
+    const handleConfigChange = useCallback((field, value) => {
         setPaperConfig(prev => ({
             ...prev,
             [field]: value
         }));
-    };
+    }, [setPaperConfig]);
 
-    const handleDifficultyChange = (level, value) => {
-        setPaperConfig(prev => ({
-            ...prev,
-            difficultyDistribution: {
-                ...prev.difficultyDistribution,
-                [level]: parseInt(value)
-            }
+    const generateAIQuestions = async (sectionName, questionCount) => {
+        // Placeholder for AI question generation logic
+        // Replace with actual API call or logic to generate questions
+        return Array.from({ length: questionCount }, (_, index) => ({
+            text: `Sample question ${index + 1} for ${sectionName}`,
+            marks: 1,
+            options: ['Option A', 'Option B', 'Option C', 'Option D']
         }));
-    };
-
-    const handleQuestionTypeChange = (type, value) => {
-        setPaperConfig(prev => ({
-            ...prev,
-            questionTypes: {
-                ...prev.questionTypes,
-                [type]: parseInt(value)
-            }
-        }));
-    };
-
-    const [loading, setLoading] = useState(false);
-    const [generatedPaper, setGeneratedPaper] = useState(null);
-    const [showPreview, setShowPreview] = useState(false);
-    const [previewMode, setPreviewMode] = useState('blueprint');
-
-    const generateAIQuestions = async (type, count, difficulty) => {
-        try {
-            // This would be your AI service endpoint
-            const response = await axios.post('/api/generate-questions', {
-                type,
-                count,
-                difficulty,
-                subject: paperConfig.subject,
-                class: paperConfig.class,
-                language: paperConfig.language
-            });
-            return response.data.questions;
-        } catch (error) {
-            console.error('Error generating AI questions:', error);
-            throw error;
-        }
     };
 
     const generatePaper = async () => {
@@ -145,14 +66,7 @@ const QuestionPaperGenerator = () => {
             const generatedSections = await Promise.all(
                 sections.map(async (section) => {
                     const questionCount = Math.ceil((section.marks / paperConfig.totalMarks) * paperConfig.blueprint.totalQuestions);
-                    
-                    // Determine question type based on section name
-                    const type = section.name.toLowerCase().includes('mcq') ? 'mcq' : 
-                                section.name.toLowerCase().includes('short') ? 'shortAnswer' : 'longAnswer';
-
-                    // Generate questions using AI
-                    const questions = await generateAIQuestions(type, questionCount, paperConfig.difficultyDistribution);
-
+                    const questions = await generateAIQuestions(section.name, questionCount);
                     return {
                         ...section,
                         questions
@@ -178,32 +92,29 @@ const QuestionPaperGenerator = () => {
         }
     };
 
-    const downloadPaper = async (format = 'PDF') => {
-        try {
-            setLoading(true);
-            // Call backend API to generate document
-            const response = await axios.post('/api/download-paper', {
-                paper: generatedPaper,
-                format
-            }, {
-                responseType: 'blob'
-            });
+    const downloadPaper = (format) => {
+        // Placeholder for download logic
+        console.log(`Downloading paper in ${format} format`);
+    };
 
-            // Create download link
-            const url = window.URL.createObjectURL(new Blob([response.data]));
-            const link = document.createElement('a');
-            link.href = url;
-            link.setAttribute('download', `question_paper_${generatedPaper.metadata.paperID}.${format.toLowerCase()}`);
-            document.body.appendChild(link);
-            link.click();
-            link.remove();
-            
-            message.success(`Paper downloaded successfully in ${format} format!`);
-        } catch (error) {
-            message.error('Error downloading paper: ' + error.message);
-        } finally {
-            setLoading(false);
-        }
+    const handleDifficultyChange = (level, value) => {
+        setPaperConfig(prev => ({
+            ...prev,
+            difficultyDistribution: {
+                ...prev.difficultyDistribution,
+                [level]: value
+            }
+        }));
+    };
+
+    const handleQuestionTypeChange = (type, value) => {
+        setPaperConfig(prev => ({
+            ...prev,
+            questionTypes: {
+                ...prev.questionTypes,
+                [type]: value
+            }
+        }));
     };
 
     const PreviewModal = () => (
@@ -370,7 +281,7 @@ const QuestionPaperGenerator = () => {
                                 <Select 
                                     value={paperConfig.examType}
                                     onChange={(value) => handleConfigChange('examType', value)}
-                                    options={[
+                                    options={[ 
                                         { value: 'semester', label: 'Semester Exam' },
                                         { value: 'entrance', label: 'Entrance Test' },
                                         { value: 'competitive', label: 'Competitive Exam' }
