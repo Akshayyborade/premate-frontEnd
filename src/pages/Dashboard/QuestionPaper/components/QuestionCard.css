@@ -1,0 +1,28 @@
+.question-card {
+    margin-bottom: 16px;
+    background-color: #fafafa;
+}
+
+.question-card .ant-card-head {
+    background: #f0f0f0;
+}
+
+.sub-questions {
+    margin-left: 24px;
+    padding: 16px 0;
+    border-left: 2px solid #1890ff;
+}
+
+.sub-question-form {
+    margin-bottom: 16px;
+    background-color: #fff;
+}
+
+.question-attachments {
+    margin-top: 8px;
+}
+
+.ant-upload-list-picture-card .ant-upload-list-item {
+    padding: 8px;
+    border-radius: 4px;
+} 

@@ -254,3 +254,19 @@
 .configuration-section {
     animation: fadeIn 0.3s ease-out;
 }
+
+.layout-tabs {
+    margin-top: 24px;
+}
+
+.basic-config-section {
+    margin-bottom: 24px;
+}
+
+.ai-section-card {
+    margin-bottom: 16px;
+}
+
+.ai-section-card .ant-card-head {
+    background: #f5f5f5;
+}
