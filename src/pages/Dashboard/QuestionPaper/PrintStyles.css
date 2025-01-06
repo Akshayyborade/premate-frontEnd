@@ -1,0 +1,136 @@
+/* Print Setup */
+@page {
+  size: A4;
+  margin: 1.5cm;  /* Reduced from 2cm */
+}
+
+@media print {
+  /* Reset and base styles */
+  body * {
+    visibility: hidden;
+    margin: 0;
+    padding: 0;
+  }
+  
+  .exam-paper-content,
+  .exam-paper-content * {
+    visibility: visible;
+  }
+
+  /* Core layout with tighter spacing */
+  .exam-paper-content {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: auto !important;
+    overflow: visible !important;
+    padding: 0 !important;  /* Removed padding completely */
+    margin: 0 !important;   /* Removed margin completely */
+    line-height: 1.2;      /* Tighter line height for print */
+  }
+
+  /* Remove default browser margins */
+  @page {
+    margin-bottom: 0;
+    margin-top: 0;
+  }
+
+  /* Section spacing */
+  .exam-paper-content section {
+    margin: 0;             /* Reset margin */
+    padding: 5px 0;        /* Minimal padding */
+    page-break-inside: avoid;
+  }
+
+  /* Header */
+  .exam-paper-content header {
+    margin: 0 0 10px 0;    /* Only bottom margin */
+    page-break-after: avoid;
+  }
+
+  /* Questions */
+  .exam-paper-content .question {
+    margin: 0;             /* Reset margin */
+    padding: 3px 0;        /* Minimal padding */
+  }
+
+  .exam-paper-content .question-group {
+    margin: 0 0 8px 0;     /* Only bottom margin */
+    padding: 0;
+    border-bottom: 1px solid #eee;
+  }
+
+  /* Typography */
+  .exam-paper-content h1,
+  .exam-paper-content h2,
+  .exam-paper-content h3 {
+    margin: 5px 0;         /* Minimal margins */
+    page-break-after: avoid;
+  }
+
+  /* Lists */
+  .exam-paper-content ul,
+  .exam-paper-content ol {
+    margin: 3px 0;
+    padding-left: 20px;
+  }
+
+  .exam-paper-content li {
+    margin: 0;
+    padding: 2px 0;
+  }
+
+  /* Answer spaces */
+  .exam-paper-content .answer-space {
+    margin: 5px 0;
+    border: 1px solid #ccc;
+  }
+
+  /* Tables */
+  .exam-paper-content table {
+    margin: 5px 0;
+    border-collapse: collapse;
+  }
+
+  .exam-paper-content th,
+  .exam-paper-content td {
+    padding: 4px;
+  }
+
+  /* Instructions */
+  .exam-paper-content .instructions {
+    margin: 8px 0;
+    padding: 8px;
+  }
+
+  /* Footer */
+  .exam-paper-content footer {
+    margin: 8px 0 0 0;
+    padding: 5px 0 0 0;
+    border-top: 1px solid #ddd;
+  }
+
+  /* Prevent unwanted spaces from browser defaults */
+  .exam-paper-content p {
+    margin: 0;
+    padding: 2px 0;
+  }
+
+  /* Force exact layouts */
+  * {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+}
+
+/* Screen styles remain unchanged */
+@media screen {
+  .exam-paper-content {
+    max-width: 210mm;
+    margin: 0 auto;
+    padding: 20px;
+    background: white;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+  }
+}

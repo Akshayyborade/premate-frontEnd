@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import './ExamList.css';
 import FilterSection from '../../../../components/common/FilterSection/FilterSection';
+import { Button } from 'antd';
 
 const ExamList = () => {
     // -----------------------------
@@ -78,7 +79,10 @@ const ExamList = () => {
                 <h1>Exam Management</h1>
                 <div className="header-actions">
                     <Link to="new" className="create-exam-btn">
-                        Create New Exam
+                    <Button>
+                    Create New Exam
+                    </Button>
+                       
                     </Link>
                 </div>
             </div>

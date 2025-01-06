@@ -1,0 +1,67 @@
+.basic-config-form {
+    background: var(--bg-light);
+    border-radius: 8px;
+    box-shadow: var(--shadow-sm);
+    margin-bottom: 1.5rem;
+}
+
+.error-alert {
+    margin-bottom: 1rem;
+}
+
+.ant-form-item {
+    margin-bottom: 1rem;
+}
+
+.ant-card-small {
+    background: var(--bg-accent-light);
+    border-radius: 6px;
+}
+
+/* Form Layout */
+.ant-space-vertical {
+    width: 100%;
+}
+
+/* Required Field Indicator */
+.ant-form-item-required::before {
+    display: inline-block;
+    margin-right: 4px;
+    color: var(--error-color);
+    font-size: 14px;
+    line-height: 1;
+    content: "*";
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+    .ant-space-wrap {
+        gap: 8px !important;
+    }
+
+    .ant-form-item {
+        margin-bottom: 0.5rem;
+    }
+}
+
+/* Dark Mode Support */
+@media (prefers-color-scheme: dark) {
+    .basic-config-form {
+        background: var(--bg-dark);
+    }
+
+    .ant-card-small {
+        background: var(--bg-accent-dark);
+    }
+}
+
+/* High Contrast Mode */
+@media (forced-colors: active) {
+    .basic-config-form {
+        border: 1px solid CanvasText;
+    }
+
+    .ant-form-item-required::before {
+        forced-color-adjust: none;
+    }
+}

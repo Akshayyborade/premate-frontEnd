@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import NavBar from '../../components/layout/NavBar/NavBar';
-import Button from '../../components/common/Button/Button';
-import heroimg from '../../assets/images/Project-Management-Office.png';
+import NavBar from '../../../components/layout/NavBar/NavBar';
+import Button from '../../../components/common/Button/Button';
+import heroimg from '../../../assets/images/Project-Management-Office.png';
 
 import './Landing.css';
-import { useAuth } from '../../hooks/useAuth';
+import { useAuth } from '../../../hooks/useAuth';
 
 const fadeInUp = {
     initial: { opacity: 0, y: 20 },

@@ -1,0 +1,1439 @@
+{
+    "boards": {
+        "Maharashtra": {
+            "classes": {
+                "1": {
+                    "subjects": {
+                        "English": {
+                            "chapters": [
+                                "A Happy Song",
+                                "Nature",
+                                "Action Time",
+                                "Know Each Other",
+                                "Let’s Learn Alphabet",
+                                "Frame Words",
+                                "Letters on a Tab and Computer Keyboard",
+                                "Sounds in the Middle of Words",
+                                "Soham’s Ball",
+                                "Things that Go Together",
+                                "Number Song",
+                                "Rain",
+                                "Things in My Classroom",
+                                "Colours",
+                                "Magic Seed",
+                                "Who Are You?",
+                                "Be Quick",
+                                "Bow, Wow",
+                                "Jungle Safari",
+                                "Toto - The Hen",
+                                "Let’s Know More About Animals",
+                                "Surprise Birthday Party",
+                                "An Action Song",
+                                "Sunny and Mini",
+                                "Good Habits",
+                                "Favourite Things",
+                                "The Helpful Girl",
+                                "Word House",
+                                "Bicycle",
+                                "Where is the Cat?",
+                                "We Are Opposites",
+                                "Dough Shapes",
+                                "A Surprise for Grandma",
+                                "Tasty Treat",
+                                "Me, Myself and I",
+                                "Alphabet Song",
+                                "Shyam’s Horse Cart",
+                                "Buying Things",
+                                "Everyday Things",
+                                "A Place for Everything and Everything in Its Place",
+                                "The Ant and the Pigeon",
+                                "Traffic Rules",
+                                "A Shapes Mobile",
+                                "The Egg",
+                                "This - That",
+                                "The Monkey and the Log",
+                                "The Sun",
+                                "Tommy is Lost",
+                                "It’s a Funny World!",
+                                "Crossword"
+                            ]
+                        },
+                        "Marathi": {
+                            "chapters": [
+                                "माझे पान",
+                                "सारे सारे गाऊया",
+                                "अग्गोबाई ढग्गोबाई",
+                                "बीज",
+                                "माझे खेळ",
+                                "माझे मित्र",
+                                "अक्षरओळख",
+                                "स्वर आणि व्यंजनांची ओळख",
+                                "अक्षरगट 1 ते 5",
+                                "वाचनपाठ 1",
+                                "वाचनपाठ 2",
+                                "वाचनपाठ 3",
+                                "वाचनपाठ 4",
+                                "सहभागी वाचन",
+                                "माझे मित्र",
+                                "माझे घर",
+                                "प्रकट वाचन",
+                                "माझी शाळा",
+                                "आमचा परिवार",
+                                "शब्दखेळ",
+                                "शब्दसाखळी",
+                                "शब्दकोडे",
+                                "कार्यात्मक व्याकरण",
+                                "पूर्णविराम आणि प्रश्नचिन्ह यांची ओळख",
+                                "शब्द वर्गीकरण"
+                            ]
+                        },
+                        "Mathematics": {
+                            "chapters": [
+                                "Numbers 1 to 10",
+                                "Number Names",
+                                "Counting Objects",
+                                "Comparison of Numbers",
+                                "Addition",
+                                "Subtraction",
+                                "Shapes and Patterns",
+                                "Measurement",
+                                "Time",
+                                "Money",
+                                "Data Handling"
+                            ]
+                        },
+                        "Environmental Studies": {
+                            "chapters": [
+                                "About Me",
+                                "My Body",
+                                "My Family",
+                                "My School",
+                                "Plants Around Us",
+                                "Animals Around Us",
+                                "Food We Eat",
+                                "Clothes We Wear",
+                                "Shelter",
+                                "Air and Water",
+                                "Transport",
+                                "Communication"
+                            ]
+                        }
+                    }
+                },
+                "2": {
+                    "subjects": {
+                        "English": {
+                            "chapters": [
+                                "Good Morning",
+                                "The Magic Garden",
+                                "Bird Talk",
+                                "Nina and the Baby Sparrows",
+                                "The Little Plant",
+                                "The Enormous Turnip",
+                                "A Smile",
+                                "The Wind and the Sun",
+                                "Rain",
+                                "Storm in the Garden",
+                                "Zoo Manners",
+                                "Funny Bunny",
+                                "Mr. Nobody",
+                                "Curlylocks and the Three Bears",
+                                "On My Blackboard I Can Draw",
+                                "Make it Shorter",
+                                "I am the Music Man",
+                                "The Mumbai Musicians",
+                                "Granny Granny Please Comb My Hair",
+                                "The Magic Porridge Pot",
+                                "Strange Talk",
+                                "The Grasshopper and the Ant"
+                            ]
+                        },
+                        "Marathi": {
+                            "chapters": [
+                                "आमची शाळा",
+                                "आमचे कुटुंब",
+                                "आमचे गाव",
+                                "आमचे सण",
+                                "प्राणी आणि पक्षी",
+                                "फळे आणि भाज्या",
+                                "रंग",
+                                "वाहने",
+                                "खेळ",
+                                "शब्दकोडी"
+                            ]
+                        },
+                        "Mathematics": {
+                            "chapters": [
+                                "Numbers up to 100",
+                                "Addition and Subtraction",
+                                "Multiplication",
+                                "Division",
+                                "Shapes and Patterns",
+                                "Measurement",
+                                "Time",
+                                "Money",
+                                "Data Handling"
+                            ]
+                        },
+                        "Environmental Studies": {
+                            "chapters": [
+                                "Our Body",
+                                "Food",
+                                "Clothing",
+                                "Shelter",
+                                "Family and Friends",
+                                "Plants and Animals",
+                                "Water",
+                                "Air",
+                                "Weather and Seasons",
+                                "Transport",
+                                "Communication",
+                                "Safety Rules"
+                            ]
+                        }
+                    }
+                },
+                "3": {
+                    "subjects": {
+                        "English": {
+                            "chapters": [
+                                "A Pretty Game",
+                                "'Go!' and 'Come!'",
+                                "Tenali Raman Draws a Picture",
+                                "A String Song",
+                                "The Story of Sindbad the Sailor",
+                                "In a Biscuit Factory",
+                                "Khashaba Jadhav",
+                                "A Honey Bee Speaks",
+                                "Dress Quickly!",
+                                "Pretty as a Picture",
+                                "The Sugar-Plum Tree",
+                                "Doctor Dolittle Learns Animal Language",
+                                "Let's Wait....!",
+                                "I'd like to Be a Lighthouse",
+                                "Young Bravehearts",
+                                "Young Scientists - 1",
+                                "Curiosity",
+                                "Look Before You Leap!",
+                                "A Skit",
+                                "Festival Album",
+                                "There is the Key of the Kingdom",
+                                "A Team of Workers",
+                                "The Two Merchants of Seri",
+                                "At the Market",
+                                "After School",
+                                "A School Teacher's Thoughts",
+                                "The Bremen Town Musicians",
+                                "Baby's Dress",
+                                "Young Scientists - 2",
+                                "A Book Speaks",
+                                "'Robotics'",
+                                "The Noble Stag",
+                                "Washday",
+                                "At the Bottom of the Ocean",
+                                "Pinocchio",
+                                "Gadge Maharaj",
+                                "Bedtime",
+                                "The Magic Kettle"
+                            ]
+                        },
+                        "Marathi": {
+                            "chapters": [
+                                "आमची शाळा",
+                                "आमचे कुटुंब",
+                                "आमचे गाव",
+                                "आमचे सण",
+                                "प्राणी आणि पक्षी",
+                                "फळे आणि भाज्या",
+                                "रंग",
+                                "वाहने",
+                                "खेळ",
+                                "शब्दकोडी"
+                            ]
+                        },
+                        "Mathematics": {
+                            "chapters": [
+                                "Introduction to Geometric Figures",
+                                "Number Work",
+                                "Addition without Carrying Over",
+                                "Subtraction without Borrowing",
+                                "Multiplication",
+                                "Coins and Currency Notes",
+                                "Measurement of Length",
+                                "Measurement of Weight",
+                                "Measurement of Capacity",
+                                "Time",
+                                "Data Handling",
+                                "Patterns"
+                            ]
+                        },
+                        "Environmental Studies": {
+                            "chapters": [
+                                "Our Environment",
+                                "Family and Friends",
+                                "Food",
+                                "Shelter",
+                                "Water",
+                                "Travel",
+                                "Things We Make and Do"
+                            ]
+                        }
+                    }
+                },
+                "5": {
+                    "subjects": {
+                        "English": {
+                            "chapters": [
+                                "What a Bird Thought",
+                                "Daydreams",
+                                "The Triantiwontigongolope",
+                                "Three Sacks of Rice",
+                                "On the Water",
+                                "Weeds in the Garden",
+                                "The Man in the Moon",
+                                "Water in the Well",
+                                "Be a Good Listener",
+                                "Be a Good Speaker",
+                                "Be a Good Host and Guest",
+                                "The Legend of Marathon",
+                                "Strawberries",
+                                "Count Your Garden",
+                                "The Journey to the Great Oz",
+                                "All About Money",
+                                "The Twelve Months",
+                                "The Adventures of Gulliver",
+                                "A Book Review",
+                                "A Lark",
+                                "Announcements",
+                                "A Lesson for All",
+                                "Write Your Own Poem",
+                                "Be a Netizen"
+                            ]
+                        },
+                        "Marathi": {
+                            "chapters": [
+                                "आमची शाळा",
+                                "आमचे कुटुंब",
+                                "आमचे गाव",
+                                "आमचे सण",
+                                "प्राणी आणि पक्षी",
+                                "फळे आणि भाज्या",
+                                "रंग",
+                                "वाहने",
+                                "खेळ",
+                                "शब्दकोडी"
+                            ]
+                        },
+                        "Mathematics": {
+                            "chapters": [
+                                "Roman Numerals",
+                                "Number Work",
+                                "Addition and Subtraction",
+                                "Multiplication and Division",
+                                "Fractions",
+                                "Angles",
+                                "Circles",
+                                "Multiples and Factors",
+                                "Decimal Fractions",
+                                "Measuring Time",
+                                "Problems on Measurement",
+                                "Perimeter and Area",
+                                "Three Dimensional Objects and Nets",
+                                "Pictographs",
+                                "Patterns",
+                                "Preparation for Algebra"
+                            ]
+                        },
+                        "Environmental Studies": {
+                            "chapters": [
+                                "Our Earth and Our Solar System",
+                                "Environmental Balance",
+                                "Motions of the Earth",
+                                "The Structure of the Earth",
+                                "Natural Disasters",
+                                "Our Community Life",
+                                "Public Facilities and Institutions",
+                                "Maps – Our Companions",
+                                "Introduction to History",
+                                "Historic Period",
+                                "Evolution of Mankind",
+                                "Empires and Kingdoms",
+                                "Spheres of the Earth",
+                                "Natural Resources",
+                                "Human-made Resources",
+                                "Transport and Communication"
+                            ]
+                        }
+                    }
+                },
+                "6": {
+                    "subjects": {
+                        "English": {
+                            "chapters": [
+                                "A Happy Song",
+                                "The Clothesline",
+                                "The Worth of a Fabric",
+                                "A Wall Magazine for your Class!",
+                                "The Peacock and the Crane",
+                                "The Merchant of Venice",
+                                "Autobiography of a Great Indian Bustard",
+                                "The Noble Monkey",
+                                "The Sword in the Stone",
+                                "The Phantom Tollbooth",
+                                "The Adventures of Gulliver",
+                                "The Road Not Taken",
+                                "The Last Leaf",
+                                "The Necklace",
+                                "The Happy Prince",
+                                "The Selfish Giant",
+                                "The Cherry Tree",
+                                "The Nightingale and the Rose",
+                                "The Model Millionaire",
+                                "The Canterville Ghost"
+                            ]
+                        },
+                        "Mathematics": {
+                            "chapters": [
+                                "Basic Concepts in Geometry",
+                                "Natural Numbers and Whole Numbers",
+                                "Integers",
+                                "Fractions",
+                                "Decimals",
+                                "Ratio and Proportion",
+                                "Percentage",
+                                "Profit and Loss",
+                                "Simple Interest",
+                                "Algebraic Expressions",
+                                "Linear Equations in One Variable",
+                                "Basic Geometrical Constructions",
+                                "Angles and Their Measurement",
+                                "Triangles",
+                                "Quadrilaterals",
+                                "Circles",
+                                "Perimeter and Area",
+                                "Data Handling"
+                            ]
+                        },
+                        "Science": {
+                            "chapters": [
+                                "Our Natural Resources",
+                                "Diversity in Living Things and their Classification",
+                                "Disaster Management",
+                                "The Living World",
+                                "Substances in Daily Use",
+                                "Substances in the Surroundings – Their States and Properties",
+                                "Nutrition and Diet",
+                                "Our Skeletal System and the Skin",
+                                "Motion and Types of Motion",
+                                "Characteristics and Classification of Living Things",
+                                "Parts of Plants and their Structure",
+                                "Force and Types of Force",
+                                "Work and Energy",
+                                "Simple Machines",
+                                "Measurement & Estimates of Measurements",
+                                "Sound",
+                                "Methods of Separating Substances",
+                                "Organ Systems",
+                                "Our Environment",
+                                "Our Earth and its Special Features",
+                                "Social Environment"
+                            ]
+                        },
+                        "History": {
+                            "chapters": [
+                                "The Indian Subcontinent and History",
+                                "Sources of History",
+                                "The Harappan Civilization",
+                                "The Vedic Civilization",
+                                "Religious Trends in Ancient India",
+                                "Janapadas and Mahajanapadas",
+                                "India during the Maurya Period",
+                                "States after the Maurya Empire",
+                                "Ancient Kingdoms of the South",
+                                "Ancient India: Cultural",
+                                "Ancient India and the World"
+                            ]
+                        },
+                        "Geography": {
+                            "chapters": [
+                                "The Earth and the Graticule",
+                                "Let us Use the Graticule",
+                                "Comparing a Globe and a Map; Field Visits",
+                                "Weather and Climate",
+                                "Temperature",
+                                "Importance of Oceans",
+                                "Rocks and Rock Types",
+                                "Natural Resources",
+                                "Energy Resources",
+                                "Human Occupations"
+                            ]
+                        },
+                        "Civics": {
+                            "chapters": [
+                                "Our Life in Society",
+                                "Diversity in Society",
+                                "Rural Local Government Bodies",
+                                "Urban Local Government Bodies",
+                                "District Administration"
+                            ]
+                        }
+                    }
+                },
+                "7": {
+                    "subjects": {
+                        "English": {
+                            "chapters": [
+                                "In Time of Silver Rain",
+                                "The Clothesline",
+                                "The Worth of a Fabric",
+                                "A Wall Magazine for your Class!",
+                                "The Peacock and the Crane",
+                                "The Merchant of Venice",
+                                "Autobiography of a Great Indian Bustard",
+                                "The Noble Monkey",
+                                "The Sword in the Stone",
+                                "The Phantom Tollbooth",
+                                "The Adventures of Gulliver",
+                                "The Road Not Taken",
+                                "The Last Leaf",
+                                "The Necklace",
+                                "The Happy Prince",
+                                "The Selfish Giant",
+                                "The Cherry Tree",
+                                "The Nightingale and the Rose",
+                                "The Model Millionaire",
+                                "The Canterville Ghost"
+                            ]
+                        },
+                        "Mathematics": {
+                            "chapters": [
+                                "Basic Concepts in Geometry",
+                                "Natural Numbers and Whole Numbers",
+                                "Integers",
+                                "Fractions",
+                                "Decimals",
+                                "Ratio and Proportion",
+                                "Percentage",
+                                "Profit and Loss",
+                                "Simple Interest",
+                                "Algebraic Expressions",
+                                "Linear Equations in One Variable",
+                                "Basic Geometrical Constructions",
+                                "Angles and Their Measurement",
+                                "Triangles",
+                                "Quadrilaterals",
+                                "Circles",
+                                "Perimeter and Area",
+                                "Data Handling"
+                            ]
+                        },
+                        "Science": {
+                            "chapters": [
+                                "Our Natural Resources",
+                                "Diversity in Living Things and their Classification",
+                                "Disaster Management",
+                                "The Living World",
+                                "Substances in Daily Use",
+                                "Substances in the Surroundings – Their States and Properties",
+                                "Nutrition and Diet",
+                                "Our Skeletal System and the Skin",
+                                "Motion and Types of Motion",
+                                "Characteristics and Classification of Living Things",
+                                "Parts of Plants and their Structure",
+                                "Force and Types of Force",
+                                "Work and Energy",
+                                "Simple Machines",
+                                "Measurement & Estimates of Measurements",
+                                "Sound",
+                                "Methods of Separating Substances",
+                                "Organ Systems",
+                                "Our Environment",
+                                "Our Earth and its Special Features",
+                                "Social Environment"
+                            ]
+                        },
+                        "History": {
+                            "chapters": [
+                                "The Indian Subcontinent and History",
+                                "Sources of History",
+                                "The Harappan Civilization",
+                                "The Vedic Civilization",
+                                "Religious Trends in Ancient India",
+                                "Janapadas and Mahajanapadas",
+                                "India during the Maurya Period",
+                                "States after the Maurya Empire",
+                                "Ancient Kingdoms of the South",
+                                "Ancient India: Cultural",
+                                "Ancient India and the World"
+                            ]
+                        },
+                        "Geography": {
+                            "chapters": [
+                                "The Earth and the Graticule",
+                                "Let us Use the Graticule",
+                                "Comparing a Globe and a Map; Field Visits",
+                                "Weather and Climate",
+                                "Temperature",
+                                "Importance of Oceans",
+                                "Rocks and Rock Types",
+                                "Natural Resources",
+                                "Energy Resources",
+                                "Human Occupations"
+                            ]
+                        },
+                        "Civics": {
+                            "chapters": [
+                                "Our Life in Society",
+                                "Diversity in Society",
+                                "Rural Local Government Bodies",
+                                "Urban Local Government Bodies",
+                                "District Administration"
+                            ]
+                        }
+                    }
+                },
+                "8": {
+                    "subjects": {
+                        "English": {
+                            "chapters": [
+                                "A Time to Believe",
+                                "The Tsunami",
+                                "The Nightingale and the Glow-worm",
+                                "The Last Leaf",
+                                "The Happy Prince",
+                                "The Selfish Giant",
+                                "The Necklace",
+                                "The Road Not Taken",
+                                "The Adventures of Tom Sawyer",
+                                "The Story of My Life",
+                                "The Beggar",
+                                "The Cherry Tree",
+                                "The Open Window",
+                                "The Model Millionaire",
+                                "The Canterville Ghost",
+                                "The Night I Met Einstein",
+                                "The Fun They Had",
+                                "The Little Girl",
+                                "The Three Questions",
+                                "The Gift of the Magi"
+                            ]
+                        },
+                        "Mathematics": {
+                            "chapters": [
+                                "Rational and Irrational Numbers",
+                                "Parallel Lines and Transversal",
+                                "Indices and Cube Root",
+                                "Altitudes and Medians of a Triangle",
+                                "Expansion Formulae",
+                                "Factorisation of Algebraic Expressions",
+                                "Variation",
+                                "Quadrilateral: Constructions and Types",
+                                "Discount and Commission",
+                                "Division of Polynomials",
+                                "Statistics",
+                                "Equations in One Variable",
+                                "Congruence of Triangles",
+                                "Compound Interest",
+                                "Area",
+                                "Surface Area and Volume",
+                                "Circle - Chord and Arc"
+                            ]
+                        },
+                        "Science": {
+                            "chapters": [
+                                "Living World and Classification of Microbes",
+                                "Health and Diseases",
+                                "Force and Pressure",
+                                "Current Electricity and Magnetism",
+                                "Inside the Atom",
+                                "Composition of Matter",
+                                "Metals and Nonmetals",
+                                "Pollution",
+                                "Disaster Management",
+                                "Cell and Cell Organelles",
+                                "Human Body and Organ System",
+                                "Introduction to Acid and Base",
+                                "Chemical Change and Chemical Bond",
+                                "Measurement and Effects of Heat",
+                                "Sound",
+                                "Reflection of Light",
+                                "Man-made Materials",
+                                "Ecosystems",
+                                "Life Cycle of Stars"
+                            ]
+                        },
+                        "History": {
+                            "chapters": [
+                                "Sources of History",
+                                "Europe and India",
+                                "Effects of British Rule",
+                                "The Freedom Struggle of 1857",
+                                "Social and Religious Reforms",
+                                "Beginning of Freedom Movement",
+                                "Non-co-operation Movement",
+                                "Civil Disobedience Movement",
+                                "Last Phase of Struggle for Independence",
+                                "Armed Revolutionary Movement",
+                                "Struggle for Equality",
+                                "India Gains Independence",
+                                "Fulfillment of Struggle for Independence",
+                                "Formation of State of Maharashtra"
+                            ]
+                        },
+                        "Geography": {
+                            "chapters": [
+                                "Local Time and Standard Time",
+                                "Interior of the Earth",
+                                "Humidity and Clouds",
+                                "Structure of Ocean Floor",
+                                "Ocean Currents",
+                                "Land Use",
+                                "Population",
+                                "Industries",
+                                "Map Scale",
+                                "Field Visit"
+                            ]
+                        },
+                        "Civics": {
+                            "chapters": [
+                                "Introduction to the Parliamentary System",
+                                "The Indian Parliament",
+                                "The Union Executive",
+                                "The Indian Judicial System",
+                                "The State Government",
+                                "Bureaucracy"
+                            ]
+                        }
+                    }
+                },
+                "9": {
+                    "subjects": {
+                        "English": {
+                            "chapters": [
+                                "Life",
+                                "A Synopsis – The Swiss Family Robinson",
+                                "Have you ever seen…?",
+                                "Have you thought of the verb ‘have’?",
+                                "The Necklace",
+                                "Autobiography of a Great Indian Bustard",
+                                "The Road Not Taken",
+                                "The Last Leaf",
+                                "The Happy Prince",
+                                "The Selfish Giant",
+                                "The Cherry Tree",
+                                "The Nightingale and the Rose",
+                                "The Model Millionaire",
+                                "The Canterville Ghost",
+                                "The Night I Met Einstein",
+                                "The Fun They Had",
+                                "The Little Girl",
+                                "The Three Questions",
+                                "The Gift of the Magi"
+                            ]
+                        },
+                        "Mathematics": {
+                            "chapters": [
+                                "Sets",
+                                "Real Numbers",
+                                "Polynomials",
+                                "Linear Equations in Two Variables",
+                                "Quadratic Equations",
+                                "Arithmetic Progressions",
+                                "Coordinate Geometry",
+                                "Introduction to Trigonometry",
+                                "Applications of Trigonometry",
+                                "Circles",
+                                "Constructions",
+                                "Areas Related to Circles",
+                                "Surface Areas and Volumes",
+                                "Statistics",
+                                "Probability"
+                            ]
+                        },
+                        "Science": {
+                            "chapters": [
+                                "Laws of Motion",
+                                "Work and Energy",
+                                "Current Electricity",
+                                "Magnetic Effects of Electric Current",
+                                "Heat",
+                                "Refraction of Light",
+                                "Lenses",
+                                "Metallurgy",
+                                "Carbon Compounds",
+                                "Periodic Classification of Elements",
+                                "Life Processes in Living Organisms",
+                                "Control and Coordination",
+                                "Reproduction in Living Organisms",
+                                "Heredity and Evolution",
+                                "Environmental Management",
+                                "Towards Green Energy",
+                                "Animal Husbandry",
+                                "Social Health",
+                                "Disaster Management",
+                                "Cell Biology and Biotechnology"
+                            ]
+                        },
+                        "History": {
+                            "chapters": [
+                                "Ancient and Medieval Civilizations",
+                                "Renaissance and Feudalism",
+                                "Age of Revolutions",
+                                "Industrial Revolution",
+                                "World Wars and National Movements",
+                                "Cold War Era",
+                                "Globalization",
+                                "India after Independence",
+                                "Social and Religious Reforms",
+                                "Post-Independence Developments in India"
+                            ]
+                        },
+                        "Geography": {
+                            "chapters": [
+                                "Concept of Region",
+                                "Natural Resources",
+                                "Human Settlements",
+                                "Economic Activities",
+                                "Transport and Communication",
+                                "Tourism",
+                                "Population",
+                                "Regional Development",
+                                "Field Visit",
+                                "Map Reading and Interpretation"
+                            ]
+                        },
+                        "Civics": {
+                            "chapters": [
+                                "Introduction to Political Science",
+                                "Making of the Constitution of India",
+                                "Fundamental Rights and Duties",
+                                "Electoral Process",
+                                "Democracy",
+                                "Bureaucracy",
+                                "Local Government",
+                                "Judiciary",
+                                "Social Justice",
+                                "International Organizations"
+                            ]
+                        }
+                    }
+                },
+                "10": {
+                    "subjects": {
+                        "English": {
+                            "chapters": [
+                                "A Teenager's Prayer",
+                                "An Encounter of a Special Kind",
+                                "The Night I Met Einstein",
+                                "Stephen Hawking",
+                                "The Necklace",
+                                "The Concert",
+                                "The Road Not Taken",
+                                "The Story of My Life",
+                                "The Beggar",
+                                "The Cherry Tree",
+                                "The Open Window",
+                                "The Model Millionaire",
+                                "The Canterville Ghost",
+                                "The Nightingale and the Rose",
+                                "The Gift of the Magi",
+                                "The Little Girl",
+                                "The Three Questions",
+                                "The Fun They Had"
+                            ]
+                        },
+                        "Mathematics": {
+                            "chapters": [
+                                "Arithmetic Progression",
+                                "Quadratic Equations",
+                                "Linear Equations in Two Variables",
+                                "Probability",
+                                "Statistics",
+                                "Similarity",
+                                "Circle",
+                                "Coordinate Geometry",
+                                "Trigonometry",
+                                "Mensuration",
+                                "Financial Planning",
+                                "Matrices",
+                                "Pair of Linear Equations in Two Variables",
+                                "Polynomials",
+                                "Geometric Constructions"
+                            ]
+                        },
+                        "Science": {
+                            "chapters": [
+                                "Chemical Reactions and Equations",
+                                "Acids, Bases, and Salts",
+                                "Metals and Non-metals",
+                                "Carbon and its Compounds",
+                                "Periodic Classification of Elements",
+                                "Life Processes",
+                                "Control and Coordination",
+                                "How do Organisms Reproduce?",
+                                "Heredity and Evolution",
+                                "Light – Reflection and Refraction",
+                                "The Human Eye and the Colourful World",
+                                "Electricity",
+                                "Magnetic Effects of Electric Current",
+                                "Sources of Energy",
+                                "Our Environment",
+                                "Management of Natural Resources"
+                            ]
+                        },
+                        "History": {
+                            "chapters": [
+                                "Historiography: Development in the West",
+                                "Historiography: Indian Tradition",
+                                "Applied History",
+                                "History of Indian Arts",
+                                "Mass Media and History",
+                                "Entertainment and History",
+                                "Sports and History",
+                                "Tourism and History",
+                                "Heritage Management",
+                                "Encounters with People",
+                                "Social and Religious Reforms",
+                                "Emancipation of Women",
+                                "National Movement",
+                                "India after Independence",
+                                "Globalisation"
+                            ]
+                        },
+                        "Geography": {
+                            "chapters": [
+                                "Field Visit",
+                                "Location and Extent",
+                                "Physical Divisions of India",
+                                "Climate",
+                                "Soils",
+                                "Natural Vegetation and Wildlife",
+                                "Population",
+                                "Human Settlements",
+                                "Economy and Occupations",
+                                "Transport and Communication",
+                                "Tourism",
+                                "Regional Development",
+                                "Geographical Perspective on Selected Issues and Problems",
+                                "Map Reading and Interpretation"
+                            ]
+                        },
+                        "Civics": {
+                            "chapters": [
+                                "Working of the Constitution",
+                                "The Electoral Process",
+                                "Political Parties",
+                                "Social and Political Movements",
+                                "Challenges faced by Indian Democracy"
+                            ]
+                        }
+                    }
+                },
+                "11": {
+                    "streams": {
+                        "Science": {
+                            "subjects": {
+                                "Physics": {
+                                    "chapters": [
+                                        "Measurements",
+                                        "Scalars and Vectors",
+                                        "Projectile Motion",
+                                        "Force",
+                                        "Friction in Solids and Liquids",
+                                        "Sound Waves",
+                                        "Thermal Properties of Matter",
+                                        "Refraction of Light",
+                                        "Ray Optics",
+                                        "Electrostatics",
+                                        "Current Electricity",
+                                        "Magnetic Effects of Electric Current",
+                                        "Magnetism",
+                                        "Electromagnetic Waves"
+                                    ]
+                                },
+                                "Chemistry": {
+                                    "chapters": [
+                                        "Some Basic Concepts of Chemistry",
+                                        "States of Matter: Gases and Liquids",
+                                        "Structure of Atom",
+                                        "Periodic Table",
+                                        "Redox Reactions",
+                                        "Chemical Equilibrium",
+                                        "Surface Chemistry",
+                                        "Nature of Chemical Bond",
+                                        "Hydrogen",
+                                        "s-Block Elements (Alkali and Alkaline Earth Metals)",
+                                        "p-Block Elements (Group 13 and 14)",
+                                        "Basic Principles and Techniques in Organic Chemistry",
+                                        "Alkanes",
+                                        "Alkenes",
+                                        "Alkynes",
+                                        "Aromatic Compounds",
+                                        "Environmental Chemistry"
+                                    ]
+                                },
+                                "Biology": {
+                                    "Botany": {
+                                        "chapters": [
+                                            "Diversity in Organisms",
+                                            "Kingdom Plantae",
+                                            "Biology of Cell",
+                                            "Cell Division",
+                                            "Morphology of Plants",
+                                            "Plant Water Relations and Mineral Nutrition",
+                                            "Plant Growth and Development"
+                                        ]
+                                    },
+                                    "Zoology": {
+                                        "chapters": [
+                                            "Kingdom Animalia",
+                                            "Organization of Cell",
+                                            "Study of Animal Tissues",
+                                            "Study of Animal Type",
+                                            "Human Nutrition",
+                                            "Human Respiration",
+                                            "Human Skeleton and Locomotion"
+                                        ]
+                                    }
+                                },
+                                "Mathematics": {
+                                    "Part 1": {
+                                        "chapters": [
+                                            "Angle and its Measurement",
+                                            "Trigonometry-1",
+                                            "Trigonometry-2",
+                                            "Determinants and Matrices",
+                                            "Trigonometric Functions",
+                                            "Straight Line",
+                                            "Circle",
+                                            "Conic Sections",
+                                            "Probability"
+                                        ]
+                                    },
+                                    "Part 2": {
+                                        "chapters": [
+                                            "Complex Numbers",
+                                            "Sequences and Series",
+                                            "Permutations and Combinations",
+                                            "Methods of Induction and Binomial Theorem",
+                                            "Sets and Relations",
+                                            "Functions",
+                                            "Limits",
+                                            "Continuity",
+                                            "Differentiation"
+                                        ]
+                                    }
+                                },
+                                "Information Technology": {
+                                    "chapters": [
+                                        "Green Computing",
+                                        "Internet of Things (IoT)",
+                                        "Cloud Computing",
+                                        "Data Analytics (DA)",
+                                        "Artificial Intelligence (AI)",
+                                        "Machine Learning (ML)",
+                                        "Big Data"
+                                    ]
+                                }
+                            }
+                        },
+                        "Commerce": {
+                            "subjects": {
+                                "Economics": {
+                                    "chapters": [
+                                        "Basic Concepts in Economics",
+                                        "Micro and Macro Economics",
+                                        "Types of Economies",
+                                        "Economic Planning",
+                                        "Money",
+                                        "Inflation",
+                                        "Banking",
+                                        "Public Finance",
+                                        "International Trade",
+                                        "Economic Development"
+                                    ]
+                                },
+                                "Accountancy": {
+                                    "chapters": [
+                                        "Introduction to Accounting",
+                                        "Accounting Principles",
+                                        "Journal Entries",
+                                        "Ledger Posting",
+                                        "Trial Balance",
+                                        "Subsidiary Books",
+                                        "Bank Reconciliation Statement",
+                                        "Depreciation",
+                                        "Final Accounts",
+                                        "Rectification of Errors"
+                                    ]
+                                },
+                                "Business Studies": {
+                                    "chapters": [
+                                        "Nature and Purpose of Business",
+                                        "Forms of Business Organizations",
+                                        "Public, Private, and Global Enterprises",
+                                        "Business Services",
+                                        "Emerging Modes of Business",
+                                        "Social Responsibilities of Business",
+                                        "Sources of Business Finance",
+                                        "Small Business",
+                                        "Internal Trade",
+                                        "International Business"
+                                    ]
+                                },
+                                "Mathematics and Statistics": {
+                                    "Part 1": {
+                                        "chapters": [
+                                            "Angle and its Measurement",
+                                            "Trigonometry-1",
+                                            "Trigonometry-2",
+                                            "Determinants and Matrices",
+                                            "Trigonometric Functions",
+                                            "Straight Line",
+                                            "Circle",
+                                            "Conic Sections",
+                                            "Probability"
+                                        ]
+                                    },
+                                    "Part 2": {
+                                        "chapters": [
+                                            "Complex Numbers",
+                                            "Sequences and Series",
+                                            "Permutations and Combinations",
+                                            "Methods of Induction and Binomial Theorem",
+                                            "Sets and Relations",
+                                            "Functions",
+                                            "Limits",
+                                            "Continuity",
+                                            "Differentiation"
+                                        ]
+                                    }
+                                }
+                            }
+                        },
+                        "Arts": {
+                            "subjects": {
+                                "History": {
+                                    "chapters": [
+                                        "Introduction to History",
+                                        "Early Human Societies",
+                                        "Ancient Civilizations",
+                                        "Medieval World",
+                                        "Renaissance and Reformation",
+                                        "Industrial Revolution",
+                                        "Colonialism and Imperialism",
+                                        "World Wars",
+                                        "Post-War World",
+                                        "Contemporary World"
+                                    ]
+                                },
+                                "Political Science": {
+                                    "chapters": [
+                                        "Introduction to Political Science",
+                                        "State and Government",
+                                        "Constitution",
+                                        "Rights and Duties",
+                                        "Democracy",
+                                        "Political Ideologies",
+                                        "International Relations",
+                                        "United Nations",
+                                        "Indian Political System",
+                                        "Local Self-Government"
+                                    ]
+                                },
+                                "Sociology": {
+                                    "chapters": [
+                                        "Introduction to Sociology",
+                                        "Basic Concepts in Sociology",
+                                        "Social Institutions",
+                                        "Culture and Society",
+                                        "Socialization",
+                                        "Social Stratification",
+                                        "Social Change",
+                                        "Population and Society",
+                                        "Urban and Rural Society",
+                                        "Social Problems in India"
+                                    ]
+                                },
+                                "Psychology": {
+                                    "chapters": [
+                                        "Introduction to Psychology",
+                                        "Methods of Psychology",
+                                        "Biological Basis of Behavior",
+                                        "Sensory and Perceptual Processes",
+                                        "Learning",
+                                        "Memory",
+                                        "Thinking",
+                                        "Motivation and Emotion",
+                                        "Personality",
+                                        "Intelligence"
+                                    ]
+                                },
+                                "Geography": {
+                                    "chapters": [
+                                        "Introduction to Geography",
+                                        "Physical Geography",
+                                        "Human Geography",
+                                        "Economic Geography",
+                                        "Environmental Geography",
+                                        "Geographical Skills",
+                                        "Map Reading and Interpretation",
+                                        "Field Surveys",
+                                        "Remote Sensing",
+                                        "Geographical Information Systems"
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                },
+                "12": {
+                    "streams": {
+                        "Science": {
+                            "subjects": {
+                                "Physics": {
+                                    "chapters": [
+                                        "Circular Motion",
+                                        "Gravitation",
+                                        "Rotational Motion",
+                                        "Oscillations",
+                                        "Elasticity",
+                                        "Surface Tension",
+                                        "Wave Motion",
+                                        "Stationary Waves",
+                                        "Kinetic Theory of Gases and Radiation",
+                                        "Wave Theory of Light",
+                                        "Interference and Diffraction",
+                                        "Electrostatics",
+                                        "Current Electricity",
+                                        "Magnetic Effects of Electric Current",
+                                        "Magnetism",
+                                        "Electromagnetic Induction",
+                                        "Electrons and Photons",
+                                        "Atoms, Molecules and Nuclei",
+                                        "Semiconductors",
+                                        "Communication Systems"
+                                    ]
+                                },
+                                "Chemistry": {
+                                    "chapters": [
+                                        "Solid State",
+                                        "Solutions and Colligative Properties",
+                                        "Chemical Thermodynamics and Energetics",
+                                        "Electrochemistry",
+                                        "Chemical Kinetics",
+                                        "General Principles and Processes of Isolation of Elements",
+                                        "p-Block Elements",
+                                        "d and f Block Elements",
+                                        "Coordination Compounds",
+                                        "Halogen Derivatives of Alkanes and Arenes",
+                                        "Alcohols, Phenols and Ethers",
+                                        "Aldehydes, Ketones and Carboxylic Acids",
+                                        "Amines",
+                                        "Biomolecules",
+                                        "Polymers",
+                                        "Chemistry in Everyday Life"
+                                    ]
+                                },
+                                "Biology": {
+                                    "chapters": [
+                                        "Reproduction in Lower and Higher Plants",
+                                        "Reproduction in Lower and Higher Animals",
+                                        "Inheritance and Variation",
+                                        "Molecular Basis of Inheritance",
+                                        "Origin and Evolution of Life",
+                                        "Plant Water Relations and Mineral Nutrition",
+                                        "Plant Growth and Development",
+                                        "Respiration and Circulation",
+                                        "Control and Coordination",
+                                        "Human Health and Diseases",
+                                        "Enhancement in Food Production",
+                                        "Microbes in Human Welfare",
+                                        "Biotechnology: Principles and Processes",
+                                        "Biotechnology: Applications",
+                                        "Ecology and Environment"
+                                    ]
+                                },
+                                "Mathematics and Statistics": {
+                                    "chapters": [
+                                        "Mathematical Logic",
+                                        "Matrices",
+                                        "Trigonometric Functions",
+                                        "Pair of Straight Lines",
+                                        "Vectors",
+                                        "Three Dimensional Geometry",
+                                        "Line and Plane",
+                                        "Linear Programming",
+                                        "Continuity",
+                                        "Differentiation",
+                                        "Applications of Derivatives",
+                                        "Integration",
+                                        "Definite Integrals",
+                                        "Applications of Definite Integrals",
+                                        "Differential Equations",
+                                        "Probability Distribution",
+                                        "Binomial Distribution"
+                                    ]
+                                },
+                                "Information Technology": {
+                                    "chapters": [
+                                        "Advanced Web Designing",
+                                        "E-commerce and Digital Marketing",
+                                        "Cyber Laws and Ethics",
+                                        "Database Management",
+                                        "Networking Concepts",
+                                        "Open Source Software",
+                                        "Programming in Python",
+                                        "Data Analysis using Pandas",
+                                        "Data Visualization",
+                                        "Artificial Intelligence"
+                                    ]
+                                }
+                            }
+                        },
+                        "Commerce": {
+                            "subjects": {
+                                "Economics": {
+                                    "chapters": [
+                                        "Introduction to Microeconomics",
+                                        "Consumer's Behaviour",
+                                        "Analysis of Supply",
+                                        "Types of Market and Price Determination",
+                                        "National Income",
+                                        "Money",
+                                        "Banking",
+                                        "Public Finance",
+                                        "Foreign Trade",
+                                        "Economic Development"
+                                    ]
+                                },
+                                "Accountancy": {
+                                    "chapters": [
+                                        "Partnership Accounts",
+                                        "Admission of a Partner",
+                                        "Retirement and Death of a Partner",
+                                        "Dissolution of Partnership Firm",
+                                        "Company Accounts",
+                                        "Issue of Shares",
+                                        "Issue of Debentures",
+                                        "Redemption of Debentures",
+                                        "Financial Statements of Company",
+                                        "Analysis of Financial Statements",
+                                        "Accounting Ratios",
+                                        "Cash Flow Statement"
+                                    ]
+                                },
+                                "Business Studies": {
+                                    "chapters": [
+                                        "Nature and Significance of Management",
+                                        "Principles of Management",
+                                        "Business Environment",
+                                        "Planning",
+                                        "Organizing",
+                                        "Staffing",
+                                        "Directing",
+                                        "Controlling",
+                                        "Financial Management",
+                                        "Financial Markets",
+                                        "Marketing Management",
+                                        "Consumer Protection"
+                                    ]
+                                },
+                                "Mathematics and Statistics": {
+                                    "chapters": [
+                                        "Mathematical Logic",
+                                        "Matrices",
+                                        "Trigonometric Functions",
+                                        "Pair of Straight Lines",
+                                        "Vectors",
+                                        "Three Dimensional Geometry",
+                                        "Line and Plane",
+                                        "Linear Programming",
+                                        "Continuity",
+                                        "Differentiation",
+                                        "Applications of Derivatives",
+                                        "Integration",
+                                        "Definite Integrals",
+                                        "Applications of Definite Integrals",
+                                        "Differential Equations",
+                                        "Probability Distribution",
+                                        "Binomial Distribution"
+                                    ]
+                                }
+                            }
+                        },
+                        "Arts": {
+                            "subjects": {
+                                "History": {
+                                    "chapters": [
+                                        "Imperialism and Colonialism",
+                                        "20th Century Age of Conflict",
+                                        "Emancipation of Asia and Africa",
+                                        "World after World War II",
+                                        "Modernisation of Asia",
+                                        "Cold War",
+                                        "Globalisation",
+                                        "World in the 21st Century"
+                                    ]
+                                },
+                                "Political Science": {
+                                    "chapters": [
+                                        "Challenges to Nation Building",
+                                        "Era of One-Party Dominance",
+                                        "Politics of Planned Development",
+                                        "India's External Relations",
+                                        "Challenges to the Congress System",
+                                        "Crisis of the Democratic Order",
+                                        "Rise of Popular Movements",
+                                        "Regional Aspirations",
+                                        "Recent Developments in Indian Politics"
+                                    ]
+                                },
+                                "Sociology": {
+                                    "chapters": [
+                                        "Indian Sociologists",
+                                        "Structural Change",
+                                        "Cultural Change",
+                                        "Change and Development in Rural Society",
+                                        "Change and Development in Industrial Society",
+                                        "Globalisation and Social Change",
+                                        "Mass Media and Communications",
+                                        "Social Movements"
+                                    ]
+                                },
+                                "Psychology": {
+                                    "chapters": [
+                                        "Intelligence and Aptitude",
+                                        "Self and Personality",
+                                        "Human Development",
+                                        "Psychological Disorders",
+                                        "Therapeutic Approaches",
+                                        "Attitude and Social Cognition",
+                                        "Social Influence and Group Processes",
+                                        "Environmental and Social Concerns",
+                                        "Applied Psychology"
+                                    ]
+                                },
+                                "Geography": {
+                                    "chapters": [
+                                        "Field Visit",
+                                        "Human Geography: Nature and Scope",
+                                        "World Population: Distribution, Density and Growth",
+                                        "Human Development",
+                                        "Primary Activities",
+                                        "Secondary Activities",
+                                        "Tertiary and Quaternary Activities",
+                                        "Transport and Communication",
+                                        "International Trade",
+                                        "Human Settlements",
+                                        "Geographical Perspective on Selected Issues and Problems"
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

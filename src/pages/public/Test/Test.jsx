@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import NavBar from '../../components/layout/NavBar/NavBar';
+import NavBar from '../../../components/layout/NavBar/NavBar';
 import './Test.css';
 
 const Test = () => {

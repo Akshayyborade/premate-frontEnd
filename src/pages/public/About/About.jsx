@@ -1,6 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import NavBar from '../../components/layout/NavBar/NavBar';
+import NavBar from '../../../components/layout/NavBar/NavBar';
+import founder from "../../../assets/images/pngtree-akshay.png"
 import './About.css';
 
 const About = () => {
@@ -12,16 +13,16 @@ const About = () => {
 
     const team = [
         {
-            name: "Dr. Sarah Johnson",
+            name: "Akshay Borade",
             role: "Founder & Director",
-            image: "https://images.unsplash.com/photo-1494790108377-be9c29b29330",
-            description: "20+ years in educational leadership"
+            image: founder,
+            description: "4+ years in educational leadership"
         },
         {
-            name: "Prof. Michael Chen",
-            role: "Academic Head",
+            name: "Atish Tupe",
+            role: "Co-Founder",
             image: "https://images.unsplash.com/photo-1560250097-0b93528c311a",
-            description: "Expert in curriculum development"
+            description: "Expert in Full Stack Java Development"
         },
         {
             name: "Emily Rodriguez",

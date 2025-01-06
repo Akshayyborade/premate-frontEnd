@@ -1,0 +1,78 @@
+/* LoadingOverlay.css */
+.loading-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+  }
+  
+  .loading-card {
+    background-color: white;
+    border-radius: 16px;
+    padding: 24px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    width: 360px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+  
+  .step-item {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    opacity: 0.5;
+    transition: all 0.3s ease;
+  }
+  
+  .step-item.active {
+    opacity: 1;
+  }
+  
+  .step-item.completed {
+    opacity: 0.8;
+  }
+  
+  .icon-wrapper {
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.3s ease;
+  }
+  
+  .step-item.active .icon-wrapper {
+    animation: bounce 1s infinite;
+  }
+  
+  .step-item.completed .icon-wrapper {
+    transform: scale(0.9);
+  }
+  
+  .step-message {
+    margin: 0;
+    font-size: 16px;
+    font-weight: 500;
+    color: #1f2937;
+  }
+  
+  .step-item.active .step-message {
+    font-weight: 600;
+  }
+  
+  @keyframes bounce {
+    0%, 100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-5px);
+    }
+  }

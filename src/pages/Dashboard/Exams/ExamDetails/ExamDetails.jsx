@@ -2,8 +2,10 @@ import React from 'react';
 import { Routes, Route } from 'react-router-dom';
 import ExamList from './ExamList';
 import ExamProfile from './ExamProfile';
-import QuestionPaperGenerator from './QuestionPaperGenerator';
+import ExamPaperLayout from '../../QuestionPaper/ExamPaperLayout';
 import './ExamDetails.css';
+import PreviewModal from '../../QuestionPaper/PreviewModal';
+import { PaperConfigProvider } from '../../QuestionPaper/context/PaperConfigContext';
 
 /**
  * ExamDetails Component
@@ -15,27 +17,35 @@ import './ExamDetails.css';
  */
 const ExamDetails = () => {
     return (
-        <div className="exam-details-wrapper">
-            <Routes>
-                {/* Main exam list view */}
-                <Route 
-                    index 
-                    element={<ExamList />} 
-                />
-                
-                {/* Individual exam profile view */}
-                <Route 
-                    path=":id" 
-                    element={<ExamProfile />} 
-                />
-                
-                {/* Question paper generator tool */}
-                <Route 
-                    path="generator" 
-                    element={<QuestionPaperGenerator />} 
-                />
-            </Routes>
-        </div>
+        <PaperConfigProvider>
+            <div className="exam-details-wrapper">
+                <Routes>
+                    {/* Main exam list view */}
+                    <Route 
+                        index 
+                        element={<ExamList />} 
+                    />
+                    
+                    {/* Individual exam profile view */}
+                    <Route 
+                        path=":id" 
+                        element={<ExamProfile />} 
+                    />
+                    
+                    {/* Question paper generator tool */}
+                    <Route 
+                        path="new" 
+                        element={<ExamPaperLayout />} 
+                    />
+                    
+                    {/* Preview Modal Route */}
+                    <Route 
+                        path="preview" 
+                        element={<PreviewModal />} 
+                    />
+                </Routes>
+            </div>
+        </PaperConfigProvider>
     );
 };
 

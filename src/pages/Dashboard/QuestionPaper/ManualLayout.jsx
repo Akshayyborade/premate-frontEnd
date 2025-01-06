@@ -1,259 +1,184 @@
-import React, { useState, useCallback } from 'react';
-import { Form, Input, Select, InputNumber, Switch, Radio, Space, message, Card, Upload } from 'antd';
+import React, { useCallback } from 'react';
+import { Form, Input, Select, InputNumber, Switch, Radio, Space, Card, Upload, Button, Checkbox, message } from 'antd';
 import { PlusOutlined, DeleteOutlined } from '@ant-design/icons';
-import { useNavigate } from 'react-router-dom';
+import { usePaperConfig } from './context/PaperConfigContext';
 import QuestionSection from './components/QuestionSection';
 import SubQuestionForm from './components/SubQuestionForm';
 
 const { Option } = Select;
 const { TextArea } = Input;
 
-const ManualLayout = ({ basicConfig, onConfigSubmit }) => {
-    const navigate = useNavigate();
+const ManualLayout = ({ basicConfig, onConfigSubmit, loading }) => {
     const [form] = Form.useForm();
+    const { 
+        state: { sections }, 
+        addSection, 
+        removeSection, 
+        updateSection 
+    } = usePaperConfig();
 
     // -----------------------------
-    // State Management
+    // Section Handlers
     // -----------------------------
-    const [paperConfig, setPaperConfig] = useState({
-        questionSection: {
-            sections: [
-                {
-                    sectionName: 'Section A',
-                    sectionInstructions: '',
-                    questions: [
-                        {
-                            id: 1,
-                            mainQuestion: {
-                                content: '',
-                                contentType: 'text', // text, table, diagram, paragraph
-                                marks: 0,
-                                instructions: '', // e.g., "Attempt any two"
-                                attachments: [], // for diagrams/images
-                            },
-                            subQuestions: [
-                                {
-                                    id: 1,
-                                    content: '',
-                                    contentType: 'text',
-                                    marks: 0,
-                                    attachments: [],
-                                }
-                            ],
-                            style: {
-                                numbering: 'numeric', // numeric, roman, alphabetic
-                                indent: true,
-                            }
-                        }
-                    ]
-                }
-            ]
-        },
-        paperStyle: {
-            layout: 'Bullets',
-            fontSize: 12,
-            fontFamily: 'Arial',
-            pageOrientation: 'Portrait',
-            marginSettings: {
-                top: 1,
-                bottom: 1,
-                left: 1,
-                right: 1
-            }
-        },
-        additionalFeatures: {
-            languageOptions: [],
-            optionalQuestions: {
-                enabled: false,
-                optionalQuestionCount: 0,
-                totalQuestionsToAttempt: 0
-            },
-            specialInstructions: '',
-            assistiveTools: {
-                calculatorAllowed: false,
-                graphPaperAllowed: false,
-                formulaSheetAllowed: false
-            }
-        }
-    });
-
-    // -----------------------------
-    // Update Handlers
-    // -----------------------------
-    const updateSectionQuestionType = useCallback((sectionIndex, questionTypeIndex, field, value) => {
-        setPaperConfig(prev => {
-            const updatedSections = [...prev.questionSection.sections];
-            updatedSections[sectionIndex].questionTypes[questionTypeIndex] = {
-                ...updatedSections[sectionIndex].questionTypes[questionTypeIndex],
-                [field]: value
-            };
-            return {
-                ...prev,
-                questionSection: {
-                    ...prev.questionSection,
-                    sections: updatedSections
-                }
-            };
+    const handleAddSection = useCallback(() => {
+        const sectionId = String.fromCharCode(65 + sections.length); // A, B, C, etc.
+        addSection({
+            id: sectionId,
+            sectionName: `Section ${sectionId}`,
+            sectionInstructions: '',
+            numberOfQuestions: 1,
+            numberingFormat: 'numeric',
+            textStyle: 'normal',
+            questions: [{  // Add a default question
+                id: 1,
+                mainQuestion: {
+                    content: '',
+                    marks: 0,
+                    instructions: '',
+                },
+                subQuestions: [],
+                totalMarks: 0
+            }]
         });
-    }, []);
+    }, [sections.length, addSection]);
 
-    // -----------------------------
-    // Validation and Submission
-    // -----------------------------
-    const validateConfiguration = useCallback(() => {
-        const errors = {};
-
-        // Calculate total marks
-        const calculatedTotalMarks = paperConfig.questionSection.sections.reduce((total, section) => {
-            return total + section.questions.reduce((sectionTotal, question) => {
-                const mainQuestionMarks = question.mainQuestion.marks || 0;
-                const subQuestionMarks = question.subQuestions.reduce((subTotal, subQ) => 
-                    subTotal + (subQ.marks || 0), 0);
-                return sectionTotal + mainQuestionMarks + subQuestionMarks;
-            }, 0);
-        }, 0);
-
-        if (calculatedTotalMarks !== Number(basicConfig.totalMarks)) {
-            errors.totalMarks = 'Total marks do not match question configuration';
+    const handleUpdateSection = useCallback((sectionId, updates) => {
+        const section = sections.find(s => s.id === sectionId);
+        if (section) {
+            updateSection({
+                ...section,
+                ...updates,
+                questions: updates.questions?.map(q => ({
+                    ...q,
+                    totalMarks: calculateQuestionMarks(q)
+                })) || section.questions
+            });
         }
+    }, [updateSection, sections]);
 
-        return {
-            isValid: Object.keys(errors).length === 0,
-            errors
-        };
-    }, [paperConfig, basicConfig.totalMarks]);
-
-    const handleSubmit = useCallback(async (values) => {
-        try {
-            const { isValid, errors } = validateConfiguration();
-
-            if (!isValid) {
-                Object.keys(errors).forEach(key => {
-                    message.error(errors[key]);
-                });
-                return;
-            }
-
-            await onConfigSubmit({ ...basicConfig, ...values });
-            message.success('Exam paper configuration saved successfully!');
-            navigate('/admin/exams/preview');
-        } catch (error) {
-            message.error('Failed to save configuration: ' + error.message);
-        }
-    }, [basicConfig, validateConfiguration, onConfigSubmit, navigate]);
-
-    // -----------------------------
-    // Section and Question Handlers
-    // -----------------------------
-    const handleAddSection = () => {
-        setPaperConfig(prev => ({
-            ...prev,
-            questionSection: {
-                sections: [
-                    ...prev.questionSection.sections,
-                    {
-                        sectionName: `Section ${String.fromCharCode(65 + prev.questionSection.sections.length)}`,
-                        sectionInstructions: '',
-                        questions: []
-                    }
-                ]
-            }
-        }));
+    // Calculate total marks for a question
+    const calculateQuestionMarks = (question) => {
+        const mainMarks = question.mainQuestion?.marks || 0;
+        const subMarks = question.subQuestions?.reduce((total, sub) => 
+            total + (sub.marks || 0), 0) || 0;
+        return mainMarks + subMarks;
     };
 
     const handleAddQuestion = (sectionIndex) => {
-        setPaperConfig(prev => {
-            const newSections = [...prev.questionSection.sections];
-            newSections[sectionIndex].questions.push({
-                id: Date.now(),
+        // Logic to add a question to the specified section
+        const section = sections[sectionIndex];
+        if (section) {
+            const newQuestion = {
+                id: Math.random().toString(36).substr(2, 9), // Generate a unique ID
                 mainQuestion: {
                     content: '',
-                    contentType: 'text',
                     marks: 0,
-                    instructions: '',
-                    attachments: [],
+                    instructions: ''
                 },
-                subQuestions: [],
-                style: {
-                    numbering: 'numeric',
-                    indent: true,
-                }
-            });
-            return {
-                ...prev,
-                questionSection: { sections: newSections }
+                subQuestions: []
             };
-        });
-    };
-
-    const handleAddSubQuestion = (sectionIndex, questionIndex) => {
-        setPaperConfig(prev => {
-            const newSections = [...prev.questionSection.sections];
-            newSections[sectionIndex].questions[questionIndex].subQuestions.push({
-                id: Date.now(),
-                content: '',
-                contentType: 'text',
-                marks: 0,
-                attachments: [],
+            updateSection({
+                ...section,
+                questions: [...section.questions, newQuestion]
             });
-            return {
-                ...prev,
-                questionSection: { sections: newSections }
-            };
-        });
+        }
     };
 
     const handleRemoveQuestion = (sectionIndex, questionIndex) => {
-        setPaperConfig(prev => {
-            const newSections = [...prev.questionSection.sections];
-            newSections[sectionIndex].questions.splice(questionIndex, 1);
-            return {
-                ...prev,
-                questionSection: { sections: newSections }
-            };
-        });
+        // Logic to remove a question from the specified section
+        const section = sections[sectionIndex];
+        if (section) {
+            updateSection({
+                ...section,
+                questions: section.questions.filter((_, idx) => idx !== questionIndex)
+            });
+        }
     };
 
-    const handleRemoveSubQuestion = (sectionIndex, questionIndex, subIndex) => {
-        setPaperConfig(prev => {
-            const newSections = [...prev.questionSection.sections];
-            newSections[sectionIndex].questions[questionIndex].subQuestions.splice(subIndex, 1);
-            return {
-                ...prev,
-                questionSection: { sections: newSections }
-            };
-        });
+    const handleAddSubQuestion = (sectionIndex, questionIndex) => {
+        // Logic to add a sub-question to the specified question
+        const section = sections[sectionIndex];
+        if (section) {
+            const question = section.questions[questionIndex];
+            if (question) {
+                const newSubQuestion = {
+                    content: '',
+                    marks: 0,
+                    instructions: ''
+                };
+                updateSection({
+                    ...section,
+                    questions: section.questions.map((q, idx) => 
+                        idx === questionIndex 
+                            ? { ...q, subQuestions: [...q.subQuestions, newSubQuestion] } 
+                            : q
+                    )
+                });
+            }
+        }
     };
 
     // -----------------------------
-    // Render Component
+    // Form Submission
     // -----------------------------
+    const handleSubmit = useCallback(async (values) => {
+        // Calculate total marks for validation
+        const totalMarks = sections.reduce((sectionTotal, section) => {
+            return sectionTotal + section.questions.reduce((questionTotal, question) => {
+                return questionTotal + calculateQuestionMarks(question);
+            }, 0);
+        }, 0);
+
+        // Validate total marks match basic config
+        if (totalMarks !== Number(basicConfig.totalMarks)) {
+            message.error(`Total marks (${totalMarks}) do not match the configured total (${basicConfig.totalMarks})`);
+            return;
+        }
+
+        const payload = {
+            ...basicConfig,
+            sections: sections.map(section => ({
+                ...section,
+                questions: section.questions.map(question => ({
+                    ...question,
+                    totalMarks: calculateQuestionMarks(question)
+                }))
+            })),
+            paperStyle: values.paperStyle,
+            additionalFeatures: values.additionalFeatures
+        };
+
+        await onConfigSubmit(payload);
+    }, [basicConfig, sections, onConfigSubmit]);
+
     return (
         <Form
             form={form}
             layout="vertical"
             onFinish={handleSubmit}
-            initialValues={paperConfig}
+            disabled={loading}
         >
             {/* Question Configuration Section */}
             <div className="configuration-section">
                 <h3>Question Configuration</h3>
-                {paperConfig.questionSection.sections.map((section, sectionIndex) => (
+                {sections.map((section, index) => (
                     <QuestionSection
-                        key={sectionIndex}
+                        key={section.sectionName}
                         section={section}
-                        sectionIndex={sectionIndex}
-                        onUpdate={updateSectionQuestionType}
+                        sectionIndex={index}
+                        onUpdate={updateSection}
                         handleAddQuestion={handleAddQuestion}
                         handleAddSubQuestion={handleAddSubQuestion}
                         handleRemoveQuestion={handleRemoveQuestion}
-                        handleRemoveSubQuestion={handleRemoveSubQuestion}
+                        onRemove={() => removeSection(section.sectionName)}
+                        disabled={loading}
                     />
                 ))}
                 <Button
                     type="dashed"
                     onClick={handleAddSection}
                     icon={<PlusOutlined />}
+                    disabled={loading}
                     style={{ marginTop: '16px' }}
                 >
                     Add New Section
@@ -261,8 +186,7 @@ const ManualLayout = ({ basicConfig, onConfigSubmit }) => {
             </div>
 
             {/* Paper Style Section */}
-            <div className="configuration-section">
-                <h3>Paper Style</h3>
+            <Card title="Paper Style" className="configuration-section">
                 <div className="form-grid">
                     <Form.Item
                         label="Layout"
@@ -303,11 +227,10 @@ const ManualLayout = ({ basicConfig, onConfigSubmit }) => {
                         </Radio.Group>
                     </Form.Item>
                 </div>
-            </div>
+            </Card>
 
             {/* Additional Features Section */}
-            <div className="configuration-section">
-                <h3>Additional Features</h3>
+            <Card title="Additional Features" className="configuration-section">
                 <div className="form-grid">
                     <Form.Item
                         label="Language Options"
@@ -361,15 +284,19 @@ const ManualLayout = ({ basicConfig, onConfigSubmit }) => {
                         </Space>
                     </Form.Item>
                 </div>
-            </div>
+            </Card>
 
             {/* Form Actions */}
             <div className="form-actions">
                 <Space size="large">
-                    <Button type="primary" htmlType="submit">
+                    <Button 
+                        type="primary" 
+                        htmlType="submit"
+                        loading={loading}
+                    >
                         Generate Paper
                     </Button>
-                    <Button onClick={() => navigate('/admin/exams')}>
+                    <Button disabled={loading}>
                         Cancel
                     </Button>
                 </Space>

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { useForm } from '../../../../hooks/useForm';
+import  useForm from '../../../../hooks/useForm';
 import { studentService } from '../../../../services/api/student.service';
 import Input from '../../../common/Input/Input';
 import Button from '../../../common/Button/Button';

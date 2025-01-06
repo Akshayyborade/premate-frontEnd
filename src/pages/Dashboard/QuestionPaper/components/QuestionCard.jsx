@@ -1,10 +1,8 @@
 import React from 'react';
-import { Form, Input, Select, InputNumber, Switch, Space, Card, Upload, Button } from 'antd';
-import { PlusOutlined, DeleteOutlined, UploadOutlined } from '@ant-design/icons';
+import { Card, Form, Input, InputNumber, Button, Space } from 'antd';
+import { DeleteOutlined, PlusOutlined } from '@ant-design/icons';
 import PropTypes from 'prop-types';
-import SubQuestionForm from './SubQuestionForm';
 
-const { Option } = Select;
 const { TextArea } = Input;
 
 const QuestionCard = ({
@@ -16,133 +14,124 @@ const QuestionCard = ({
     handleRemoveQuestion,
     handleRemoveSubQuestion
 }) => {
+    // Ensure question has all required properties with defaults
+    const safeQuestion = {
+        id: question?.id || '',
+        mainQuestion: {
+            content: question?.mainQuestion?.content || '',
+            marks: question?.mainQuestion?.marks || 0,
+            instructions: question?.mainQuestion?.instructions || '',
+            ...question?.mainQuestion
+        },
+        subQuestions: question?.subQuestions || [],
+        style: question?.style || {}
+    };
+
+    // Calculate total marks safely
+    const calculateTotalMarks = () => {
+        const mainMarks = safeQuestion.mainQuestion?.marks || 0;
+        const subMarks = safeQuestion.subQuestions.reduce((total, sub) => 
+            total + (sub?.marks || 0), 0);
+        return mainMarks + subMarks;
+    };
+
     return (
-        <Card
+        <Card 
             className="question-card"
+            title={`Question ${questionIndex + 1}`}
             extra={
                 <Button
-                    type="text"
                     danger
-                    onClick={() => handleRemoveQuestion(sectionIndex, questionIndex)}
                     icon={<DeleteOutlined />}
+                    onClick={() => handleRemoveQuestion(sectionIndex, questionIndex)}
                 >
                     Remove Question
                 </Button>
             }
         >
+            {/* Main Question */}
             <Space direction="vertical" style={{ width: '100%' }}>
-                {/* Main Question Content */}
                 <Form.Item
                     label="Question Content"
-                    name={[
-                        'questionSection',
-                        'sections',
-                        sectionIndex,
-                        'questions',
-                        questionIndex,
-                        'mainQuestion',
-                        'content'
-                    ]}
-                    rules={[{ required: true, message: 'Please enter question content' }]}
+                    name={['questionSection', 'sections', sectionIndex, 'questions', questionIndex, 'mainQuestion', 'content']}
                 >
-                    <TextArea rows={3} placeholder="Enter the main question" />
+                    <TextArea 
+                        rows={2}
+                        placeholder="Enter question content"
+                        value={safeQuestion.mainQuestion.content}
+                        onChange={(e) => {
+                            onUpdate(sectionIndex, {
+                                ...safeQuestion,
+                                mainQuestion: {
+                                    ...safeQuestion.mainQuestion,
+                                    content: e.target.value
+                                }
+                            });
+                        }}
+                    />
                 </Form.Item>
 
-                <Space wrap>
-                    {/* Content Type */}
-                    <Form.Item
-                        label="Content Type"
-                        name={[
-                            'questionSection',
-                            'sections',
-                            sectionIndex,
-                            'questions',
-                            questionIndex,
-                            'mainQuestion',
-                            'contentType'
-                        ]}
-                    >
-                        <Select style={{ width: 120 }}>
-                            <Option value="text">Text</Option>
-                            <Option value="table">Table</Option>
-                            <Option value="diagram">Diagram</Option>
-                            <Option value="paragraph">Paragraph</Option>
-                        </Select>
-                    </Form.Item>
-
-                    {/* Marks */}
-                    <Form.Item
-                        label="Marks"
-                        name={[
-                            'questionSection',
-                            'sections',
-                            sectionIndex,
-                            'questions',
-                            questionIndex,
-                            'mainQuestion',
-                            'marks'
-                        ]}
-                        rules={[{ required: true, message: 'Please enter marks' }]}
-                    >
-                        <InputNumber min={0} />
-                    </Form.Item>
-
-                    {/* Instructions */}
-                    <Form.Item
-                        label="Instructions"
-                        name={[
-                            'questionSection',
-                            'sections',
-                            sectionIndex,
-                            'questions',
-                            questionIndex,
-                            'mainQuestion',
-                            'instructions'
-                        ]}
-                    >
-                        <Input placeholder="e.g., Attempt any two" />
-                    </Form.Item>
-                </Space>
-
-                {/* Attachments */}
                 <Form.Item
-                    label="Attachments"
-                    name={[
-                        'questionSection',
-                        'sections',
-                        sectionIndex,
-                        'questions',
-                        questionIndex,
-                        'mainQuestion',
-                        'attachments'
-                    ]}
+                    label="Marks"
+                    name={['questionSection', 'sections', sectionIndex, 'questions', questionIndex, 'mainQuestion', 'marks']}
                 >
-                    <Upload
-                        listType="picture-card"
-                        multiple
-                        beforeUpload={() => false}
-                    >
-                        <div>
-                            <PlusOutlined />
-                            <div style={{ marginTop: 8 }}>Upload</div>
-                        </div>
-                    </Upload>
+                    <InputNumber
+                        min={0}
+                        value={safeQuestion.mainQuestion.marks}
+                        onChange={(value) => {
+                            onUpdate(sectionIndex, {
+                                ...safeQuestion,
+                                mainQuestion: {
+                                    ...safeQuestion.mainQuestion,
+                                    marks: value || 0
+                                }
+                            });
+                        }}
+                    />
                 </Form.Item>
 
                 {/* Sub Questions */}
-                <div className="sub-questions">
-                    {question.subQuestions.map((subQ, subIndex) => (
-                        <SubQuestionForm
-                            key={subQ.id}
-                            sectionIndex={sectionIndex}
-                            questionIndex={questionIndex}
-                            subIndex={subIndex}
-                            onRemove={() => handleRemoveSubQuestion(sectionIndex, questionIndex, subIndex)}
-                        />
-                    ))}
-                </div>
+                {safeQuestion.subQuestions.map((subQuestion, subIndex) => (
+                    <Card 
+                        key={subIndex}
+                        size="small"
+                        title={`Sub Question ${subIndex + 1}`}
+                        extra={
+                            <Button
+                                danger
+                                size="small"
+                                icon={<DeleteOutlined />}
+                                onClick={() => handleRemoveSubQuestion(sectionIndex, questionIndex, subIndex)}
+                            >
+                                Remove
+                            </Button>
+                        }
+                    >
+                        <Space direction="vertical" style={{ width: '100%' }}>
+                            <Form.Item
+                                label="Content"
+                                name={['questionSection', 'sections', sectionIndex, 'questions', questionIndex, 'subQuestions', subIndex, 'content']}
+                            >
+                                <TextArea 
+                                    rows={2}
+                                    placeholder="Enter sub-question content"
+                                    value={subQuestion?.content || ''}
+                                />
+                            </Form.Item>
 
-                {/* Add Sub-Question Button */}
+                            <Form.Item
+                                label="Marks"
+                                name={['questionSection', 'sections', sectionIndex, 'questions', questionIndex, 'subQuestions', subIndex, 'marks']}
+                            >
+                                <InputNumber
+                                    min={0}
+                                    value={subQuestion?.marks || 0}
+                                />
+                            </Form.Item>
+                        </Space>
+                    </Card>
+                ))}
+
                 <Button
                     type="dashed"
                     onClick={() => handleAddSubQuestion(sectionIndex, questionIndex)}
@@ -151,43 +140,9 @@ const QuestionCard = ({
                     Add Sub-Question
                 </Button>
 
-                {/* Question Styling */}
-                <Space>
-                    <Form.Item
-                        label="Numbering Style"
-                        name={[
-                            'questionSection',
-                            'sections',
-                            sectionIndex,
-                            'questions',
-                            questionIndex,
-                            'style',
-                            'numbering'
-                        ]}
-                    >
-                        <Select style={{ width: 120 }}>
-                            <Option value="numeric">1, 2, 3</Option>
-                            <Option value="roman">i, ii, iii</Option>
-                            <Option value="alphabetic">a, b, c</Option>
-                        </Select>
-                    </Form.Item>
-
-                    <Form.Item
-                        label="Indent Sub-questions"
-                        name={[
-                            'questionSection',
-                            'sections',
-                            sectionIndex,
-                            'questions',
-                            questionIndex,
-                            'style',
-                            'indent'
-                        ]}
-                        valuePropName="checked"
-                    >
-                        <Switch />
-                    </Form.Item>
-                </Space>
+                <div className="question-summary">
+                    Total Marks: {calculateTotalMarks()}
+                </div>
             </Space>
         </Card>
     );
@@ -196,8 +151,15 @@ const QuestionCard = ({
 QuestionCard.propTypes = {
     question: PropTypes.shape({
         id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-        mainQuestion: PropTypes.object,
-        subQuestions: PropTypes.array,
+        mainQuestion: PropTypes.shape({
+            content: PropTypes.string,
+            marks: PropTypes.number,
+            instructions: PropTypes.string
+        }),
+        subQuestions: PropTypes.arrayOf(PropTypes.shape({
+            content: PropTypes.string,
+            marks: PropTypes.number
+        })),
         style: PropTypes.object
     }).isRequired,
     sectionIndex: PropTypes.number.isRequired,

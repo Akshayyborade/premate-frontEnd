@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import NavBar from '../../components/layout/NavBar/NavBar';
+import NavBar from '../../../components/layout/NavBar/NavBar';
 import './Contact.css';
 
 const Contact = () => {
@@ -54,20 +54,21 @@ const Contact = () => {
                             <div className="edu-info-card">
                                 <i className="fas fa-map-marker-alt"></i>
                                 <h3>Visit Us</h3>
-                                <p>123 Education Street</p>
-                                <p>Pune, Maharashtra 411001</p>
+                                <p>Premate.Edu Pvt Ltd</p>
+                                <p>manjarli, badlapur</p>
+                                <p>thane, Maharashtra 411001</p>
                             </div>
                             <div className="edu-info-card">
                                 <i className="fas fa-phone"></i>
                                 <h3>Call Us</h3>
-                                <p>+91 1234567890</p>
+                                <p>+91 7722055914</p>
                                 <p>Mon-Sat: 9:00 AM - 6:00 PM</p>
                             </div>
                             <div className="edu-info-card">
                                 <i className="fas fa-envelope"></i>
                                 <h3>Email Us</h3>
-                                <p>info@example.com</p>
-                                <p>support@example.com</p>
+                                <p>info@premate.com</p>
+                                <p>support@premate.com</p>
                             </div>
                         </div>
 
@@ -133,7 +134,7 @@ const Contact = () => {
                         <h2>Find Us</h2>
                         <div className="edu-map-container">
                             <iframe
-                                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d242118.14199917082!2d73.72287827306778!3d18.524564857810876!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bc2bf2e67461101%3A0x828d43bf9d9ee343!2sPune%2C%20Maharashtra!5e0!3m2!1sen!2sin!4v1709825997597!5m2!1sen!2sin"
+                                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d60299.45038988569!2d73.20247179952595!3d19.163920306828196!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3be7ed5c9bc71bbd%3A0x87d539b0621850f3!2sBadlapur%2C%20Maharashtra!5e0!3m2!1sen!2sin!4v1734325656077!5m2!1sen!2sin"
                                 width="100%"
                                 height="450"
                                 style={{ border: 0 }}
@@ -143,7 +144,6 @@ const Contact = () => {
                             ></iframe>
                         </div>
                     </div>
-
                     {/* FAQ Section */}
                     <div className="edu-faq-section">
                         <h2>Frequently Asked Questions</h2>

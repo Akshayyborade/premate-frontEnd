@@ -1,0 +1,150 @@
+{
+    "examInstructions": [
+      {
+        "section": "General Instructions",
+        "instructions": [
+          "Read all the instructions carefully before starting the exam.",
+          "This question paper contains questions of varying difficulty levels.",
+          "All questions are compulsory unless stated otherwise.",
+          "Answers must be written using a blue or black ink pen. Pencils are allowed only for drawing or diagrams.",
+          "Avoid overwriting, cutting, or erasing as much as possible to maintain clarity.",
+          "Write the question number correctly before each answer.",
+          "Use the additional sheets provided if necessary, but ensure they are tied together with the main answer sheet."
+        ]
+      },
+      {
+        "section": "Before Starting the Exam",
+        "instructions": [
+          "Fill in all required details like name, roll number, and other information on the answer sheet.",
+          "Ensure your roll number matches the one mentioned on your admit card.",
+          "Verify that the question paper provided matches your subject and class.",
+          "Use the first 15 minutes to read the question paper (as per CBSE guidelines)."
+        ]
+      },
+      {
+        "section": "Question Paper Format",
+        "instructions": [
+          "The question paper is divided into sections: A, B, C, and D.",
+          "Section A consists of objective-type questions such as MCQs, fill-in-the-blanks, or true/false.",
+          "Section B consists of short-answer questions.",
+          "Section C and D consist of long-answer questions requiring detailed explanations.",
+          "Diagrams, flowcharts, or tabular formats can be used to enhance your answers."
+        ]
+      },
+      {
+        "section": "Marking Scheme",
+        "instructions": [
+          "Marks for each question are indicated in the right margin.",
+          "Partial marks may be awarded for partially correct answers.",
+          "For numerical problems, steps will carry marks even if the final answer is incorrect.",
+          "Diagrams and illustrations must be labeled clearly to secure full marks.",
+          "There is no negative marking unless explicitly mentioned."
+        ]
+      },
+      {
+        "section": "Time Management",
+        "instructions": [
+          "The duration of the exam is 3 hours unless specified otherwise.",
+          "Allocate time wisely to each section based on the marks distribution.",
+          "Reserve the last 10-15 minutes for revising your answers.",
+          "Do not spend too much time on one question."
+        ]
+      },
+      {
+        "section": "Permitted Items",
+        "instructions": [
+          "You may carry pens, pencils, erasers, sharpeners, and a geometry box.",
+          "Scientific calculators are allowed only for specified subjects like Physics or Mathematics if mentioned.",
+          "Logarithmic tables or formula sheets are allowed for certain subjects if provided by the examination authority.",
+          "Your admit card and school ID are mandatory for entry."
+        ]
+      },
+      {
+        "section": "Prohibited Items",
+        "instructions": [
+          "Electronic gadgets such as mobile phones, smartwatches, and calculators (unless permitted) are not allowed.",
+          "Do not bring any books, notes, or written materials to the exam hall.",
+          "Carrying chits, unauthorized papers, or other aids will result in disqualification.",
+          "Avoid wearing any electronic devices or accessories."
+        ]
+      },
+      {
+        "section": "Behavior During the Exam",
+        "instructions": [
+          "Maintain silence and discipline in the exam hall.",
+          "Raise your hand if you have any doubts or need additional sheets.",
+          "Do not look around or attempt to communicate with other students.",
+          "Any form of cheating or malpractice will lead to cancellation of your paper.",
+          "Follow the instructions of the invigilators at all times."
+        ]
+      },
+      {
+        "section": "Answer Writing Guidelines",
+        "instructions": [
+          "Write answers in clear and legible handwriting.",
+          "For subjects like Mathematics and Science, show all calculations and steps clearly.",
+          "Draw diagrams neatly using a pencil and label them appropriately.",
+          "Underline or highlight key points to make your answers stand out.",
+          "Attempt questions in the order they appear in the question paper for clarity."
+        ]
+      },
+      {
+        "section": "Submission Instructions",
+        "instructions": [
+          "Ensure your roll number and other details are correctly filled in on the answer sheet.",
+          "Double-check that all your answer sheets, including supplements, are tied together.",
+          "Sign the attendance sheet before leaving the exam hall.",
+          "Hand over both the question paper (if required) and the answer sheets to the invigilator.",
+          "Do not leave the exam hall before the completion of the exam unless allowed."
+        ]
+      },
+      {
+        "section": "COVID-19 Guidelines (if applicable)",
+        "instructions": [
+          "Wear a mask throughout the examination.",
+          "Sanitize your hands before entering the exam hall.",
+          "Maintain social distancing at all times.",
+          "Bring your own stationery to avoid sharing.",
+          "Follow the seating arrangement provided to maintain safety protocols."
+        ]
+      },
+      {
+        "section": "Specific Subject Instructions",
+        "instructions": [
+          {
+            "subject": "Mathematics",
+            "details": [
+              "Use only a pencil for graphs and geometric constructions.",
+              "Ensure all steps are shown clearly for full marks.",
+              "Highlight final answers by underlining or boxing them."
+            ]
+          },
+          {
+            "subject": "Science",
+            "details": [
+              "Draw labeled diagrams wherever required.",
+              "Write equations clearly and balance them correctly.",
+              "Use correct units for numerical answers."
+            ]
+          },
+          {
+            "subject": "Languages",
+            "details": [
+              "Write essays and long answers in paragraphs.",
+              "Use appropriate grammar, punctuation, and spelling.",
+              "Adhere to the word limit specified for each question."
+            ]
+          },
+          {
+            "subject": "Social Science",
+            "details": [
+              "For map-based questions, use the map provided and mark correctly.",
+              "Answers should be concise and to the point.",
+              "Mention dates and historical facts accurately."
+            ]
+          }
+        ]
+      }
+    ]
+  }
+  

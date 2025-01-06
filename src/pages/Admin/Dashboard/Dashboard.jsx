@@ -1,5 +1,6 @@
 import React from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
+import { PaperConfigProvider } from '../../../pages/Dashboard/QuestionPaper/context/PaperConfigContext'; // Adjust the import path as necessary
 
 // Component Imports
 import DashboardHome from './DashboardHome';
@@ -13,14 +14,10 @@ import StudentForm from '../../../components/features/Students/StudentForm/Stude
 // Teacher Related Components
 import TeacherList from '../../Dashboard/Teachers/TeacherDetails/TeacherList';
 import TeacherProfile from '../../Dashboard/Teachers/TeacherDetails/TeacherProfile';
-import TeacherDetails from '../../Dashboard/Teachers/TeacherDetails/TeacherDetails';
 
 // Course and Exam Components
 import CourseDetails from '../../Dashboard/Courses/CourseDetails/CourseDetails';
-import ExamDetails from '../../Dashboard/Exams/ExamDetails/ExamDetails';
-import QuestionPaperBuilder from '../../Dashboard/QuestionPaper/QuestionPaperBuilder';
-
-// Settings Component
+import ExamDetails from '../../Dashboard/Exams/ExamDetails/ExamDetails'; // Ensure this import is correct
 import Settings from '../Settings/Settings';
 
 /**
@@ -37,51 +34,50 @@ import Settings from '../Settings/Settings';
  */
 const Dashboard = () => {
     return (
-        <>
-            {/* Navigation Breadcrumbs */}
-            <Breadcrumbs />
+        <PaperConfigProvider>
+            <>
+                {/* Navigation Breadcrumbs */}
+                <Breadcrumbs />
 
-            {/* Main Route Configuration */}
-            <Routes>
-                {/* Dashboard Home Routes */}
-                <Route index element={<DashboardHome />} />
-                <Route path="dashboard" element={<DashboardHome />} />
+                {/* Main Route Configuration */}
+                <Routes>
+                    {/* Dashboard Home Routes */}
+                    <Route index element={<DashboardHome />} />
+                    <Route path="dashboard" element={<DashboardHome />} />
 
-                {/* Student Management Routes */}
-                <Route path="students">
-                    <Route index element={<StudentList />} />
-                    <Route path="new" element={<StudentForm />} />
-                    <Route path=":id">
-                        <Route index element={<StudentDetails />} />
-                        <Route path="edit" element={<StudentForm />} />
+                    {/* Student Management Routes */}
+                    <Route path="students">
+                        <Route index element={<StudentList />} />
+                        <Route path="new" element={<StudentForm />} />
+                        <Route path=":id">
+                            <Route index element={<StudentDetails />} />
+                            <Route path="edit" element={<StudentForm />} />
+                        </Route>
                     </Route>
-                </Route>
 
-                {/* Teacher Management Routes */}
-                <Route path="teachers">
-                    <Route index element={<TeacherList />} />
-                    <Route path=":id" element={<TeacherProfile />} />
-                </Route>
+                    {/* Teacher Management Routes */}
+                    <Route path="teachers">
+                        <Route index element={<TeacherList />} />
+                        <Route path=":id" element={<TeacherProfile />} />
+                    </Route>
 
-                {/* Course Management Route */}
-                <Route path="courses" element={<CourseDetails />} />
+                    {/* Course Management Route */}
+                    <Route path="courses" element={<CourseDetails />} />
 
-                {/* Exam Management Routes */}
-                <Route path="exams">
-                    <Route index element={<ExamDetails />} />
-                    <Route path="new" element={<QuestionPaperBuilder />} />
-                </Route>
+                    {/* Exam Management Routes */}
+                    <Route path="exams/*" element={<ExamDetails />} /> {/* Updated to include nested routes */}
 
-                {/* Settings Route */}
-                <Route path="settings" element={<Settings />} />
+                    {/* Settings Route */}
+                    <Route path="settings" element={<Settings />} />
 
-                {/* Fallback Route - Redirect to Dashboard */}
-                <Route 
-                    path="*" 
-                    element={<Navigate to="/admin/dashboard" replace />} 
-                />
-            </Routes>
-        </>
+                    {/* Fallback Route - Redirect to Dashboard */}
+                    <Route 
+                        path="*" 
+                        element={<Navigate to="/admin/dashboard" replace />} 
+                    />
+                </Routes>
+            </>
+        </PaperConfigProvider>
     );
 };
 

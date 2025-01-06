@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
-import NavBar from '../../components/layout/NavBar/NavBar';
-import Button from '../../components/common/Button/Button';
+import NavBar from '../../../components/layout/NavBar/NavBar';
+import Button from '../../../components/common/Button/Button';
 import './Demo.css';
 
 const fadeInUp = {
