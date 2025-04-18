@@ -4,33 +4,60 @@ import DataTable from '../../../../components/common/DataTable/DataTable';
 import Button from '../../../../components/common/Button/Button';
 import SearchBar from '../../../../components/common/SearchBar/SearchBar';
 import { studentService } from '../../../../services/api/student.service';
+import BulkOperations from '../../../../components/features/Students/BulkOperations/BulkOperations';
+import { FaEye, FaEdit, FaTrash, FaUserPlus } from 'react-icons/fa';
 import './StudentList.css';
-import FilterSection from '../../../../components/common/FilterSection/FilterSection'; // Adjust the import path as necessary
+import FilterSection from '../../../../components/common/FilterSection/FilterSection';
 
 const StudentList = () => {
     const [students, setStudents] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
     const [searchTerm, setSearchTerm] = useState('');
     const [filters, setFilters] = useState({
-        course: '',
-        status: ''
+        grade: '',
+        status: '',
+        enrollmentDate: ''
     });
+    const [selectedStudents, setSelectedStudents] = useState([]);
 
     const navigate = useNavigate();
 
     // Table columns
     const columns = [
-        { header: 'Student ID', accessor: 'studentId' },
-        { header: 'Name', accessor: 'name' },
-        { header: 'Course', accessor: 'course' },
+        { 
+            header: 'Student ID', 
+            accessor: 'studentId',
+            sortable: true
+        },
+        { 
+            header: 'Name', 
+            accessor: 'name',
+            sortable: true,
+            cell: (row) => (
+                <div className="student-name-cell">
+                    {row.photo && (
+                        <img src={row.photo} alt={row.name} className="student-photo" />
+                    )}
+                    <span>{row.name}</span>
+                </div>
+            )
+        },
+        { 
+            header: 'Grade', 
+            accessor: 'grade',
+            sortable: true
+        },
         {
             header: 'Enrollment Date',
             accessor: 'enrollmentDate',
+            sortable: true,
             cell: (row) => new Date(row.enrollmentDate).toLocaleDateString()
         },
         {
             header: 'Status',
             accessor: 'status',
+            sortable: true,
             cell: (row) => (
                 <span className={`status-badge ${row.status.toLowerCase()}`}>
                     {row.status}
@@ -43,24 +70,26 @@ const StudentList = () => {
             cell: (row) => (
                 <div className="action-buttons">
                     <Button
-                        variant="outline"
-                        size="small"
-                        onClick={() => {
-                            console.log(`Navigating to view student ID: ${row.studentId}`);
-                            navigate(`/admin/students/${row.studentId}`);
-                        }}
+                        variant="icon"
+                        onClick={() => navigate(`/admin/students/${row.studentId}`)}
+                        title="View Details"
                     >
-                        View
+                        <FaEye />
                     </Button>
                     <Button
-                        variant="outline"
-                        size="small"
-                        onClick={() => {
-                            console.log(`Navigating to edit student ID: ${row.studentId}`);
-                            navigate(`/admin/students/${row.studentId}/edit`);
-                        }}
+                        variant="icon"
+                        onClick={() => navigate(`/admin/students/${row.studentId}/edit`)}
+                        title="Edit"
                     >
-                        Edit
+                        <FaEdit />
+                    </Button>
+                    <Button
+                        variant="icon"
+                        onClick={() => handleDelete(row.studentId)}
+                        title="Delete"
+                        className="delete-button"
+                    >
+                        <FaTrash />
                     </Button>
                 </div>
             )
@@ -70,75 +99,89 @@ const StudentList = () => {
     const fetchStudents = async () => {
         try {
             setLoading(true);
-
-            // Fetch raw data from the API
+            setError(null);
             const data = await studentService.getAllStudents();
-            console.log(data)
-            // Map the API response to match the expected structure with safe checks
+            
             const mappedData = data.map(student => ({
-                
-
-                studentId: student.stud_id || 'N/A', // Use 'N/A' if stud_id is missing
+                studentId: student.stud_id || 'N/A',
                 name: student.name
                     ? `${student.name.fname || ''} ${student.name.mname || ''} ${student.name.lname || ''}`.trim()
-                    : 'Unknown Name', // Fallback if studentName is undefined
-                course: student.grade ? student.grade.gradeName || 'N/A' : 'N/A', // Fallback for missing grade
-                enrollmentDate: student.dateOfAddmission
-                || 'N/A', // Fallback for missing dobDate
-                status: student.isactive ? "Active" : "Inactive"
+                    : 'Unknown Name',
+                grade: student.grade?.gradeName || 'N/A',
+                enrollmentDate: student.dateOfAddmission || 'N/A',
+                status: student.isactive ? "Active" : "Inactive",
+                photo: student.photo
             }));
 
-            setStudents(mappedData); // Update state with mapped data
-            console.log('Mapped data:', mappedData);
-
+            setStudents(mappedData);
         } catch (error) {
+            setError('Failed to fetch students. Please try again later.');
             console.error('Error fetching students:', error);
         } finally {
             setLoading(false);
         }
     };
 
-
-    // Fetch students on component mount
     useEffect(() => {
         fetchStudents();
     }, []);
 
-    // Handle search term changes
     const handleSearch = (term) => {
         setSearchTerm(term);
-        // Add your search logic here
     };
 
-    // Handle filter changes
     const handleFilterChange = (filterName, value) => {
-        setFilters((prevFilters) => ({
-            ...prevFilters,
-            [filterName]: value,
+        setFilters(prev => ({
+            ...prev,
+            [filterName]: value
         }));
-        // Add your filter logic here
     };
 
-    // Filter students based on search and filters
-    const filteredStudents = students.filter(student => {
-        console.log(student);
-        const matchesSearch = student.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-            student.studentId.toString().toLowerCase().includes(searchTerm.toLowerCase());
-        const matchesCourse = !filters.course || student.course === filters.course;
-        const matchesStatus = !filters.status || student.status === filters.status;
-        return matchesSearch && matchesCourse && matchesStatus;
-    });
+    const handleDelete = async (studentId) => {
+        if (window.confirm('Are you sure you want to delete this student?')) {
+            try {
+                await studentService.deleteStudent(studentId);
+                setStudents(prev => prev.filter(s => s.studentId !== studentId));
+            } catch (error) {
+                console.error('Error deleting student:', error);
+                alert('Failed to delete student. Please try again.');
+            }
+        }
+    };
+
+    const handleBulkDelete = async () => {
+        if (selectedStudents.length === 0) {
+            alert('Please select students to delete');
+            return;
+        }
+
+        if (window.confirm(`Are you sure you want to delete ${selectedStudents.length} students?`)) {
+            try {
+                await Promise.all(selectedStudents.map(id => studentService.deleteStudent(id)));
+                setStudents(prev => prev.filter(s => !selectedStudents.includes(s.studentId)));
+                setSelectedStudents([]);
+            } catch (error) {
+                console.error('Error deleting students:', error);
+                alert('Failed to delete students. Please try again.');
+            }
+        }
+    };
+
+    const handleRefresh = () => {
+        fetchStudents();
+    };
 
     const filterOptions = [
         {
-            name: 'course',
-            placeholder: 'All Courses',
+            name: 'grade',
+            placeholder: 'All Grades',
             options: [
-                { value: '', label: 'All Courses' },
-                { value: 'A', label: 'A' },
-                { value: 'B', label: 'B' },
-                { value: 'C', label: 'C' },
-            ],
+                { value: '', label: 'All Grades' },
+                ...Array.from(new Set(students.map(s => s.grade))).map(grade => ({
+                    value: grade,
+                    label: grade
+                }))
+            ]
         },
         {
             name: 'status',
@@ -146,24 +189,50 @@ const StudentList = () => {
             options: [
                 { value: '', label: 'All Status' },
                 { value: 'Active', label: 'Active' },
-                { value: 'Inactive', label: 'Inactive' },
-                { value: 'Pending', label: 'Pending' },
-            ],
-        },
+                { value: 'Inactive', label: 'Inactive' }
+            ]
+        }
     ];
 
-    // Render component
+    const filteredStudents = students.filter(student => {
+        const matchesSearch = 
+            student.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+            student.studentId.toString().toLowerCase().includes(searchTerm.toLowerCase());
+        const matchesGrade = !filters.grade || student.grade === filters.grade;
+        const matchesStatus = !filters.status || student.status === filters.status;
+        return matchesSearch && matchesGrade && matchesStatus;
+    });
+
     return (
         <div className="student-list-container">
             <div className="page-header">
-                <h1>Students</h1>
-                <Button
-                    variant="primary"
-                    onClick={() => navigate('/admin/students/new')}
-                >
-                    Add New Student
-                </Button>
+                <div className="header-left">
+                    <h1>Students</h1>
+                    <Button
+                        variant="outline"
+                        onClick={handleRefresh}
+                        title="Refresh List"
+                    >
+                        Refresh
+                    </Button>
+                </div>
+                <div className="header-right">
+                    <BulkOperations onSuccess={handleRefresh} />
+                    <Button
+                        variant="primary"
+                        onClick={() => navigate('/admin/students/new')}
+                        icon={<FaUserPlus />}
+                    >
+                        Add New Student
+                    </Button>
+                </div>
             </div>
+
+            {error && (
+                <div className="error-message">
+                    {error}
+                </div>
+            )}
 
             <FilterSection
                 searchTerm={searchTerm}
@@ -179,7 +248,22 @@ const StudentList = () => {
                 loading={loading}
                 pagination
                 itemsPerPage={10}
+                selectable
+                onSelectionChange={setSelectedStudents}
+                selectedItems={selectedStudents}
             />
+
+            {selectedStudents.length > 0 && (
+                <div className="bulk-actions">
+                    <Button
+                        variant="danger"
+                        onClick={handleBulkDelete}
+                        icon={<FaTrash />}
+                    >
+                        Delete Selected ({selectedStudents.length})
+                    </Button>
+                </div>
+            )}
         </div>
     );
 };
