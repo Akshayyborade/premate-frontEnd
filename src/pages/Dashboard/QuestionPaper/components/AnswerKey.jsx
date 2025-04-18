@@ -75,7 +75,10 @@ const AnswerKey = ({ visible, onClose, sections, examDetails }) => {
       </div>
     );
   };
-
+  const numberToWords = (num) => {
+    const units = ['', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine'];
+    return units[num] || num.toString();
+  };
   const renderQuestionAnswers = (question, questionNumber) => {
     const columns = [
       {
@@ -110,7 +113,7 @@ const AnswerKey = ({ visible, onClose, sections, examDetails }) => {
       questionNo: `${questionNumber}.${index + 1}`,
       question: subQ.question,
       answer: subQ.answer,
-      marks: question.marks / question.subQuestions.length,
+      marks: question.marks / (question.subQuestions.length-question.noOfOptions),
       questionType: question.questionType,
     }));
 
@@ -140,9 +143,7 @@ const AnswerKey = ({ visible, onClose, sections, examDetails }) => {
         </div>
       }
       open={visible}
-      onCancel={onClose}
-      maskClosable={true}
-      destroyOnClose={true}
+      closable={false}
       width={1200}
       footer={[
         <Button key="close" onClick={onClose}>
@@ -169,6 +170,10 @@ const AnswerKey = ({ visible, onClose, sections, examDetails }) => {
               <div key={questionIndex}>
                 <div className="question-header">
                   Main Question {questionIndex + 1}: {question.mainQuestion}
+                  { !(question.noOfOptions==0) && (
+          <span >( Solve Any {numberToWords(question.noOfSubQuestion
+            - question.noOfOptions
+          )} )</span> )}
                   <span style={{ float: 'right' }}>Total Marks: {question.marks}</span>
                 </div>
                 {renderQuestionAnswers(question, questionIndex + 1)}

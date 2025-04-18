@@ -126,7 +126,8 @@ const AILayout = ({ basicConfig, chapters, onConfigSubmit, loading }) => {
             totalMarks: basicConfig.totalMarks,
             academicYear:basicConfig.academicYear,            
             examType:basicConfig.examType,
-            term:basicConfig.term
+            term:basicConfig.term,
+            medium:basicConfig.medium
         };
 
         const sectionsPayload = sections.map(section => ({
@@ -201,7 +202,7 @@ const AILayout = ({ basicConfig, chapters, onConfigSubmit, loading }) => {
                 >
                     <Select.Option value="Graph">Graph</Select.Option>
                     <Select.Option value="Theoretical">Theory</Select.Option>
-                    <Select.Option vlaue="Problems">Problems</Select.Option>
+                    <Select.Option value="Problems">Problems</Select.Option>
                     <Select.Option value="Diagram">Diagram</Select.Option>
                     <Select.Option value="Paragraph">Paragraph</Select.Option>
                     <Select.Option value="Activity">Activity</Select.Option>
@@ -439,6 +440,10 @@ const AILayout = ({ basicConfig, chapters, onConfigSubmit, loading }) => {
                                 pagination={false}
                                 rowKey="id"
                                 columns={columns(section)}
+                                style={ {overflowX: 'auto',
+                                    maxWidth: '100%'
+                                    
+                                }}
                             />
                         </Card>
 

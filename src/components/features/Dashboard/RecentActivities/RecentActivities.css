@@ -1,61 +1,222 @@
 .recent-activities {
-    background: var(--white);
-    border-radius: var(--border-radius-lg);
-    padding: 1.5rem;
-    box-shadow: var(--shadow-sm);
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    height: 100%;
+}
+
+.activities-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #eee;
+}
+
+.activities-header h2 {
+    margin: 0;
+    color: #333;
+    font-size: 1.5rem;
+    font-weight: 600;
+}
+
+.activity-filter {
+    padding: 8px 12px;
+    border: 1px solid #e0e0e0;
+    border-radius: 6px;
+    background: white;
+    font-size: 0.9rem;
+    color: #333;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.activity-filter:hover {
+    border-color: #2196f3;
 }
 
 .activities-list {
     display: flex;
     flex-direction: column;
-    gap: 1rem;
+    gap: 15px;
+    max-height: 500px;
+    overflow-y: auto;
+    padding-right: 5px;
+}
+
+.activities-list::-webkit-scrollbar {
+    width: 6px;
+}
+
+.activities-list::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 3px;
+}
+
+.activities-list::-webkit-scrollbar-thumb {
+    background: #ccc;
+    border-radius: 3px;
+}
+
+.activities-list::-webkit-scrollbar-thumb:hover {
+    background: #999;
 }
 
 .activity-item {
     display: flex;
-    align-items: flex-start;
-    gap: 1rem;
-    padding: 0.75rem;
-    background: var(--bg-light);
-    border-radius: var(--border-radius-md);
+    gap: 15px;
+    padding: 15px;
+    background: #f9f9f9;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+    border-left: 4px solid #2196f3;
+}
+
+.activity-item:hover {
+    transform: translateX(5px);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
 .activity-icon {
-    font-size: 1.25rem;
-    width: 24px;
-    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    background: #e3f2fd;
+    border-radius: 50%;
+    color: #2196f3;
+    font-size: 1.2rem;
 }
 
 .activity-content {
     flex: 1;
 }
 
-.activity-text {
-    margin: 0;
-    font-size: 0.875rem;
-    line-height: 1.5;
+.activity-title {
+    margin: 0 0 5px 0;
+    color: #333;
+    font-size: 1rem;
+    font-weight: 600;
 }
 
-.activity-user {
-    font-weight: 600;
-    color: var(--primary-color);
+.activity-description {
+    margin: 0 0 10px 0;
+    color: #666;
+    font-size: 0.9rem;
+    line-height: 1.4;
+}
+
+.activity-meta {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 0.8rem;
+    color: #999;
 }
 
 .activity-time {
-    display: block;
-    font-size: 0.75rem;
-    color: var(--text-muted);
-    margin-top: 0.25rem;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.activity-time svg {
+    font-size: 0.9rem;
+}
+
+/* Activity Type Styles */
+.user-activity {
+    border-left-color: #4caf50;
+}
+
+.user-activity .activity-icon {
+    background: #e8f5e9;
+    color: #4caf50;
+}
+
+.event-activity {
+    border-left-color: #ff9800;
+}
+
+.event-activity .activity-icon {
+    background: #fff3e0;
+    color: #ff9800;
+}
+
+.notification-activity {
+    border-left-color: #f44336;
+}
+
+.notification-activity .activity-icon {
+    background: #ffebee;
+    color: #f44336;
+}
+
+.document-activity {
+    border-left-color: #9c27b0;
+}
+
+.document-activity .activity-icon {
+    background: #f3e5f5;
+    color: #9c27b0;
+}
+
+/* Loading and Error States */
+.activities-loading {
+    text-align: center;
+    padding: 20px;
+    color: #666;
+    font-size: 0.9rem;
+}
+
+.error-message {
+    background: #ffebee;
+    color: #c62828;
+    padding: 10px 15px;
+    border-radius: 6px;
+    margin: 10px 0;
+    font-size: 0.9rem;
 }
 
 .no-activities {
     text-align: center;
-    color: var(--text-muted);
-    padding: 2rem;
+    padding: 20px;
+    color: #999;
+    font-size: 0.9rem;
 }
 
-.activities-loading {
-    text-align: center;
-    color: var(--text-muted);
-    padding: 2rem;
+/* Responsive Design */
+@media (max-width: 768px) {
+    .activities-header {
+        flex-direction: column;
+        gap: 10px;
+        align-items: flex-start;
+    }
+
+    .activity-filter {
+        width: 100%;
+    }
+
+    .activity-item {
+        padding: 12px;
+    }
+}
+
+@media (max-width: 480px) {
+    .recent-activities {
+        padding: 15px;
+    }
+
+    .activities-header h2 {
+        font-size: 1.2rem;
+    }
+
+    .activity-icon {
+        width: 35px;
+        height: 35px;
+        font-size: 1rem;
+    }
 } 

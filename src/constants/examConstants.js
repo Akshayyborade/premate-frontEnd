@@ -2,7 +2,8 @@ export const EXAM_TYPES = [
     { value: 'Final', label: 'Final Exam' },
     { value: 'Midterm', label: 'Mid Term' },
     { value: 'Unit', label: 'Unit Test' },
-    { value: 'Practice', label: 'Practice Test' }
+    { value: 'Practice', label: 'Practice Test' },
+    {value:'Preliminary', label:'Preliminary Exam'}
 ];
 
 export const BOARD_OPTIONS = [

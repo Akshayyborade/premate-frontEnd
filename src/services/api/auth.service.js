@@ -218,6 +218,51 @@ class AuthService {
             throw error;
         }
     }
+
+    async requestPasswordReset(email) {
+        try {
+            const response = await this.api.post('/auth/request-password-reset', { email });
+            return {
+                success: true,
+                message: response.data.message
+            };
+        } catch (error) {
+            const errorMap = {
+                404: 'Email not found',
+                400: 'Invalid email format',
+                429: 'Too many reset attempts'
+            };
+
+            const status = error.response?.status;
+            const message = error.response?.data?.message || errorMap[status] || 'Failed to send reset link';
+            
+            throw new Error(message);
+        }
+    }
+
+    async resetPassword(token, newPassword) {
+        try {
+            const response = await this.api.post('/auth/reset-password', {
+                token,
+                newPassword
+            });
+            return {
+                success: true,
+                message: response.data.message
+            };
+        } catch (error) {
+            const errorMap = {
+                400: 'Invalid token or password',
+                401: 'Token expired',
+                404: 'Invalid reset token'
+            };
+
+            const status = error.response?.status;
+            const message = error.response?.data?.message || errorMap[status] || 'Failed to reset password';
+            
+            throw new Error(message);
+        }
+    }
 }
 
 export const authService = new AuthService();

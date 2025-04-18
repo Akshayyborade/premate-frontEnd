@@ -1,6 +1,18 @@
 {
     "examInstructions": [
       {
+        "section": "MH State Board Science",
+        "instructions": [
+          "All questions are compulsory.",
+          "Use of a calculator is not allowed.",
+          "The numbers to the right of the questions indicate full marks.",
+          "In case of MCQs (Q. No. 1(A)) only the first attempt will be evaluated and will be given credit.",
+          "For every MCQ, the correct alternative (A), (B), (C) or (D) with sub-question number is to be written as an answer \n For Eg.: (i) (A), (ii) (B), (iii) (C) or (iv) (D)",
+          "Scientifically correct, labelled diagrams should be drawn wherever necessary.",
+          "Each new question should be started on the new page."
+        ] 
+      },
+      {
         "section": "General Instructions",
         "instructions": [
           "Read all the instructions carefully before starting the exam.",

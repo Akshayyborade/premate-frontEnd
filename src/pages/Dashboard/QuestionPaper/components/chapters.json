@@ -861,25 +861,35 @@
                                 "Geometric Constructions"
                             ]
                         },
-                        "Science": {
+                        "Science And Technology-I": {
                             "chapters": [
-                                "Chemical Reactions and Equations",
-                                "Acids, Bases, and Salts",
-                                "Metals and Non-metals",
-                                "Carbon and its Compounds",
+                                "Gravitation",
                                 "Periodic Classification of Elements",
-                                "Life Processes",
-                                "Control and Coordination",
-                                "How do Organisms Reproduce?",
-                                "Heredity and Evolution",
-                                "Light – Reflection and Refraction",
-                                "The Human Eye and the Colourful World",
-                                "Electricity",
-                                "Magnetic Effects of Electric Current",
-                                "Sources of Energy",
-                                "Our Environment",
-                                "Management of Natural Resources"
+                                "Chemical Reactions and Equations",
+                                "Effects of Electric Current",
+                                "Heat",
+                                "Refraction of light",
+                                "Lenses",
+                                "Metallurgy",
+                                "Carbon and its Compounds",
+                                "Space Missions"
                             ]
+                        },
+                        "Science And Technology-II":{
+                            "chapters":[
+                                "Heredity and Evolution",
+                                 "Life Processes in living organisms Part -1",
+                                 "Life Processes in Living Organisms Part - 2",
+                                 "Environmental management",
+                                 "Towards Green Energy",
+                                 "Animal Classification",
+                                 "Introduction to Microbiology",
+                                 "Cell Biology and Biotechnology",
+                                 "Social health",
+                                 "Disaster Management"
+              
+                            ]
+
                         },
                         "History": {
                             "chapters": [

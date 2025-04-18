@@ -17,9 +17,12 @@ import Contact from './pages/public/Contact/Contact';
 import About from './pages/public/About/About';
 import Test from './pages/public/Test/Test';
 import Service from './pages/public/Service/Service';
-import Unauthorized from './pages/Auth/UnauthorizedPage'
+import Unauthorized from './pages/Auth/UnauthorizedPage';
+import PasswordResetRequest from './components/features/Auth/PasswordResetRequest/PasswordResetRequest';
+import ResetPassword from './components/features/Auth/ResetPassword/ResetPassword';
 // Import necessary routing components from react-router-dom
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+
 const App = () => {
     return (
         <BrowserRouter>
@@ -35,6 +38,8 @@ const App = () => {
                     <Route path="/contact" element={<Contact />} />
                     <Route path="/demo" element={<Demo/>}/>
                     <Route path="/unauthorized" element={<Unauthorized />} />
+                    <Route path="/forgot-password" element={<PasswordResetRequest />} />
+                    <Route path="/reset-password/:token" element={<ResetPassword />} />
 
                     {/* Protected Admin Routes */}
                     <Route

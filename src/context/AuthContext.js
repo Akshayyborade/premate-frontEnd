@@ -18,6 +18,8 @@ const AuthContext = createContext({
     logout: async () => {},
     verifyEmail: async () => {},
     checkEmail: async () => {},
+    requestPasswordReset: async () => {},
+    resetPassword: async () => {},
     isAuthenticated: () => false
 });
 
@@ -133,6 +135,38 @@ export const AuthProvider = ({ children }) => {
         }
     };
 
+    const requestPasswordReset = async (email) => {
+        try {
+            setLoading(true);
+            // This would be replaced with actual API call in the backend
+            const response = await authService.requestPasswordReset(email);
+            toast.success('Password reset link has been sent to your email');
+            return response;
+        } catch (error) {
+            const errorMessage = error.message || 'Failed to send reset link';
+            toast.error(errorMessage);
+            throw error;
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    const resetPassword = async (token, newPassword) => {
+        try {
+            setLoading(true);
+            // This would be replaced with actual API call in the backend
+            const response = await authService.resetPassword(token, newPassword);
+            toast.success('Password has been reset successfully');
+            return response;
+        } catch (error) {
+            const errorMessage = error.message || 'Failed to reset password';
+            toast.error(errorMessage);
+            throw error;
+        } finally {
+            setLoading(false);
+        }
+    };
+
     const value = {
         user,
         loading,
@@ -142,6 +176,8 @@ export const AuthProvider = ({ children }) => {
         logout,
         verifyEmail,
         checkEmail,
+        requestPasswordReset,
+        resetPassword,
         isAuthenticated: () => authService.isAuthenticated()
     };
 

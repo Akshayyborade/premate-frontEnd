@@ -1,4 +1,5 @@
 import React, { useState, useMemo } from 'react';
+import { format, addDays, startOfWeek, endOfWeek, isSameDay, isSameWeek } from 'date-fns';
 import './Timetable.css';
 import Button from '../../../common/Button/Button';
 
@@ -12,70 +13,46 @@ const Timetable = ({ data, onUpdateSchedule }) => {
   const [selectedGrade, setSelectedGrade] = useState(data.grades[0]);
   const [selectedBatch, setSelectedBatch] = useState(data.batches[0]);
   const [currentDate, setCurrentDate] = useState(new Date());
-  const [view, setView] = useState('day');
+  const [view, setView] = useState('week');
   const [isEditing, setIsEditing] = useState(false);
-  
-  // New state for editing
-  const [editingSlot, setEditingSlot] = useState({
-    date: '',
-    time: '',
-    subject: '',
-    teacher: '',
-    room: ''
-  });
+  const [editingSlot, setEditingSlot] = useState(null);
+  const [searchTerm, setSearchTerm] = useState('');
 
-  const formatDate = (date) => {
-    return date.toISOString().split('T')[0];
-  };
-
-  const getWeekDates = (date) => {
-    const week = [];
-    const start = new Date(date);
-    start.setDate(start.getDate() - start.getDay());
-    
-    for (let i = 0; i < 7; i++) {
-      const day = new Date(start);
-      day.setDate(start.getDate() + i);
-      week.push(day);
-    }
-    return week;
-  };
-
-  const weekDates = useMemo(() => getWeekDates(currentDate), [currentDate]);
+  const weekDates = useMemo(() => {
+    const start = startOfWeek(currentDate, { weekStartsOn: 0 });
+    return Array.from({ length: 7 }, (_, i) => addDays(start, i));
+  }, [currentDate]);
 
   const handleDateChange = (direction) => {
-    const newDate = new Date(currentDate);
-    if (view === 'day') {
-      newDate.setDate(currentDate.getDate() + direction);
-    } else {
-      newDate.setDate(currentDate.getDate() + (direction * 7));
-    }
-    setCurrentDate(newDate);
-  };
-
-  const toggleView = () => {
-    setView(prev => prev === 'day' ? 'week' : 'day');
+    setCurrentDate(prev => {
+      const newDate = new Date(prev);
+      newDate.setDate(prev.getDate() + (direction * 7));
+      return newDate;
+    });
   };
 
   const getFilteredSchedule = (date) => {
     return data.schedule.filter(item =>
       item.grade === selectedGrade &&
       item.batch === selectedBatch &&
-      formatDate(new Date(item.date)) === formatDate(date)
+      isSameDay(new Date(item.date), date) &&
+      (searchTerm === '' || 
+        item.subject.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        item.teacher.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        item.room.toLowerCase().includes(searchTerm.toLowerCase()))
     );
   };
 
-  // New method to start editing a specific slot
-  const startEditingSlot = (date, time) => {
-    const existingSlot = data.schedule.find(item => 
-      formatDate(new Date(item.date)) === formatDate(date) &&
+  const handleEditSlot = (date, time) => {
+    const existingSlot = data.schedule.find(item =>
+      isSameDay(new Date(item.date), date) &&
       item.time === time &&
       item.grade === selectedGrade &&
       item.batch === selectedBatch
     );
 
     setEditingSlot({
-      date: formatDate(date),
+      date: format(date, 'yyyy-MM-dd'),
       time,
       subject: existingSlot?.subject || '',
       teacher: existingSlot?.teacher || '',
@@ -84,30 +61,20 @@ const Timetable = ({ data, onUpdateSchedule }) => {
     setIsEditing(true);
   };
 
-  // Method to handle form input changes
-  const handleEditInputChange = (e) => {
-    const { name, value } = e.target;
-    setEditingSlot(prev => ({
-      ...prev,
-      [name]: value
-    }));
-  };
-
-  // Method to save edited slot
-  const saveEditedSlot = () => {
-    if (onUpdateSchedule) {
+  const handleSaveSlot = () => {
+    if (onUpdateSchedule && editingSlot) {
       onUpdateSchedule({
         ...editingSlot,
         grade: selectedGrade,
         batch: selectedBatch
       });
       setIsEditing(false);
+      setEditingSlot(null);
     }
   };
 
-  // Method to clear/remove a slot
-  const clearSlot = () => {
-    if (onUpdateSchedule) {
+  const handleClearSlot = () => {
+    if (onUpdateSchedule && editingSlot) {
       onUpdateSchedule({
         ...editingSlot,
         grade: selectedGrade,
@@ -117,185 +84,112 @@ const Timetable = ({ data, onUpdateSchedule }) => {
         room: ''
       });
       setIsEditing(false);
+      setEditingSlot(null);
     }
   };
 
-  const renderDayView = () => {
-    const filteredSchedule = getFilteredSchedule(currentDate);
-    return (
-      <div className="timetable-day-view">
-        <table>
-          <thead>
-            <tr>
-              <th>Time</th>
-              <th>Subject</th>
-              <th>Teacher</th>
-              <th>Room</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {TIME_SLOTS.map(time => {
-              const slot = filteredSchedule.find(item => item.time === time);
+  const renderEditForm = () => (
+    <div className="edit-form">
+      <h3>Edit Schedule Slot</h3>
+      <div className="form-group">
+        <label>Date</label>
+        <input
+          type="date"
+          value={editingSlot?.date}
+          onChange={(e) => setEditingSlot(prev => ({ ...prev, date: e.target.value }))}
+        />
+      </div>
+      <div className="form-group">
+        <label>Time</label>
+        <select
+          value={editingSlot?.time}
+          onChange={(e) => setEditingSlot(prev => ({ ...prev, time: e.target.value }))}
+        >
+          {TIME_SLOTS.map(time => (
+            <option key={time} value={time}>{time}</option>
+          ))}
+        </select>
+      </div>
+      <div className="form-group">
+        <label>Subject</label>
+        <input
+          type="text"
+          value={editingSlot?.subject}
+          onChange={(e) => setEditingSlot(prev => ({ ...prev, subject: e.target.value }))}
+          placeholder="Enter subject name"
+        />
+      </div>
+      <div className="form-group">
+        <label>Teacher</label>
+        <input
+          type="text"
+          value={editingSlot?.teacher}
+          onChange={(e) => setEditingSlot(prev => ({ ...prev, teacher: e.target.value }))}
+          placeholder="Enter teacher name"
+        />
+      </div>
+      <div className="form-group">
+        <label>Room</label>
+        <input
+          type="text"
+          value={editingSlot?.room}
+          onChange={(e) => setEditingSlot(prev => ({ ...prev, room: e.target.value }))}
+          placeholder="Enter room number"
+        />
+      </div>
+      <div className="form-actions">
+        <Button onClick={handleSaveSlot} variant="primary">Save</Button>
+        <Button onClick={handleClearSlot} variant="secondary">Clear</Button>
+        <Button onClick={() => setIsEditing(false)} variant="outline">Cancel</Button>
+      </div>
+    </div>
+  );
+
+  const renderTimetable = () => (
+    <div className="timetable-grid">
+      <div className="timetable-header">
+        <div className="time-column">Time</div>
+        {weekDates.map(date => (
+          <div key={date.toString()} className="day-column">
+            <div className="day-name">{DAYS[date.getDay()]}</div>
+            <div className="date">{format(date, 'MMM d')}</div>
+          </div>
+        ))}
+      </div>
+      <div className="timetable-body">
+        {TIME_SLOTS.map(time => (
+          <div key={time} className="time-row">
+            <div className="time-slot">{time}</div>
+            {weekDates.map(date => {
+              const schedule = getFilteredSchedule(date);
+              const slot = schedule.find(item => item.time === time);
               return (
-                <tr key={time}>
-                  <td>{time}</td>
-                  <td>{slot?.subject || '-'}</td>
-                  <td>{slot?.teacher || '-'}</td>
-                  <td>{slot?.room || '-'}</td>
-                  <td>
-                  
-                     <Button
-                     onClick={()=> startEditingSlot(currentDate,time) 
-                     }
-                     size='small'
-                     variant="outline"
-                     
-                     >Edit</Button>
-                  </td>
-                </tr>
+                <div
+                  key={date.toString()}
+                  className={`schedule-slot ${slot ? 'occupied' : ''}`}
+                  onClick={() => handleEditSlot(date, time)}
+                >
+                  {slot && (
+                    <div className="slot-content">
+                      <div className="subject">{slot.subject}</div>
+                      <div className="teacher">{slot.teacher}</div>
+                      <div className="room">{slot.room}</div>
+                    </div>
+                  )}
+                </div>
               );
             })}
-          </tbody>
-        </table>
+          </div>
+        ))}
       </div>
-    );
-  };
-
-  const renderWeekView = () => {
-    return (
-      <div className="timetable-week-view">
-        <table>
-          <thead>
-            <tr>
-              <th>Time</th>
-              {weekDates.map(date => (
-                <th key={date.toISOString()}>
-                  <div className="day-name">{DAYS[date.getDay()]}</div>
-                  <div className="date">{date.toLocaleDateString()}</div>
-                </th>
-              ))}
-            </tr>
-          </thead>
-          <tbody>
-            {TIME_SLOTS.map(time => (
-              <tr key={time}>
-                <td>{time}</td>
-                {weekDates.map(date => {
-                  const schedule = getFilteredSchedule(date);
-                  const slot = schedule.find(item => item.time === time);
-                  return (
-                    <td key={date.toISOString()} className={slot ? 'scheduled' : ''}>
-                      {slot && (
-                        <div className="schedule-slot">
-                          <div className="subject">{slot.subject}</div>
-                          <div className="teacher">{slot.teacher}</div>
-                          <div className="room">{slot.room}</div>
-                        </div>
-                      )}
-                      <button 
-                        onClick={() => startEditingSlot(date, time)}
-                        className="edit-slot-button"
-                      >
-                        Edit
-                      </button>
-                    </td>
-                  );
-                })}
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
-    );
-  };
-
-  const renderEditForm = () => {
-    return (
-      <div className="edit-timetable-section">
-        <h3>Edit Timetable Slot</h3>
-        <form onSubmit={(e) => {
-          e.preventDefault();
-          saveEditedSlot();
-        }}>
-          <div className="form-group">
-            <label>Date:</label>
-            <input 
-              type="date" 
-              name="date"
-              value={editingSlot.date}
-              onChange={handleEditInputChange}
-              required 
-            />
-          </div>
-          <div className="form-group">
-            <label>Time:</label>
-            <select
-              name="time"
-              value={editingSlot.time}
-              onChange={handleEditInputChange}
-              required
-            >
-              {TIME_SLOTS.map(time => (
-                <option key={time} value={time}>{time}</option>
-              ))}
-            </select>
-          </div>
-          <div className="form-group">
-            <label>Subject:</label>
-            <input 
-              type="text"
-              name="subject"
-              value={editingSlot.subject}
-              onChange={handleEditInputChange}
-            />
-          </div>
-          <div className="form-group">
-            <label>Teacher:</label>
-            <input 
-              type="text"
-              name="teacher"
-              value={editingSlot.teacher}
-              onChange={handleEditInputChange}
-            />
-          </div>
-          <div className="form-group">
-            <label>Room:</label>
-            <input 
-              type="text"
-              name="room"
-              value={editingSlot.room}
-              onChange={handleEditInputChange}
-            />
-          </div>
-          <div className="form-actions">
-            <Button type="submit" variant="primary" size="medium" className="save-button">
-              Save
-            </Button>
-            <Button type="button" onClick={clearSlot} variant="secondary" size="medium" className="clear-button">
-              Clear Slot
-            </Button>
-            <Button 
-              type="button" 
-              onClick={() => setIsEditing(false)} 
-              variant="outline" 
-              size="medium" 
-              className="cancel-button"
-            >
-              Cancel
-            </Button>
-          </div>
-        </form>
-      </div>
-    );
-  };
+    </div>
+  );
 
   return (
     <div className="timetable-container">
-      <div className="timetable-header">
-        <h3>Class Timetable</h3>
-        <div className="timetable-filters">
-          <select 
+      <div className="timetable-controls">
+        <div className="filters">
+          <select
             value={selectedGrade}
             onChange={(e) => setSelectedGrade(e.target.value)}
           >
@@ -303,7 +197,7 @@ const Timetable = ({ data, onUpdateSchedule }) => {
               <option key={grade} value={grade}>{grade}</option>
             ))}
           </select>
-          <select 
+          <select
             value={selectedBatch}
             onChange={(e) => setSelectedBatch(e.target.value)}
           >
@@ -311,35 +205,28 @@ const Timetable = ({ data, onUpdateSchedule }) => {
               <option key={batch} value={batch}>Batch {batch}</option>
             ))}
           </select>
+          <input
+            type="text"
+            placeholder="Search by subject, teacher, or room"
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            className="search-input"
+          />
+        </div>
+        <div className="navigation">
+          <Button onClick={() => handleDateChange(-1)} variant="outline">
+            Previous Week
+          </Button>
+          <span className="week-range">
+            {format(weekDates[0], 'MMM d')} - {format(weekDates[6], 'MMM d, yyyy')}
+          </span>
+          <Button onClick={() => handleDateChange(1)} variant="outline">
+            Next Week
+          </Button>
         </div>
       </div>
 
-      <div className="timetable-controls">
-        <button onClick={() => handleDateChange(-1)} className="nav-button">
-          ←
-        </button>
-        <div className="date-display">
-          {view === 'day' 
-            ? currentDate.toLocaleDateString('en-US', { 
-                weekday: 'long', 
-                year: 'numeric', 
-                month: 'long', 
-                day: 'numeric' 
-              })
-            : `Week of ${weekDates[0].toLocaleDateString()} - ${weekDates[6].toLocaleDateString()}`
-          }
-        </div>
-        <button onClick={() => handleDateChange(1)} className="nav-button">
-          →
-        </button>
-        <button onClick={toggleView} className="view-toggle">
-          {view === 'day' ? 'Week View' : 'Day View'}
-        </button>
-      </div>
-
-      {isEditing ? renderEditForm() : (
-        view === 'day' ? renderDayView() : renderWeekView()
-      )}
+      {isEditing ? renderEditForm() : renderTimetable()}
     </div>
   );
 };

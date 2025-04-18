@@ -1,10 +1,176 @@
 /* Layout Container */
 .dashboard-container {
+  min-height: 100vh;
+  background-color: #f5f7fa;
   display: flex;
   flex-direction: column;
-  min-height: 100vh;
-  background-color: var(--background-color);
-  padding: 1.5rem;
+  padding: 20px;
+  gap: 20px;
+}
+
+.dashboard-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.dashboard-header h1 {
+  margin: 0;
+  font-size: 24px;
+  color: #2d3748;
+  font-weight: 600;
+}
+
+.header-actions {
+  display: flex;
+  gap: 15px;
+  align-items: center;
+}
+
+.dashboard-content {
+  display: grid;
+  grid-template-columns: 1fr 350px;
+  gap: 20px;
+  flex: 1;
+}
+
+.dashboard-main {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.dashboard-stats {
+  background: white;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.dashboard-schedule {
+  background: white;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.dashboard-sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.sidebar-section {
+  background: white;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.sidebar-section h2 {
+  margin: 0 0 15px 0;
+  font-size: 18px;
+  color: #2d3748;
+  font-weight: 600;
+}
+
+.dashboard-error {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40px;
+  text-align: center;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.dashboard-error h2 {
+  color: #e53e3e;
+  margin-bottom: 10px;
+}
+
+.dashboard-error button {
+  margin-top: 20px;
+  padding: 10px 20px;
+  background: #4299e1;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.dashboard-error button:hover {
+  background: #3182ce;
+}
+
+.dashboard-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(255, 255, 255, 0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+/* Responsive Design */
+@media (max-width: 1200px) {
+  .dashboard-content {
+    grid-template-columns: 1fr;
+  }
+
+  .dashboard-sidebar {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .dashboard-container {
+    padding: 10px;
+  }
+
+  .dashboard-header {
+    flex-direction: column;
+    gap: 15px;
+    text-align: center;
+  }
+
+  .dashboard-sidebar {
+    grid-template-columns: 1fr;
+  }
+
+  .sidebar-section {
+    padding: 15px;
+  }
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.dashboard-stats,
+.dashboard-schedule,
+.sidebar-section {
+  animation: fadeIn 0.3s ease-out;
 }
 
 /* Main Layout Grid */
@@ -123,83 +289,6 @@
   .calendar-section {
     min-height: 350px;
   }
-}
-
-@media (max-width: 1200px) {
-  .dashboard-content {
-    grid-template-columns: 1fr;
-    height: auto;
-  }
-  
-  .dashboard-main {
-    grid-template-rows: auto auto 1fr;
-  }
-  
-  .dashboard-sidebar {
-    grid-template-rows: auto;
-    grid-template-columns: repeat(2, 1fr);
-  }
-  
-  .task-section,
-  .activities-section {
-    height: 400px;
-  }
-}
-
-@media (max-width: 768px) {
-  .dashboard-container {
-    padding: 1rem;
-  }
-  
-  .dashboard-content {
-    gap: 1rem;
-  }
-  
-  .dashboard-sidebar {
-    grid-template-columns: 1fr;
-  }
-  
-  .dashboard-bottom {
-    gap: 1rem;
-  }
-  
-  .task-section,
-  .activities-section {
-    height: 350px;
-  }
-}
-
-/* Fixed Height Containers */
-.fixed-height-container {
-  height: 100%;
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
-}
-
-.fixed-height-content {
-  flex: 1;
-  overflow-y: auto;
-  padding-right: 0.5rem;
-}
-
-/* Grid Helper Classes */
-.grid-2-cols {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 1rem;
-}
-
-.grid-3-cols {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 1rem;
-}
-
-.grid-4-cols {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 1rem;
 }
 
 @media (max-width: 1024px) {

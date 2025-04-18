@@ -97,21 +97,24 @@ const DashboardHome = () => {
 
     return (
         <div className="dashboard-container">
-           
+            <header className="dashboard-header">
+                <h1>Welcome, {user?.name || 'Admin'}</h1>
+                <div className="header-actions">
+                    <DashboardSettings />
+                </div>
+            </header>
 
             <div className="dashboard-content">
                 <main className="dashboard-main">
-                    <section className="dashboard-middle">
-                        <div className="analytics-section">
-                            <ErrorBoundary>
-                                <Suspense fallback={<LoadingSpinner />}>
-                                    <AnalyticsCharts data={analyticsData} />
-                                </Suspense>
-                            </ErrorBoundary>
-                        </div>
-                        
+                    <section className="dashboard-stats">
+                        <ErrorBoundary>
+                            <Suspense fallback={<LoadingSpinner />}>
+                                <AnalyticsCharts data={analyticsData} />
+                            </Suspense>
+                        </ErrorBoundary>
                     </section>
-                    <section className="dashboard-bottom">
+
+                    <section className="dashboard-schedule">
                         <ErrorBoundary>
                             <Suspense fallback={<LoadingSpinner />}>
                                 <Timetable data={timetableData} />
@@ -121,38 +124,39 @@ const DashboardHome = () => {
                 </main>
 
                 <aside className="dashboard-sidebar">
-                <section className="dashboard-top">
+                    <section className="sidebar-section quick-actions">
                         <ErrorBoundary>
                             <Suspense fallback={<LoadingSpinner />}>
                                 <QuickActions />
                             </Suspense>
                         </ErrorBoundary>
                     </section>
-                    <div className="task-section">
+
+                    <section className="sidebar-section tasks">
                         <ErrorBoundary>
                             <Suspense fallback={<LoadingSpinner />}>
                                 <TaskManagement />
                             </Suspense>
                         </ErrorBoundary>
-                    </div>
-                    <div className="activities-section">
+                    </section>
+
+                    <section className="sidebar-section activities">
                         <ErrorBoundary>
                             <Suspense fallback={<LoadingSpinner />}>
                                 <RecentActivities />
                             </Suspense>
                         </ErrorBoundary>
-                    </div>
-                    <div className="calendar-section">
-                            <ErrorBoundary>
-                                <Suspense fallback={<LoadingSpinner />}>
-                                    <Calendar events={calendarEvents} />
-                                </Suspense>
-                            </ErrorBoundary>
-                        </div>
+                    </section>
+
+                    <section className="sidebar-section calendar">
+                        <ErrorBoundary>
+                            <Suspense fallback={<LoadingSpinner />}>
+                                <Calendar events={calendarEvents} />
+                            </Suspense>
+                        </ErrorBoundary>
+                    </section>
                 </aside>
             </div>
-
-           
 
             {isLoading && (
                 <div className="dashboard-overlay">

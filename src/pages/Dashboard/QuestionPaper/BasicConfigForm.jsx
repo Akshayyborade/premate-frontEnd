@@ -56,7 +56,25 @@ const BasicConfigForm = ({
         return `${hours}h ${remainingMinutes}m`;
     }, []);
 
-
+// Define question numbering patterns
+const QUESTION_NUMBERING_PATTERNS = [
+    {
+      value: 'pattern1',
+      label: 'Q.1 (A) i) ii) (B) i) ii)',
+      example: 'Q.1 (A) i) ii) (B) i) ii) → Q.2 (A) i) ii)...'
+    },
+    {
+      value: 'pattern2',
+      label: 'Q.1 a) b) c)',
+      example: 'Q.1 a) b) c) → Q.2 a) b) c)...'
+    },
+    {
+      value: 'pattern3',
+      label: '1. (i) (ii) (iii)',
+      example: '1. (i) (ii) (iii) → 2. (i) (ii) (iii)...'
+    }
+  ];
+  
 
     return (
         <Card className="basic-config-form" title="Exam Configuration">
@@ -241,7 +259,24 @@ const BasicConfigForm = ({
                     {/* Exam Configuration */}
 
                     <Space wrap>
-
+                        <Form.Item
+                        label="medium/language"
+                        required
+                        
+                        >
+                        <Select
+                        style={{ width: 90 }}
+                        min={0}
+                        value={config.medium}
+                        onChange={(value) => handleChange('medium', value)}
+                        disabled={disabled}
+                        >
+                        <option value={'English'} ></option>
+                        <option value={'Marathi'}></option>
+                        <option value={'Hindi'}></option>
+                       
+                        </Select>
+                        </Form.Item>
                         {/* Total Marks */}
                         <Form.Item
                             label="Total Marks"
@@ -326,6 +361,32 @@ const BasicConfigForm = ({
                                 <Option value="1">Term 1</Option>
                                 <Option value="2">Term 2</Option>
                                 <Option value="3">Term 3</Option>
+                            </Select>
+                        </Form.Item>
+
+                        {/* Add the new question numbering pattern select before the existing form items */}
+                        <Form.Item
+                            label="Question Numbering Pattern"
+                            required
+                            validateStatus={errors.includes('questionNumberingPattern') ? 'error' : ''}
+                            tooltip="Select how questions and sub-questions should be numbered"
+                        >
+                            <Select
+                                style={{ width: 300 }}
+                                value={config.questionNumberingPattern}
+                                onChange={(value) => handleChange('questionNumberingPattern', value)}
+                                disabled={disabled}
+                            >
+                                {QUESTION_NUMBERING_PATTERNS.map(pattern => (
+                                    <Option key={pattern.value} value={pattern.value}>
+                                        <div>
+                                            <div>{pattern.label}</div>
+                                            <div style={{ fontSize: '12px', color: '#666' }}>
+                                                Example: {pattern.example}
+                                            </div>
+                                        </div>
+                                    </Option>
+                                ))}
                             </Select>
                         </Form.Item>
                     </Space>

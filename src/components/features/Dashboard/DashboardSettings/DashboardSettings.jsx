@@ -221,6 +221,7 @@ const DashboardSettings = () => {
                             Save Changes
                         </Button>
                     </div>
+
                 </div>
             </Modal>
         </>
