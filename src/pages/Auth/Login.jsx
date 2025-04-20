@@ -24,11 +24,23 @@ const Login = () => {
    console.log(user);
     // Redirect if user is already logged in
     if (user) {
-        return <Navigate to="/admin/dashboard" replace />;
+        // Check user role and redirect accordingly
+        if (user.role === 'teacher') {
+            return <Navigate to="/teacher/dashboard" replace />;
+        } else if (user.role === 'admin') {
+            return <Navigate to="/teacher/dashboard" replace />;
+        }
+        // Add more role checks here if needed
     }
 
     const handleLoginSuccess = () => {
-        navigate('/admin/dashboard');
+        // Check user role and navigate accordingly
+        if (user?.role === 'teacher') {
+            navigate('/teacher/dashboard');
+        } else if (user?.role === 'admin') {
+            navigate('/teacher/dashboard');
+        }
+        // Add more role checks here if needed
     };
 
     return (

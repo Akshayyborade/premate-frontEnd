@@ -72,6 +72,9 @@ export const AuthProvider = ({ children }) => {
                 case 'ADMIN':
                     navigate('/admin/dashboard');
                     break;
+                case 'TEACHER':
+                    navigate('/teacher/dashboard');
+                    break;
                 case 'USER':
                     navigate('/dashboard');
                     break;

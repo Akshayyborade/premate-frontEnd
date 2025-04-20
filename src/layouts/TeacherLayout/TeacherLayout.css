@@ -1,0 +1,50 @@
+.teacher-layout {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    min-height: 100vh;
+    background-color: var(--bg-light);
+}
+
+.teacher-main {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.teacher-content {
+    flex: 1;
+    padding: 2rem;
+    overflow-y: auto;
+}
+
+/* For smaller screens */
+@media (max-width: 768px) {
+    .teacher-layout {
+        grid-template-columns: 1fr;
+    }
+
+    .teacher-content {
+        padding: 1rem;
+    }
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+    .teacher-layout {
+        background-color: var(--bg-dark);
+    }
+}
+
+/* High contrast mode */
+@media (forced-colors: active) {
+    .teacher-layout {
+        border: 1px solid CanvasText;
+    }
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+    .teacher-content {
+        scroll-behavior: auto;
+    }
+} 
