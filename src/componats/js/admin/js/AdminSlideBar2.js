@@ -20,6 +20,7 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import { Link } from 'react-router-dom';
 import { ExpandLessSharp, ExpandMoreSharp } from '@mui/icons-material';
+import { UpOutlined, DownOutlined } from '@ant-design/icons';
 
 function AdminSidebar2({ setMainContentComponent }) {
   const [activeTab, setActiveTab] = useState('Student Management');

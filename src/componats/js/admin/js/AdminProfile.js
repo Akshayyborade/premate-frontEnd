@@ -6,7 +6,7 @@ import { Typography } from '@mui/joy';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEnvelope, faGlobe, faMapLocation } from '@fortawesome/free-solid-svg-icons';
 import { SocialIcon } from 'react-social-icons';
-import { AddCircleOutlineOutlined, Delete, EditOutlined } from '@mui/icons-material';
+import { PlusCircleOutlined, DeleteOutlined, EditOutlined } from '@ant-design/icons';
 import image from '../img/blogImage.jpeg'
 import ImageIcon from './icon/ImageIcon';
 import { getAdminData, getAdminPicture } from './services/AdminServices';
@@ -179,7 +179,7 @@ const AdminProfile = ({ title, content, onEdit, onDelete }) => {
                                             <>
 
                                                 <IconButton onClick={handleEditClick} aria-label="cancel">
-                                                    <AddCircleOutlineOutlined />
+                                                    <PlusCircleOutlined />
                                                 </IconButton>
 
                                                 <Button variant="contained" component="label" sx={{ mt: 1 }}>
@@ -192,10 +192,10 @@ const AdminProfile = ({ title, content, onEdit, onDelete }) => {
                                         ) : (
                                             <>
                                                 <IconButton onClick={handleEditClick} aria-label="edit">
-                                                    <EditOutlined></EditOutlined>
+                                                    <EditOutlined />
                                                 </IconButton> <Typography level={'h3'}>Post Your blog here</Typography>
                                                 <IconButton onClick={handleDeleteClick} aria-label="delete">
-                                                    <Delete /> {/* Replace with DeleteIcon from @mui/icons-material */}
+                                                    <DeleteOutlined />
                                                 </IconButton>
                                             </>
                                         )}

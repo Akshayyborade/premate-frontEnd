@@ -15,7 +15,7 @@ import { UploadIcon } from '../icon/UploadIcon';
 import { capitalizeFirstLetter } from '../services/utility';
 import { toast } from 'react-toastify';
 import { Col, Row } from 'reactstrap';
-import { Save } from '@mui/icons-material';
+import { SaveOutlined } from '@ant-design/icons';
 import { getAdminPicture, setAdmin } from '../services/AdminServices'; // Assuming you have a service function to update admin data
 
 const AdminAccountGeneral = ({ adminData }) => {
@@ -265,7 +265,7 @@ const AdminAccountGeneral = ({ adminData }) => {
                                         value={updatedAdmin?.about || ''}
                                         onChange={handleFieldChange}
                                     />
-                                    <Button variant="outlined" color="success" endIcon={<Save />} style={{ maxHeight: '50px' }} onClick={handleUpdateAdmin}>
+                                    <Button variant="outlined" color="success" endIcon={<SaveOutlined />} style={{ maxHeight: '50px' }} onClick={handleUpdateAdmin}>
                                         Save Changes
                                     </Button>
                                 </Col>

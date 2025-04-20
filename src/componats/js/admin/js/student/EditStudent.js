@@ -10,7 +10,7 @@ import Tab from '@mui/joy/Tab';
 import TabPanel from '@mui/joy/TabPanel';
 import { Box, IconButton, Tabs } from '@mui/joy';
 import { useTabsContext } from '@mui/base';
-import { EditNote } from '@mui/icons-material';
+import { EditOutlined } from '@ant-design/icons';
 import Badge from '@mui/material/Badge';
 import { doLogOut } from '../services/AuthServices';
 import { useNavigate } from 'react-router-dom';
@@ -156,7 +156,7 @@ const EditStudentModel = ({ isOpen, toggle }) => {
                         </TabList>
                         <TabPanel value={0}  style={{ maxHeight: '400px', overflowY: 'auto' }} >
                             <IconButton onClick={() => toggleEditTab('personal')} className="edit-icon">
-                                <EditNote /> {/* Edit icon component */}
+                                <EditOutlined /> {/* Edit icon component */}
                             </IconButton>
                             {selectedStudent && (
                                 isEditingTabs.personal ? (
@@ -272,7 +272,7 @@ const EditStudentModel = ({ isOpen, toggle }) => {
                         </TabPanel>
                         <TabPanel value={1}style={{ maxHeight: '400px', overflowY: 'auto' }}>
                             <IconButton onClick={() => toggleEditTab('family')} className="edit-icon">
-                                <EditNote /> {/* Edit icon component */}
+                                <EditOutlined /> {/* Edit icon component */}
                             </IconButton>
                             {selectedStudent && (
                                 isEditingTabs.family ? (
@@ -386,7 +386,7 @@ const EditStudentModel = ({ isOpen, toggle }) => {
                         </TabPanel>
                         <TabPanel value={2}style={{ maxHeight: '400px', overflowY: 'auto' }}>
                             <IconButton onClick={() => toggleEditTab('education')} className="edit-icon">
-                                <EditNote /> {/* Edit icon component */}
+                                <EditOutlined /> {/* Edit icon component */}
                             </IconButton>
                             {selectedStudent && (
                                 isEditingTabs.education ? (
@@ -480,7 +480,7 @@ const EditStudentModel = ({ isOpen, toggle }) => {
                         </TabPanel>
                         <TabPanel value={3}style={{ maxHeight: '400px', overflowY: 'auto' }}>
                             <IconButton onClick={() => toggleEditTab('moreInfo')} className="edit-icon">
-                                <EditNote /> {/* Edit icon component */}
+                                <EditOutlined /> {/* Edit icon component */}
                             </IconButton>
                             {selectedStudent && (
                                 isEditingTabs.moreInfo ? (

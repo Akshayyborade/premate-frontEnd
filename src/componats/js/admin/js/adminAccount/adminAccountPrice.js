@@ -1,4 +1,5 @@
-import { ArrowRightAlt } from "@mui/icons-material";
+import React from 'react';
+import { ArrowRightOutlined } from '@ant-design/icons';
 import { Typography } from "@mui/joy";
 import { Box, Button, Container, Grid, Paper, SvgIcon } from "@mui/material";
 
@@ -25,25 +26,25 @@ const AdminAccountPrice =()=>{
                                     <ul>
                                         <li>
                                             <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                                                <SvgIcon component={ArrowRightAlt} sx={{ mr: 1 }} />
+                                                <SvgIcon component={ArrowRightOutlined} sx={{ mr: 1 }} />
                                                 <Typography>2 team members</Typography>
                                             </Box>
                                         </li>
                                         <li>
                                             <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                                                <SvgIcon component={ArrowRightAlt} sx={{ mr: 1 }} />
+                                                <SvgIcon component={ArrowRightOutlined} sx={{ mr: 1 }} />
                                                 <Typography>1000+ components</Typography>
                                             </Box>
                                         </li>
                                         <li>
                                             <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                                                <SvgIcon component={ArrowRightAlt} sx={{ mr: 1 }} />
+                                                <SvgIcon component={ArrowRightOutlined} sx={{ mr: 1 }} />
                                                 <Typography>1 month free updates</Typography>
                                             </Box>
                                         </li>
                                         <li>
                                             <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                                                <SvgIcon component={ArrowRightAlt} sx={{ mr: 1 }} />
+                                                <SvgIcon component={ArrowRightOutlined} sx={{ mr: 1 }} />
                                                 <Typography>Life time technical support</Typography>
                                             </Box>
                                         </li>
@@ -73,25 +74,25 @@ const AdminAccountPrice =()=>{
                                     <ul>
                                         <li>
                                             <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                                                <SvgIcon component={ArrowRightAlt} sx={{ mr: 1 }} />
+                                                <SvgIcon component={ArrowRightOutlined} sx={{ mr: 1 }} />
                                                 <Typography>2 team members</Typography>
                                             </Box>
                                         </li>
                                         <li>
                                             <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                                                <SvgIcon component={ArrowRightAlt} sx={{ mr: 1 }} />
+                                                <SvgIcon component={ArrowRightOutlined} sx={{ mr: 1 }} />
                                                 <Typography>1000+ components</Typography>
                                             </Box>
                                         </li>
                                         <li>
                                             <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                                                <SvgIcon component={ArrowRightAlt} sx={{ mr: 1 }} />
+                                                <SvgIcon component={ArrowRightOutlined} sx={{ mr: 1 }} />
                                                 <Typography>1 month free updates</Typography>
                                             </Box>
                                         </li>
                                         <li>
                                             <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                                                <SvgIcon component={ArrowRightAlt} sx={{ mr: 1 }} />
+                                                <SvgIcon component={ArrowRightOutlined} sx={{ mr: 1 }} />
                                                 <Typography>Life time technical support</Typography>
                                             </Box>
                                         </li>
@@ -121,25 +122,25 @@ const AdminAccountPrice =()=>{
                                     <ul>
                                         <li>
                                             <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                                                <SvgIcon component={ArrowRightAlt} sx={{ mr: 1 }} />
+                                                <SvgIcon component={ArrowRightOutlined} sx={{ mr: 1 }} />
                                                 <Typography>2 team members</Typography>
                                             </Box>
                                         </li>
                                         <li>
                                             <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                                                <SvgIcon component={ArrowRightAlt} sx={{ mr: 1 }} />
+                                                <SvgIcon component={ArrowRightOutlined} sx={{ mr: 1 }} />
                                                 <Typography>1000+ components</Typography>
                                             </Box>
                                         </li>
                                         <li>
                                             <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                                                <SvgIcon component={ArrowRightAlt} sx={{ mr: 1 }} />
+                                                <SvgIcon component={ArrowRightOutlined} sx={{ mr: 1 }} />
                                                 <Typography>1 month free updates</Typography>
                                             </Box>
                                         </li>
                                         <li>
                                             <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                                                <SvgIcon component={ArrowRightAlt} sx={{ mr: 1 }} />
+                                                <SvgIcon component={ArrowRightOutlined} sx={{ mr: 1 }} />
                                                 <Typography>Life time technical support</Typography>
                                             </Box>
                                         </li>

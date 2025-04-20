@@ -42,7 +42,7 @@ import { useNavigate } from 'react-router-dom'; // For navigation after update
 import { updateAdminProfile, changeAdminPassword, doLogOut } from './services/AuthServices';
 import { Col, Form, Row } from 'reactstrap';
 import { Link, Tab, TabList, TabPanel, Tabs, Typography, } from '@mui/joy';
-import { ArrowRightAlt, PhotoCamera, Save } from '@mui/icons-material';
+import { ArrowRightOutlined, CameraOutlined, SaveOutlined } from '@ant-design/icons';
 import Grid2 from '@mui/material/Unstable_Grid2/Grid2';
 
 import { getAdminData } from './services/AdminServices';
