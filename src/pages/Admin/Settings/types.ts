@@ -23,6 +23,43 @@ export interface SystemSetting {
     description: string;
 }
 
+export interface License {
+    id: string;
+    type: 'free' | 'basic' | 'premium' | 'enterprise';
+    name: string;
+    description: string;
+    features: string[];
+    price: number;
+    duration: number; // in months
+    maxUsers: number;
+    isActive: boolean;
+}
+
+export interface Subscription {
+    id: string;
+    licenseId: string;
+    organizationId: string;
+    startDate: string;
+    endDate: string;
+    status: 'active' | 'expired' | 'cancelled' | 'pending';
+    paymentStatus: 'paid' | 'unpaid' | 'pending';
+    totalAmount: number;
+    currency: string;
+    billingCycle: 'monthly' | 'yearly';
+    autoRenew: boolean;
+}
+
+export interface Payment {
+    id: string;
+    subscriptionId: string;
+    amount: number;
+    currency: string;
+    status: 'success' | 'failed' | 'pending';
+    paymentMethod: string;
+    transactionId: string;
+    paymentDate: string;
+}
+
 export interface Permission {
     id: string;
     name: string;
@@ -52,6 +89,9 @@ export interface DashboardStats {
     activeUsers: number;
     totalRoles: number;
     totalSettings: number;
+    totalSubscriptions: number;
+    activeSubscriptions: number;
+    totalRevenue: number;
     recentActivities: AuditLog[];
     unreadNotifications: number;
 } 

@@ -1,0 +1,74 @@
+.license-manager {
+    padding: 24px;
+}
+
+.license-manager .ant-card {
+    margin-bottom: 24px;
+}
+
+.license-manager .ant-statistic {
+    text-align: center;
+}
+
+.license-manager .ant-statistic-title {
+    font-size: 16px;
+    color: rgba(0, 0, 0, 0.45);
+}
+
+.license-manager .ant-table {
+    margin-top: 16px;
+}
+
+.license-manager .ant-tag {
+    margin-right: 0;
+}
+
+.license-manager .ant-form-item {
+    margin-bottom: 16px;
+}
+
+.license-manager .ant-input-number {
+    width: 100%;
+}
+
+.license-manager .ant-select {
+    width: 100%;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .license-manager {
+        padding: 16px;
+    }
+
+    .license-manager .ant-row {
+        margin-bottom: 16px;
+    }
+
+    .license-manager .ant-col {
+        margin-bottom: 16px;
+    }
+
+    .license-manager .ant-card {
+        margin-bottom: 16px;
+    }
+
+    .license-manager .ant-table {
+        overflow-x: auto;
+    }
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+    .license-manager .ant-statistic-title {
+        color: rgba(255, 255, 255, 0.45);
+    }
+
+    .license-manager .ant-card {
+        background: #141414;
+    }
+
+    .license-manager .ant-table {
+        background: #141414;
+    }
+} 

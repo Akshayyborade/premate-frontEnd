@@ -1,4 +1,12 @@
 export const PERMISSIONS = {
+    // System Admin Permissions
+    MANAGE_LICENSES: 'Manage Licenses',
+    MANAGE_SUBSCRIPTIONS: 'Manage Subscriptions',
+    VIEW_BILLING: 'View Billing',
+    MANAGE_PAYMENTS: 'Manage Payments',
+    SYSTEM_CONFIG: 'System Configuration',
+    
+    // Admin Permissions
     MANAGE_USERS: 'Manage Users',
     MANAGE_ROLES: 'Manage Roles',
     SYSTEM_SETTINGS: 'System Settings',
@@ -6,9 +14,13 @@ export const PERMISSIONS = {
     MANAGE_COURSES: 'Manage Courses',
     MANAGE_EXAMS: 'Manage Exams',
     VIEW_STUDENTS: 'View Students',
+    
+    // Teacher Permissions
     GRADE_ASSIGNMENTS: 'Grade Assignments',
     VIEW_COURSES: 'View Courses',
     TAKE_EXAMS: 'Take Exams',
+    
+    // Student Permissions
     SUBMIT_ASSIGNMENTS: 'Submit Assignments',
     VIEW_GRADES: 'View Grades'
 } as const;
@@ -22,6 +34,7 @@ export const PERMISSION_CATEGORIES = {
 };
 
 export const USER_ROLES = {
+    SYSTEM_ADMIN: 'System Admin',
     ADMIN: 'Admin',
     TEACHER: 'Teacher',
     STUDENT: 'Student'
@@ -51,4 +64,18 @@ export const API_ENDPOINTS = {
     AUDIT_LOGS: '/api/admin/audit-logs',
     NOTIFICATIONS: '/api/admin/notifications',
     DASHBOARD: '/api/admin/dashboard'
-}; 
+};
+
+export const LICENSE_TYPES = {
+    FREE: 'free',
+    BASIC: 'basic',
+    PREMIUM: 'premium',
+    ENTERPRISE: 'enterprise'
+} as const;
+
+export const SUBSCRIPTION_STATUS = {
+    ACTIVE: 'active',
+    EXPIRED: 'expired',
+    CANCELLED: 'cancelled',
+    PENDING: 'pending'
+} as const; 
