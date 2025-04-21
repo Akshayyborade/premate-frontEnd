@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Card,
   Form,
@@ -15,6 +15,17 @@ import {
   Upload,
   message,
   InputNumber,
+  Modal,
+  Avatar,
+  Tag,
+  Tooltip,
+  Popconfirm,
+  Table,
+  DatePicker,
+  Badge,
+  List,
+  Statistic,
+  Progress
 } from 'antd';
 import {
   SettingOutlined,
@@ -24,46 +35,354 @@ import {
   GlobalOutlined,
   MailOutlined,
   CloudUploadOutlined,
+  LockOutlined,
+  TeamOutlined,
+  BellOutlined,
+  FileOutlined,
+  PlusOutlined,
+  EditOutlined,
+  DeleteOutlined,
+  EyeOutlined,
+  CheckCircleOutlined,
+  CloseCircleOutlined,
+  HistoryOutlined,
+  DashboardOutlined
 } from '@ant-design/icons';
 import type { TabsProps } from 'antd';
+import { User, Role, SystemSetting, AuditLog, Notification, DashboardStats } from './types';
+import { adminService } from './services.ts';
+import { PERMISSIONS, USER_ROLES, SETTING_TYPES, TABLE_PAGE_SIZE, DATE_FORMAT } from './constants.ts';
+import './Settings.css';
 
 const { Title, Text } = Typography;
 const { Option } = Select;
+const { TabPane } = Tabs;
 
-interface SettingsForm {
-  schoolName: string;
-  schoolCode: string;
-  address: string;
-  phone: string;
+interface UserForm {
+  name: string;
   email: string;
-  website: string;
-  timezone: string;
-  dateFormat: string;
-  language: string;
-  enableNotifications: boolean;
-  enableEmailAlerts: boolean;
-  enableSMSAlerts: boolean;
-  backupFrequency: string;
-  maxLoginAttempts: number;
-  sessionTimeout: number;
+  role: string;
+  status: 'active' | 'inactive';
+}
+
+interface RoleForm {
+  name: string;
+  permissions: string[];
+  description: string;
+}
+
+interface SettingForm {
+  key: string;
+  value: string;
+  type: 'number' | 'boolean' | 'text';
+  description: string;
 }
 
 const Settings: React.FC = () => {
-  const [form] = Form.useForm<SettingsForm>();
+  const [form] = Form.useForm<UserForm | RoleForm | SettingForm>();
   const [loading, setLoading] = useState(false);
+  const [activeTab, setActiveTab] = useState('1');
+  const [isModalVisible, setIsModalVisible] = useState(false);
+  const [modalType, setModalType] = useState<'user' | 'role' | 'setting'>('user');
+  const [selectedItem, setSelectedItem] = useState<any>(null);
+  const [stats, setStats] = useState<DashboardStats | null>(null);
+  const [auditLogs, setAuditLogs] = useState<AuditLog[]>([]);
+  const [notifications, setNotifications] = useState<Notification[]>([]);
+  const [users, setUsers] = useState<User[]>([]);
+  const [roles, setRoles] = useState<Role[]>([]);
+  const [systemSettings, setSystemSettings] = useState<SystemSetting[]>([]);
 
-  const onFinish = async (values: SettingsForm) => {
-    setLoading(true);
+  // Fetch initial data
+  useEffect(() => {
+    fetchDashboardData();
+    fetchUsers();
+    fetchRoles();
+    fetchSettings();
+  }, []);
+
+  const fetchDashboardData = async () => {
     try {
-      // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      message.success('Settings saved successfully');
+      setLoading(true);
+      const [statsData, logsData, notificationsData] = await Promise.all([
+        adminService.getDashboardStats(),
+        adminService.getAuditLogs(),
+        adminService.getNotifications()
+      ]);
+      setStats(statsData);
+      setAuditLogs(logsData);
+      setNotifications(notificationsData);
     } catch (error) {
-      message.error('Failed to save settings');
+      message.error('Failed to fetch dashboard data');
     } finally {
       setLoading(false);
     }
   };
+
+  const fetchUsers = async () => {
+    try {
+      const usersData = await adminService.getUsers();
+      setUsers(usersData);
+    } catch (error) {
+      message.error('Failed to fetch users');
+    }
+  };
+
+  const fetchRoles = async () => {
+    try {
+      const rolesData = await adminService.getRoles();
+      setRoles(rolesData);
+    } catch (error) {
+      message.error('Failed to fetch roles');
+    }
+  };
+
+  const fetchSettings = async () => {
+    try {
+      const settingsData = await adminService.getSettings();
+      setSystemSettings(settingsData);
+    } catch (error) {
+      message.error('Failed to fetch settings');
+    }
+  };
+
+  const handleTabChange = (key: string) => {
+    setActiveTab(key);
+  };
+
+  const showModal = (type: 'user' | 'role' | 'setting', item?: User | Role | SystemSetting) => {
+    setModalType(type);
+    setSelectedItem(item);
+    if (item) {
+      form.setFieldsValue(item);
+    } else {
+      form.resetFields();
+    }
+    setIsModalVisible(true);
+  };
+
+  const handleModalOk = async () => {
+    try {
+      const values = await form.validateFields();
+      setLoading(true);
+      
+      if (selectedItem) {
+        // Update existing item
+        if (modalType === 'user') {
+          await adminService.updateUser(selectedItem.id, values as Partial<UserForm>);
+        } else if (modalType === 'role') {
+          await adminService.updateRole(selectedItem.id, values as Partial<RoleForm>);
+        } else {
+          await adminService.updateSetting(selectedItem.id, values as Partial<SettingForm>);
+        }
+        message.success(`${modalType} updated successfully`);
+      } else {
+        // Add new item
+        if (modalType === 'user') {
+          await adminService.createUser(values as UserForm);
+        } else if (modalType === 'role') {
+          await adminService.createRole(values as RoleForm);
+        } else {
+          await adminService.createSetting(values as SettingForm);
+        }
+        message.success(`${modalType} added successfully`);
+      }
+      
+      setIsModalVisible(false);
+      form.resetFields();
+      fetchDashboardData();
+    } catch (error) {
+      message.error('Failed to save changes');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleModalCancel = () => {
+    setIsModalVisible(false);
+    form.resetFields();
+  };
+
+  const handleDelete = async (id: string, type: 'user' | 'role' | 'setting') => {
+    try {
+      setLoading(true);
+      if (type === 'user') {
+        await adminService.deleteUser(id);
+      } else if (type === 'role') {
+        await adminService.deleteRole(id);
+      } else {
+        await adminService.deleteSetting(id);
+      }
+      message.success(`${type} deleted successfully`);
+      fetchDashboardData();
+    } catch (error) {
+      message.error('Failed to delete');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const markNotificationAsRead = async (id: string) => {
+    try {
+      await adminService.markNotificationAsRead(id);
+      setNotifications(notifications.map(n => 
+        n.id === id ? { ...n, read: true } : n
+      ));
+    } catch (error) {
+      message.error('Failed to mark notification as read');
+    }
+  };
+
+  const userColumns = [
+    {
+      title: 'User',
+      dataIndex: 'name',
+      key: 'name',
+      render: (text: string, record: User) => (
+        <Space>
+          <Avatar icon={<UserOutlined />} src={record.avatar} />
+          <div>
+            <Text strong>{text}</Text>
+            <br />
+            <Text type="secondary">{record.email}</Text>
+          </div>
+        </Space>
+      ),
+    },
+    {
+      title: 'Role',
+      dataIndex: 'role',
+      key: 'role',
+      render: (role: string) => (
+        <Tag color={role === 'ADMIN' ? 'red' : role === 'TEACHER' ? 'blue' : 'green'}>
+          {role}
+        </Tag>
+      ),
+    },
+    {
+      title: 'Status',
+      dataIndex: 'status',
+      key: 'status',
+      render: (status: string) => (
+        <Tag color={status === 'active' ? 'success' : 'error'}>
+          {status.toUpperCase()}
+        </Tag>
+      ),
+    },
+    {
+      title: 'Last Login',
+      dataIndex: 'lastLogin',
+      key: 'lastLogin',
+    },
+    {
+      title: 'Actions',
+      key: 'actions',
+      render: (_: any, record: User) => (
+        <Space>
+          <Tooltip title="View Details">
+            <Button type="link" icon={<EyeOutlined />} />
+          </Tooltip>
+          <Tooltip title="Edit">
+            <Button type="link" icon={<EditOutlined />} onClick={() => showModal('user', record)} />
+          </Tooltip>
+          <Popconfirm
+            title="Are you sure you want to delete this user?"
+            onConfirm={() => handleDelete(record.id, 'user')}
+            okText="Yes"
+            cancelText="No"
+          >
+            <Tooltip title="Delete">
+              <Button type="link" danger icon={<DeleteOutlined />} />
+            </Tooltip>
+          </Popconfirm>
+        </Space>
+      ),
+    },
+  ];
+
+  const roleColumns = [
+    {
+      title: 'Role',
+      dataIndex: 'name',
+      key: 'name',
+      render: (name: string) => (
+        <Tag color={name === 'ADMIN' ? 'red' : name === 'TEACHER' ? 'blue' : 'green'}>
+          {name}
+        </Tag>
+      ),
+    },
+    {
+      title: 'Permissions',
+      dataIndex: 'permissions',
+      key: 'permissions',
+      render: (permissions: string[]) => (
+        <Space wrap>
+          {permissions.map((permission, index) => (
+            <Tag key={index}>{permission}</Tag>
+          ))}
+        </Space>
+      ),
+    },
+    {
+      title: 'Actions',
+      key: 'actions',
+      render: (_: any, record: Role) => (
+        <Space>
+          <Tooltip title="Edit">
+            <Button type="link" icon={<EditOutlined />} onClick={() => showModal('role', record)} />
+          </Tooltip>
+          <Popconfirm
+            title="Are you sure you want to delete this role?"
+            onConfirm={() => handleDelete(record.id, 'role')}
+            okText="Yes"
+            cancelText="No"
+          >
+            <Tooltip title="Delete">
+              <Button type="link" danger icon={<DeleteOutlined />} />
+            </Tooltip>
+          </Popconfirm>
+        </Space>
+      ),
+    },
+  ];
+
+  const settingColumns = [
+    {
+      title: 'Setting',
+      dataIndex: 'key',
+      key: 'key',
+    },
+    {
+      title: 'Value',
+      dataIndex: 'value',
+      key: 'value',
+    },
+    {
+      title: 'Description',
+      dataIndex: 'description',
+      key: 'description',
+    },
+    {
+      title: 'Actions',
+      key: 'actions',
+      render: (_: any, record: SystemSetting) => (
+        <Space>
+          <Tooltip title="Edit">
+            <Button type="link" icon={<EditOutlined />} onClick={() => showModal('setting', record)} />
+          </Tooltip>
+          <Popconfirm
+            title="Are you sure you want to delete this setting?"
+            onConfirm={() => handleDelete(record.id, 'setting')}
+            okText="Yes"
+            cancelText="No"
+          >
+            <Tooltip title="Delete">
+              <Button type="link" danger icon={<DeleteOutlined />} />
+            </Tooltip>
+          </Popconfirm>
+        </Space>
+      ),
+    },
+  ];
 
   const items: TabsProps['items'] = [
     {
@@ -75,7 +394,7 @@ const Settings: React.FC = () => {
           <Form
             form={form}
             layout="vertical"
-            onFinish={onFinish}
+            // onFinish={onFinish}
             initialValues={{
               schoolName: 'Premate School',
               schoolCode: 'PS001',
@@ -299,12 +618,204 @@ const Settings: React.FC = () => {
     },
   ];
 
+  const onFinish = async (values: UserForm | RoleForm | SettingForm) => {
+    setLoading(true);
+    try {
+      // Simulate API call
+      await new Promise(resolve => setTimeout(resolve, 1000));
+      message.success('Settings saved successfully');
+    } catch (error) {
+      message.error('Failed to save settings');
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
-    <div style={{ padding: '24px' }}>
-      <Space direction="vertical" style={{ width: '100%' }} size="large">
-        <Title level={2}>Settings</Title>
-        <Tabs defaultActiveKey="1" items={items} />
-      </Space>
+    <div className="settings-container">
+      <Title level={2}>Admin Settings</Title>
+      
+      <Tabs defaultActiveKey="1" onChange={handleTabChange}>
+        <TabPane tab={<span><UserOutlined /> User Management</span>} key="1">
+          <Card>
+            <div className="table-header">
+              <Title level={4}>Users</Title>
+              <Button type="primary" icon={<PlusOutlined />} onClick={() => showModal('user')}>
+                Add User
+              </Button>
+            </div>
+            <Table
+              columns={userColumns}
+              dataSource={users}
+              rowKey="id"
+              pagination={{ pageSize: TABLE_PAGE_SIZE }}
+            />
+          </Card>
+        </TabPane>
+
+        <TabPane tab={<span><TeamOutlined /> Role Management</span>} key="2">
+          <Card>
+            <div className="table-header">
+              <Title level={4}>Roles & Permissions</Title>
+              <Button type="primary" icon={<PlusOutlined />} onClick={() => showModal('role')}>
+                Add Role
+              </Button>
+            </div>
+            <Table
+              columns={roleColumns}
+              dataSource={roles}
+              rowKey="id"
+              pagination={{ pageSize: TABLE_PAGE_SIZE }}
+            />
+          </Card>
+        </TabPane>
+
+        <TabPane tab={<span><SettingOutlined /> System Settings</span>} key="3">
+          <Card>
+            <div className="table-header">
+              <Title level={4}>System Configuration</Title>
+              <Button type="primary" icon={<PlusOutlined />} onClick={() => showModal('setting')}>
+                Add Setting
+              </Button>
+            </div>
+            <Table
+              columns={settingColumns}
+              dataSource={systemSettings}
+              rowKey="id"
+              pagination={{ pageSize: TABLE_PAGE_SIZE }}
+            />
+          </Card>
+        </TabPane>
+      </Tabs>
+
+      <Modal
+        title={selectedItem ? `Edit ${modalType}` : `Add ${modalType}`}
+        visible={isModalVisible}
+        onOk={handleModalOk}
+        onCancel={handleModalCancel}
+        confirmLoading={loading}
+        width={600}
+      >
+        <Form
+          form={form}
+          layout="vertical"
+        >
+          {modalType === 'user' && (
+            <>
+              <Row gutter={16}>
+                <Col span={12}>
+                  <Form.Item
+                    name="name"
+                    label="Full Name"
+                    rules={[{ required: true, message: 'Please input the name!' }]}
+                  >
+                    <Input prefix={<UserOutlined />} />
+                  </Form.Item>
+                </Col>
+                <Col span={12}>
+                  <Form.Item
+                    name="email"
+                    label="Email"
+                    rules={[
+                      { required: true, message: 'Please input the email!' },
+                      { type: 'email', message: 'Please enter a valid email!' }
+                    ]}
+                  >
+                    <Input />
+                  </Form.Item>
+                </Col>
+              </Row>
+              <Row gutter={16}>
+                <Col span={12}>
+                  <Form.Item
+                    name="role"
+                    label="Role"
+                    rules={[{ required: true, message: 'Please select a role!' }]}
+                  >
+                    <Select>
+                      {Object.entries(USER_ROLES).map(([key, value]) => (
+                        <Option key={key} value={key}>{value}</Option>
+                      ))}
+                    </Select>
+                  </Form.Item>
+                </Col>
+                <Col span={12}>
+                  <Form.Item
+                    name="status"
+                    label="Status"
+                    rules={[{ required: true, message: 'Please select a status!' }]}
+                  >
+                    <Select>
+                      <Option value="active">Active</Option>
+                      <Option value="inactive">Inactive</Option>
+                    </Select>
+                  </Form.Item>
+                </Col>
+              </Row>
+            </>
+          )}
+
+          {modalType === 'role' && (
+            <>
+              <Form.Item
+                name="name"
+                label="Role Name"
+                rules={[{ required: true, message: 'Please input the role name!' }]}
+              >
+                <Input />
+              </Form.Item>
+              <Form.Item
+                name="permissions"
+                label="Permissions"
+                rules={[{ required: true, message: 'Please select permissions!' }]}
+              >
+                <Select mode="multiple">
+                  {Object.entries(PERMISSIONS).map(([key, value]) => (
+                    <Option key={key} value={key}>{value}</Option>
+                  ))}
+                </Select>
+              </Form.Item>
+            </>
+          )}
+
+          {modalType === 'setting' && (
+            <>
+              <Form.Item
+                name="key"
+                label="Setting Key"
+                rules={[{ required: true, message: 'Please input the setting key!' }]}
+              >
+                <Input />
+              </Form.Item>
+              <Form.Item
+                name="value"
+                label="Value"
+                rules={[{ required: true, message: 'Please input the value!' }]}
+              >
+                <Input />
+              </Form.Item>
+              <Form.Item
+                name="type"
+                label="Type"
+                rules={[{ required: true, message: 'Please select the type!' }]}
+              >
+                <Select>
+                  {Object.entries(SETTING_TYPES).map(([key, value]) => (
+                    <Option key={key} value={key}>{value}</Option>
+                  ))}
+                </Select>
+              </Form.Item>
+              <Form.Item
+                name="description"
+                label="Description"
+                rules={[{ required: true, message: 'Please input the description!' }]}
+              >
+                <Input.TextArea rows={4} />
+              </Form.Item>
+            </>
+          )}
+        </Form>
+      </Modal>
     </div>
   );
 };

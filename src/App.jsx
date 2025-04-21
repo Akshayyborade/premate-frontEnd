@@ -10,7 +10,7 @@ import AdminDashboard from './pages/Admin/Dashboard/Dashboard';
 import AdminRegister from './pages/Auth/Register';
 import AdminLayout from './layouts/AdminLayout/AdminLayout';
 import TeacherLayout from './layouts/TeacherLayout/TeacherLayout';
-import TeacherDashboard from './pages/teacher/TeacherDashboard.tsx';
+import TeacherDashboard from './pages/Teacher/TeacherDashboard.tsx';
 import 'react-toastify/dist/ReactToastify.css';
 import DashboardHome from './pages/Admin/Dashboard/DashboardHome';
 import Dashboard from './pages/Admin/Dashboard/Dashboard';
